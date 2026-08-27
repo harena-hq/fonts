@@ -1,0 +1,13 @@
+# Pins for feasibility audits that are not part of the shipped build.
+#
+# requirements.txt holds exactly what the shipped binaries were built and
+# verified with; nothing here touches the output bytes, and CI does not
+# install this file. Install it on top of requirements.txt to re-run an audit:
+#
+#   pip install -r requirements.txt -r requirements-audit.txt
+#
+# `fonttools varLib.interpolatable` needs an assignment solver when a glyph
+# has more than six contours. Without one, scripts/vf_phase0.py (ADR 0021)
+# aborts midway through the topology audit instead of reporting the
+# incompatible glyphs.
+munkres==1.1.4

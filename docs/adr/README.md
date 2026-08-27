@@ -63,6 +63,12 @@ alternatives that lost and why, and the mistakes that produced a rule.
 |---|---|
 | [0014](0014-the-compensation-target-erases-the-source-relative-weighting.md) | Compensating every script to the **Latin stem** divided out the relative weighting the source's designers built between scripts, and the gate asserted the flattened value rather than missing it. 0003's own `1.0533 → 1.1426` turns out to be `× 1920/1770` exactly — one drawing in two units, not a distortion to remove. Fixed by instancing the whole CJK at one source weight; ratio restored on both axes, and the horizontal one was never solved for. |
 
+## Feasibility
+
+| ADR | decision |
+|---|---|
+| [0021](0021-variable-weight-phase-zero-stops-at-latin-topology.md) | A source rebuild does not make the HarenaLatin 400/700 endpoints interpolation-compatible: FontTools finds **3,620 problems across 1,864 of 11,699 trimmed glyphs**, including 2,013 node-count and 99 path-count failures. The 400–700 VF stops before CJK grafting; reopen only with an upstream compatible source or a measured whole-cohort harmoniser. |
+
 ## Recurring shapes
 
 Six of the defects recorded here are one defect wearing different clothes.
