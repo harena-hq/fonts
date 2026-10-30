@@ -59,7 +59,7 @@ repository (Liberation and Carlito precedent).
 |---|---|
 | **v0** ✓ | Know, with numbers, whether spacing alone can bring Pretendard JP's Latin to Segoe UI Variable's widths. Answered in `docs/v0-feasibility.md`; ADRs 0001–0003 |
 | **v0.1** ✓ | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate. Closed 2026-10-30: gate passes, and in Edge on Windows all 589 browser measurements (canvas and DOM at 12–1000 px) are within 0.000% of Segoe |
-| v0.2 | Every face Edge can draw from Segoe UI Variable — Small, Text and Display, each at Light, Semilight, Regular, Semibold and Bold — as a static Harena UI face matched to it, behind the same gate |
+| **v0.2** ✓ | Every face Edge can draw from Segoe UI Variable — Small, Text and Display, each at Light, Semilight, Regular, Semibold and Bold — as a static Harena UI face matched to it, behind the same gate. Closed 2026-10-30: gate passes over all fifteen faces; in Edge on Windows, 17,115 measurements are within 0.1% of Segoe, six Small-face DOM ones within one layout unit instead (item 4) |
 | v0.3 | Substitution and numeric features (`ccmp`, `locl`, `pnum`, `onum`, `lnum`, stylistic sets) at Segoe's widths |
 | v0.4 | Harena UI J |
 | v0.5 | Harena UI Icons |
@@ -69,7 +69,7 @@ repository (Liberation and Carlito precedent).
 Each version's spec is written when the previous one closes. v0.2's is current; v0.1's and v0's
 are kept below it.
 
-## v0.2 — every face Edge draws, matched and gated
+## v0.2 — every face Edge draws, matched and gated (closed 2026-10-30)
 
 **Goal.** Fifteen static faces — `Harena UI Small`, `Harena UI Text` and `Harena UI Display`, each
 in Light, Semilight, Regular, Semibold and Bold — whose geometry is that of the Segoe UI Variable
