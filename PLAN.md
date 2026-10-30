@@ -59,16 +59,157 @@ repository (Liberation and Carlito precedent).
 |---|---|
 | **v0** ✓ | Know, with numbers, whether spacing alone can bring Pretendard JP's Latin to Segoe UI Variable's widths. Answered in `docs/v0-feasibility.md`; ADRs 0001–0003 |
 | **v0.1** ✓ | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate. Closed 2026-10-30: gate passes, and in Edge on Windows all 589 browser measurements (canvas and DOM at 12–1000 px) are within 0.000% of Segoe |
-| v0.2 | The full `opsz` × `wght` (350/400/600/700) matrix and italic, in the form v0 decides (variable or static) |
-| v0.3 | Harena UI J |
-| v0.4 | Harena UI Icons |
-| v0.5 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
+| **v0.2** ✓ | Every face Edge can draw from Segoe UI Variable — Small, Text and Display, each at Light, Semilight, Regular, Semibold and Bold — as a static Harena UI face matched to it, behind the same gate. Closed 2026-10-30: gate passes over all fifteen faces; in Edge on Windows, 17,115 measurements are within 0.1% of Segoe, six Small-face DOM ones within one layout unit instead (item 4) |
+| v0.3 | Substitution and numeric features (`ccmp`, `locl`, `pnum`, `onum`, `lnum`, stylistic sets) at Segoe's widths |
+| v0.4 | Harena UI J |
+| v0.5 | Harena UI Icons |
+| v0.6 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.1's is current; v0's is kept
-below it.
+Each version's spec is written when the previous one closes. v0.2's is current; v0.1's and v0's
+are kept below it.
 
-## v0.1 — one instance, matched and gated
+## v0.2 — every face Edge draws, matched and gated (closed 2026-10-30)
+
+**Goal.** Fifteen static faces — `Harena UI Small`, `Harena UI Text` and `Harena UI Display`, each
+in Light, Semilight, Regular, Semibold and Bold — whose geometry is that of the Segoe UI Variable
+face Edge draws for the same CSS request, behind the v0.1 gate run over every face.
+
+**What Edge does with Segoe UI Variable** (measured 2026-10-30 on the reference guest, Edge 151,
+canvas and DOM agreeing; committed as data by item 1):
+
+- **It draws named instances only.** Each optical size answers every CSS weight from 1 to 1000
+  with one of five faces, with the same boundaries in all three sizes: 1–325 → Light, 326–375 →
+  Semilight, 376–499 → Regular, 500–649 → Semibold, 650–1000 → Bold. Nothing in between is
+  drawn, and `font-variation-settings: 'wght' …` is ignored. These are not CSS matching's
+  answers for `@font-face` faces (500 would go down to Regular).
+- **Its italic is synthesized.** `font-style: italic` draws an oblique of the upright face with
+  identical advances, leaning forward by 1/4 (horizontal per vertical). Segoe UI Variable has
+  no italic.
+- **Light is reachable** (weights 1–325), though WinUI's type ramp does not use it.
+  winui-svelte uses 350, 400, 600 and 700, and italic.
+- **Tabular figures are per digit, not one width.** Under `tabular-nums` most faces give all
+  ten digits one advance. Which defaults differ from it varies by face: only `1` in Regular,
+  Bold and Display Semibold; `1`, `4` and `7` in the Semilight faces and Small and Text Light;
+  all ten in Display Light; `1`, `4`, `6` and `9` in Small and Text Semibold, which also leave
+  `7` at its default advance, narrower than the other nine. The build follows each digit's
+  measured value (`tabular` in `data/v0_2/segoe/`); this is Segoe's behaviour, not a
+  measurement to correct.
+
+**Locked — static faces, upright only** ([ADR 0004](docs/adr/0004-static-faces-upright-only.md)):
+
+- *Static, not variable.* The goal is winui-svelte on Linux and macOS laying out as on Windows,
+  through `@font-face`. A variable face declared over a weight range is drawn at the requested
+  weight (500 as `wght` 500, between two Segoe faces never drawn there), and `@font-face` cannot
+  pin `opsz`, so the three sizes would be separate files anyway. Static faces declared over
+  Edge's ranges (`font-weight: 500 649` on Semibold, and so on) reproduce the table above for
+  every weight, and a page downloads only the faces it uses. *Rejected:* a variable font with
+  `wght` (and `opsz`) axes; and a variable font with only some weights, where a missing weight
+  is synthesized as faux bold, whose widths are not Segoe's.
+- *No italic face.* The browser synthesizes one for Harena UI as it does for Segoe UI Variable,
+  so the italic's advances and its oblique look both come out as Segoe's. Shipping Open Sans
+  Italic would add fifteen faces whose shapes are not what Windows shows and whose widths would
+  have to be forced to upright advances. *Rejected:* an Open Sans Italic cut. This drops the
+  "and italic" from the old v0.2 line.
+- *The weight ranges* are delivery's to declare, from `data/v0_2/matching.json`, in v0.6. An
+  installed (not served) Harena UI is matched by the platform instead; that is checked in 1.0.
+
+**Locked — Light is drawn at Open Sans' lightest.** Segoe's `l` stem at 1000 px is
+59 px in Small Light, 45 in Text Light and 30 in Display Light. Open Sans at its lightest
+(`wght` 300) is 50 px. Small Light is matched like every other face. Text Light and Display
+Light take `wght` 300, the closest Open Sans has, and are heavier than Segoe's. Their geometry
+(advances, kerning, metrics) is still Segoe's, which is this project's promise; only colour
+differs. *Rejected:* extrapolating Open Sans' masters below 300 (Display Light needs 40% below
+the lightest master the designer drew, which is not Open Sans' shape any more), and leaving
+Light out (a CSS `font-weight: 300` would then get Semilight's widths).
+
+**Locked — names follow Segoe's three families.** A CSS stack names
+`'Segoe UI Variable Text', 'Harena UI Text'`, so `Harena UI Small`, `Text` and `Display` are the
+family names on every platform, with the weight as the style. Per face: typographic family
+(nameID 16) `Harena UI <size>` and subfamily (17) the weight name; legacy family (1) `Harena UI
+<size>` with subfamily (2) `Regular` or `Bold` for those two, and `Harena UI <size> <weight>` with
+`Regular` for Light, Semilight and Semibold. `usWeightClass` 300, 350, 400, 600, 700;
+`fsSelection` BOLD on Bold and REGULAR on the others. This replaces v0.1's `Harena UI` / `Text`
+typographic pair. Extended to more weights, that pair would make `Harena UI Text Semibold` a face
+of the family `Harena UI` with the style `Text Semibold`, so where the typographic family is
+read (macOS, fontconfig) `font-family: 'Harena UI Text'; font-weight: 600` would not find it.
+v0.1's file name, `HarenaUI-TextRegular.ttf`, is kept, and the other faces follow it
+(`HarenaUI-DisplaySemibold.ttf`); PostScript names follow v0.1's `HarenaUIText-Regular`.
+
+**In scope**
+
+1. **Measurement, committed.** On the reference guest, with the v0.1 tools:
+   - the weight-and-italic table above, every weight 1–1000 per size, from a committed probe,
+     as `data/v0_2/matching.json`;
+   - advances and pixel ink for every face, including the three Light faces v0 did not
+     measure, one file per face (`data/v0_2/segoe/`), which the build reads instead of
+     `data/v0_1/segoe-ui-variable.json` (whose target set it keeps);
+   - pair kerning for every face, over the v0.1 pair set (v0.1 measured Text Regular only);
+   - each digit's advance under `tabular-nums`, for every face;
+   - `l` stems for the three Light faces;
+   - v0 string widths for the Light faces.
+2. **One build, fifteen faces.** `scripts/build.py` builds every face with v0.1's steps,
+   unchanged except where this section says. Each face's Open Sans point is chosen by v0.1's
+   rule (median ink ratio, then `l` stem), with `wdth` and `wght` clamped to Open Sans' range;
+   a clamp is printed and recorded in `data/v0_2/build.json`. Text Light and Display Light are
+   the expected clamps. A compiled outline sits on whole units, so its stem jitters by up to
+   1 px at 1000 px as `wght` rises. `wght` is therefore the integer whose compiled stem is
+   nearest Segoe's within ±15 of the solution, and the gate checks that no integer in that
+   window is nearer. This replaces v0.1's fixed 0.3 px tolerance, which Display Bold cannot
+   meet at any integer `wght`. The finer search moves Text Regular from v0.1's 399 / 96.1 to
+   398 / 96.2: the median ink ratio crosses 1 at `wdth` 96.157, and 398 and 399 compile to
+   the same stem. Advances and kerning, which are Segoe's, do not move. Overlaps get one allow-list per face.
+3. **Gate over every face.** `scripts/verify.py` runs v0.1's checks 1–8 on each face, with the
+   same tolerances and its own reference per face (check 5 now compares every cmap subtable),
+   and adds:
+   - **9 Tables:** GSUB and GPOS equal the Open Sans instance's, apart from the known
+     differences — the `kern` lookup, anchors moved with their glyph, the three unmarked
+     accents, the ligature and `one.tnum` copies — compared as tables, not only through shaping
+     target text (deferred from v0.1).
+   - **10 Faces:** exactly the fifteen files exist, none is italic (no italic bit, no slant) or
+     hinted (no hint tables or glyph programs, `gasp` 0x000A), and each face's names, weight
+     class and style bits equal the scheme above.
+4. **In the browser, once, to close.** v0.1's Done-when 9 for every face, at the five Segoe
+   weights, with every DOM measurement also made in `font-style: italic`, which must come out
+   at Segoe's italic widths. The served faces are declared at exactly their weight, without
+   ranges, so this check covers the geometry of each face and not matching (v0.6).
+   *Found while closing:* Segoe's Small faces kern by fractions of a font unit (up to 0.46,
+   in 13–18% of pairs); Text and Display kern, and every face advances, in whole units. Why
+   Small differs is not measured. A font stores whole units, so those pairs are within half a
+   unit (check 2's tolerance), and a short string at a small size can then lay out one layout
+   unit (1/64 px) away from Segoe's: `y.` at 12 px is 0.166%. So a Small face's DOM
+   measurement passes within 0.1% or within one layout unit. The allowance matters only for
+   strings narrower than 15.6 px. The browser check does not guard their widths to a font
+   unit (at 1000 px, 0.1% of `y.` is 1.5 units); offline check 2 does, holding every pair
+   within half a unit. Canvas, which is not quantized, and the Text and Display faces keep
+   0.1%.
+
+**Out of scope, and where it goes**
+
+- `ccmp`, `locl`, `pnum`, `onum`, `lnum` and stylistic sets: v0.3, which measures Segoe under each
+  across faces. v0.2 keeps v0.1's behaviour for them.
+- Weight-range `@font-face` declarations, WOFF2, npm: v0.6.
+- Hinting. Faces stay unhinted with `gasp` 0x000A, as v0.1, whose unhinted face matched Segoe's
+  DOM layout to 0.000% at 12–28 px in Edge on Windows. Whether hinting would change that on
+  other platforms is unmeasured; it is revisited in 1.0, with rendering quality at UI sizes.
+- Coverage beyond Segoe ∩ Open Sans (Segoe maps 1,502 code points Open Sans lacks). Not needed
+  by any consumer yet; it would need a second Latin source.
+- The roadmap was renumbered when this spec was written: J, Icons and delivery moved from
+  v0.3–v0.5 to v0.4–v0.6. Earlier documents (the v0.1 spec, ADR 0003) keep their old numbers.
+
+**Done-when.** `python scripts/verify.py` passes and prints one line per check per face; it
+exits non-zero on any failure. v0.1's checks keep their tolerances for every face. The browser
+check (item 4) passes on the guest: every measurement within 0.1% of Segoe's, except that a
+Small face's DOM measurement may instead be within one layout unit (item 4).
+
+**Review.** Units: measurement (item 1), build and gate (2 and 3), browser check (4), each
+reviewed in a separate context before sealing. The build and the gate are sealed together,
+because the v0.1 gate cannot pass a fifteen-face build; they are still reviewed separately. The gate is shown failing first: a face missing, an italic
+bit set, a GSUB lookup changed for a non-target glyph, and one advance off by a unit in a face
+other than Text Regular. The milestone closes with a fresh-clone reproduction and a cross-model
+adversarial review.
+
+## v0.1 — one instance, matched and gated (closed 2026-10-30)
 
 **Goal.** `Harena UI Text Regular`: one static TTF built from Open Sans, whose geometry is Segoe
 UI Variable Text 400's as Edge draws it (ADR 0001), and an automated gate that fails the build
