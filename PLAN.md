@@ -58,7 +58,7 @@ repository (Liberation and Carlito precedent).
 | version | one goal |
 |---|---|
 | **v0** ✓ | Know, with numbers, whether spacing alone can bring Pretendard JP's Latin to Segoe UI Variable's widths. Answered in `docs/v0-feasibility.md`; ADRs 0001–0003 |
-| v0.1 | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate |
+| **v0.1** ✓ | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate. Closed 2026-10-30: gate passes, and in Edge on Windows every v0 string set in the built font is within 0.000% of Segoe |
 | v0.2 | The full `opsz` × `wght` (350/400/600/700) matrix and italic, in the form v0 decides (variable or static) |
 | v0.3 | Harena UI J |
 | v0.4 | Harena UI Icons |
