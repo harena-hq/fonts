@@ -58,14 +58,125 @@ repository (Liberation and Carlito precedent).
 | version | one goal |
 |---|---|
 | **v0** ✓ | Know, with numbers, whether spacing alone can bring Pretendard JP's Latin to Segoe UI Variable's widths. Answered in `docs/v0-feasibility.md`; ADRs 0001–0003 |
-| v0.1 | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate |
+| **v0.1** ✓ | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate. Closed 2026-10-30: gate passes, and in Edge on Windows all 589 browser measurements (canvas and DOM at 12–1000 px) are within 0.000% of Segoe |
 | v0.2 | The full `opsz` × `wght` (350/400/600/700) matrix and italic, in the form v0 decides (variable or static) |
 | v0.3 | Harena UI J |
 | v0.4 | Harena UI Icons |
 | v0.5 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. Only v0's is below.
+Each version's spec is written when the previous one closes. v0.1's is current; v0's is kept
+below it.
+
+## v0.1 — one instance, matched and gated
+
+**Goal.** `Harena UI Text Regular`: one static TTF built from Open Sans, whose geometry is Segoe
+UI Variable Text 400's as Edge draws it (ADR 0001), and an automated gate that fails the build
+when it is not.
+
+**In scope**
+
+1. **Coverage, measured first.** Segoe UI Variable's mapped code points are read on the Windows
+   machine, as a list of numbers only. The target set is every code point that both Segoe and
+   Open Sans map, excluding Private Use, marks (M*), and format and control characters (C*).
+   Marks and controls are left out because a mark measured alone is drawn on an inserted
+   dotted circle, so its advance is not the font's; that removes 29 code points. Latin
+   Extended, Greek and Cyrillic come in through the set, and the v0 comparison is rerun over
+   all of it. Segoe advances for the set are measured as in v0. Pair kerning is measured for
+   every ordered pair in the set's letters, numbers, punctuation, symbols and spaces (L, N, P, S
+   and Z).
+2. **Outlines.** Open Sans is instanced at one point: `wdth` where the median, over the target
+   set, of Segoe's ink width divided by Open Sans' is 1, then `wght` where its `l` stem at that `wdth` equals Segoe Text
+   400's. Each glyph's outline is used unchanged, moved only horizontally.
+3. **Spacing.** Each target glyph's advance is Segoe's, rounded to font units. The ink sits where
+   its leftover sidebearing splits in Open Sans' own left:right ratio. Where Open Sans' own
+   sidebearings are not both non-negative, the ink moves by half the change in advance.
+   Under `tnum` every digit takes Segoe's tabular advance. Segoe's default `1` is narrower than
+   its tabular one, so `tnum` points at a copy (`one.tnum`). Glyphs outside the target
+   set keep Open Sans' spacing, because there is no Segoe number for them.
+4. **Kerning.** Segoe's measured pairs become a `kern` feature, which replaces Open Sans' own.
+   Open Sans' other GSUB and GPOS features (`liga`, marks and so on) are kept, with three
+   consequences found while building:
+   - Mark anchors move with their glyph.
+   - A default ligature of target characters takes Segoe's width for the same characters.
+     Open Sans' ligature glyphs are also U+FB00–FB04's, which Segoe gives widths of their own,
+     so the ligature feature points at an exact copy (`fi.liga` and so on). A copy joins every
+     mark-attachment lookup its original is in. A letter before or after a ligature kerns as it
+     would against the ligature's first or last component.
+   - Three spacing Greek accents (U+0384, U+0385, U+1FDE), which Open Sans classes as marks,
+     become base glyphs and leave mark attachment, because Segoe and Unicode treat them as
+     spacing.
+5. **Vertical metrics** are Segoe's numbers: `hhea` 2210/−514/0, `OS/2` typo 1491/−431/269,
+   win 2210/514, `USE_TYPO_METRICS` off, all at 2048 units per em, which is also Open Sans'.
+6. **Names** are rebuilt, not patched (Harena Term's ADR 0009): family `Harena UI`, subfamily
+   `Text`, version `0.1.0`, OFL 1.1, Open Sans' copyright line followed by this project's. No
+   name record contains "Segoe" or a reserved name.
+7. **Reproducible bytes.** The build reads only pinned sources and stamps `head` from
+   `SOURCE_DATE_EPOCH`. `SHA256SUMS` is committed. The gate compares a fresh build against the
+   committed file with `git diff --exit-code`, not against a file the build just wrote.
+
+**Out of scope, and where it goes**
+
+- Substitutions other than default ligatures. `ccmp` (for example `i` before a mark above
+  becoming dotless) and `locl` (Catalan `l·l`, Romanian `Ş`, NAV/MAH/SRB alternates) put out
+  glyphs at Open Sans' or another character's width. In those language tags or decomposed text,
+  widths drift from Segoe's: the dotless `i` is 502 units against `i`'s 496, and Catalan `l·l`
+  is 557 px against 701 px. What Segoe itself does there has to be measured per language first.
+  This goes to v0.2.
+- Other non-default numeric features (`pnum`, `onum`, `lnum`) and stylistic sets put out glyphs
+  at Open Sans' widths. What Segoe does under each has to be measured first. v0.2.
+- A gate check that GSUB and GPOS equal Open Sans' apart from the known differences: the kern
+  lookup, anchors moved with their glyph, the three unmarked accents, and the ligature copies.
+  Today those tables are checked only through shaping target text, so a change confined to
+  non-target glyphs would pass. v0.2, where every instance repeats these edits.
+
+- Other instances, italic and the variable-or-static question: v0.2.
+- Hinting. v0.1's gate is about geometry. Whether to hint and how is decided in v0.2, where every
+  instance gets the same treatment.
+- WOFF2, npm, CI hosting: v0.5. The gate is one local command until the repository has a remote.
+
+**Done-when.** Every item is checked by `python scripts/verify.py`, which exits non-zero on any
+failure and prints one line per check. The checks are exhaustive for v0.1. A later version may
+add checks but does not loosen these.
+
+1. **Advances:** for every code point in the target set, the advance equals Segoe's measured
+   advance, converted to font units, within ±0.5 units.
+2. **Kerning:** for every measured pair, the HarfBuzz-shaped width of the pair equals Segoe's
+   within ±0.5 units. Pairs Segoe does not kern shape to the sum of their advances. Every run
+   that forms a default ligature, after and before every letter, has Segoe's width for the
+   same characters. The font's `kern` feature holds no pair beyond Segoe's measured ones.
+   **2t:** under `tnum`, every digit has Segoe's tabular advance.
+3. **Strings:** every string in `probe/v0/strings.json`, shaped with HarfBuzz, is within 0.1% of
+   Segoe's kerned width.
+4. **Vertical metrics** equal the item 5 values exactly.
+5. **Outlines are Open Sans':** every glyph's contours equal the Open Sans instance's at the
+   chosen point, point for point, after one horizontal translation per glyph. A ligature copy
+   is compared with the glyph it copies. The point itself is checked to meet item 2, and the
+   cmap is Open Sans'. Each glyph's shift is the one item 3's split gives: exact for target
+   glyphs, within a unit for copies, and none for glyphs whose advance did not change.
+   **5b:** every target letter and default ligature, with each of twelve
+   common combining marks, places the mark where Open Sans does relative to the base's ink. A
+   mark that does not attach in Open Sans must not attach here either. This is the
+   machine form of "Segoe is measured, never copied".
+6. **Names:** the records equal item 6. None contains "Segoe", "Selawik", "Source" or
+   "Pretendard".
+7. **Overlaps are listed, not hidden.** Every glyph whose ink crosses its advance by more than
+   5 px at 1000 px beyond what Segoe's own glyph does is named in a committed allow-list. The
+   gate fails on any overlap that is not on the list, and on any listed glyph that no longer
+   overlaps, so the list cannot go stale.
+8. **Reproducible:** two builds give identical bytes, and they equal the committed
+   `SHA256SUMS`.
+9. **In the browser.** A boundary case the offline checks cannot reach: on the Windows machine,
+   in Edge, text set in Harena UI from a served TTF is within 0.1% of the same text in Segoe UI
+   Variable Text. This is checked in canvas at 1000 px, and in DOM layout at 12, 14, 16, 20, 28
+   and 1000 px. The text is the v0 strings plus `probe/v0_1/dom-strings.json`, which has
+   kerning-heavy words, spaces and NBSP, ligatures, Greek, Cyrillic and extended Latin. Digits
+   are also checked under `tabular-nums` (`probe/v0_1/browser.py`). This is run once to close v0.1. It is not part of the local
+   gate, because it needs the machine.
+
+**Review.** The build and the gate are separate units. Each is reviewed in a separate context
+before it is sealed. The gate is shown failing first: one advance off by a unit, one outline
+point moved, and one stale allow-list entry each have to make it exit non-zero.
 
 ## v0 — feasibility (closed 2026-10-30)
 

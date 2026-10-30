@@ -1,0 +1,9 @@
+{
+  "kerning": ["AVATAR", "Typography", "WAVE", "LTA Yo We To Ta Va", "P.O. Box", "F.A.Q.", "Yesterday",
+              "Tw Ty Tr Te Ta To Tu", "\"Quote,\" he said—'OK.'", "(Total: 1,234.56)", "L'Hôpital", "y.", "r,"],
+  "spaces": ["10 km", "Mr. Smith", "A V", "T a", "1 000 000", "Last Updated"],
+  "ligatures": ["office", "fifty", "affluent", "flag", "Waffle", "fjord"],
+  "greek": ["Ελληνικά", "Καλημέρα", "ΆΈΉΊΌΎΏ", "Ρυθμίσεις"],
+  "cyrillic": ["Привет мир", "Настройки", "Г. Т. У.", "ЁЛКА"],
+  "latin_ext": ["Łódź", "Ærøskøbing", "Čeština", "Tiếng Việt", "Straße"]
+}

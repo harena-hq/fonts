@@ -1,0 +1,26 @@
+{
+"provenance": {
+"browser": "Microsoft Edge 151.0.4129.78, headless",
+"measured": "2026-10-30",
+"method": "DOM span width at 1000 px, font-variant-numeric: tabular-nums",
+"os": "Windows 11 25H2, build 26200.8875 (reports ProductName 'Windows 10 Pro')",
+"segoe_ui_variable": {
+"file": "SegUIVar.ttf",
+"sha256": "27ca1ab4bd5ad3b0404ee6a9a03b143408dbd7e5a4c9e4b2054639c03fc0f682",
+"version": "Version 2.03"
+}
+},
+"tabular": {
+"48": 539.0625,
+"49": 539.0625,
+"50": 539.0625,
+"51": 539.0625,
+"52": 539.0625,
+"53": 539.0625,
+"54": 539.0625,
+"55": 539.0625,
+"56": 539.0625,
+"57": 539.0625
+},
+"unit": "px at 1000 px font size"
+}
