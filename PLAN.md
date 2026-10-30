@@ -133,7 +133,8 @@ family names on every platform, with the weight as the style. Per face: typograp
 typographic pair. Extended to more weights, that pair would make `Harena UI Text Semibold` a face
 of the family `Harena UI` with the style `Text Semibold`, so where the typographic family is
 read (macOS, fontconfig) `font-family: 'Harena UI Text'; font-weight: 600` would not find it.
-v0.1's file name, `HarenaUIText-Regular.ttf`, is kept, and the other faces follow it.
+v0.1's file name, `HarenaUI-TextRegular.ttf`, is kept, and the other faces follow it
+(`HarenaUI-DisplaySemibold.ttf`); PostScript names follow v0.1's `HarenaUIText-Regular`.
 
 **In scope**
 
@@ -151,7 +152,13 @@ v0.1's file name, `HarenaUIText-Regular.ttf`, is kept, and the other faces follo
    unchanged except where this section says. Each face's Open Sans point is chosen by v0.1's
    rule (median ink ratio, then `l` stem), with `wdth` and `wght` clamped to Open Sans' range;
    a clamp is printed and recorded in `data/v0_2/build.json`. Text Light and Display Light are
-   the expected clamps. Overlaps get one allow-list per face.
+   the expected clamps. A compiled outline sits on whole units, so its stem jitters by up to
+   1 px at 1000 px as `wght` rises. `wght` is therefore the integer whose compiled stem is
+   nearest Segoe's within ±15 of the solution, and the gate checks that no integer in that
+   window is nearer. This replaces v0.1's fixed 0.3 px tolerance, which Display Bold cannot
+   meet at any integer `wght`. The finer search moves Text Regular from v0.1's 399 / 96.1 to
+   398 / 96.2: the median ink ratio crosses 1 at `wdth` 96.157, and 398 and 399 compile to
+   the same stem. Advances and kerning, which are Segoe's, do not move. Overlaps get one allow-list per face.
 3. **Gate over every face.** `scripts/verify.py` runs v0.1's checks 1–8 on each face, with the
    same tolerances and its own reference per face, and adds:
    - **9 Tables:** GSUB and GPOS equal the Open Sans instance's, apart from the known
@@ -182,8 +189,9 @@ v0.1's file name, `HarenaUIText-Regular.ttf`, is kept, and the other faces follo
 exits non-zero on any failure. v0.1's checks keep their tolerances for every face. The browser
 check (item 4) passes on the guest: every measurement within 0.1% of Segoe's.
 
-**Review.** Units: measurement (item 1), build (2), gate (3), browser check (4), each reviewed in
-a separate context before sealing. The gate is shown failing first: a face missing, an italic
+**Review.** Units: measurement (item 1), build and gate (2 and 3), browser check (4), each
+reviewed in a separate context before sealing. The build and the gate are sealed together,
+because the v0.1 gate cannot pass a fifteen-face build; they are still reviewed separately. The gate is shown failing first: a face missing, an italic
 bit set, a GSUB lookup changed for a non-target glyph, and one advance off by a unit in a face
 other than Text Regular. The milestone closes with a fresh-clone reproduction and a cross-model
 adversarial review.
