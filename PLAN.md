@@ -168,9 +168,18 @@ v0.1's file name, `HarenaUI-TextRegular.ttf`, is kept, and the other faces follo
    - **10 Faces:** exactly the fifteen files exist, none is italic (no italic bit, no slant), and
      each face's names, weight class and style bits equal the scheme above.
 4. **In the browser, once, to close.** v0.1's Done-when 9 for every face, at the five Segoe
-   weights, plus two cases on Text Regular: `font-style: italic` comes out at Segoe's italic
-   widths, and the served faces are declared without weight ranges, so this check covers the
-   geometry of each face and not matching (v0.6).
+   weights, with every DOM measurement also made in `font-style: italic`, which must come out
+   at Segoe's italic widths. The served faces are declared at exactly their weight, without
+   ranges, so this check covers the geometry of each face and not matching (v0.6).
+   *Found while closing:* Segoe's Small faces kern by fractions of a font unit (up to 0.46,
+   in 13–18% of pairs); Text and Display kern, and every face advances, in whole units. Why
+   Small differs is not measured. A font stores whole units, so those pairs are within half a
+   unit (check 2's tolerance), and a short string at a small size can then lay out one layout
+   unit (1/64 px) away from Segoe's: `y.` at 12 px is 0.166%. So a Small face's DOM
+   measurement passes within 0.1% or within one layout unit. The allowance matters only for
+   strings narrower than 15.6 px, and each of them is also measured at 1000 px, where one
+   layout unit is 0.03 font units, so a width defect is still caught there. Canvas, which is
+   not quantized, and the Text and Display faces keep 0.1%.
 
 **Out of scope, and where it goes**
 
@@ -187,7 +196,8 @@ v0.1's file name, `HarenaUI-TextRegular.ttf`, is kept, and the other faces follo
 
 **Done-when.** `python scripts/verify.py` passes and prints one line per check per face; it
 exits non-zero on any failure. v0.1's checks keep their tolerances for every face. The browser
-check (item 4) passes on the guest: every measurement within 0.1% of Segoe's.
+check (item 4) passes on the guest: every measurement within 0.1% of Segoe's, except that a
+Small face's DOM measurement may instead be within one layout unit (item 4).
 
 **Review.** Units: measurement (item 1), build and gate (2 and 3), browser check (4), each
 reviewed in a separate context before sealing. The build and the gate are sealed together,
