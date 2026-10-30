@@ -33,6 +33,7 @@ from fontTools.varLib.instancer import instantiateVariableFont
 ROOT = Path(__file__).resolve().parents[1]
 OPEN_SANS = ROOT / "sources/opensans/OpenSans[wdth,wght].ttf"
 SEGOE = ROOT / "data/v0_1/segoe-ui-variable.json"
+SEGOE_TNUM = ROOT / "data/v0_1/segoe-tnum.json"
 STEMS = ROOT / "data/v0/stems.json"
 INSTANCE = "Segoe UI Variable Text|400"
 OUT = ROOT / "dist/HarenaUI-TextRegular.ttf"
@@ -313,6 +314,45 @@ def respace_ligatures(font, target, seg, base_shift):
     return shift, copies, skipped, components
 
 
+def tabular_digits(font, base_shift):
+    """Under `tnum`, every digit takes Segoe's tabular advance. Segoe's default `1`
+    is narrower than its other digits, so the default glyph cannot serve both; a
+    digit whose default advance differs from its tabular one gets a copy
+    (`one.tnum`), and the `tnum` lookup is pointed at it, both from the default
+    glyph and from anything it already mapped to the default glyph. Returns the
+    shift per copy and the copies made ({copy: original})."""
+    tab = json.loads(SEGOE_TNUM.read_text())["tabular"]
+    cmap, hmtx = font.getBestCmap(), font["hmtx"]
+    gsub = font["GSUB"].table
+    lookups = [gsub.LookupList.Lookup[i] for r in gsub.FeatureList.FeatureRecord if r.FeatureTag == "tnum"
+               for i in r.Feature.LookupListIndex]
+    subtables = []
+    for lookup in lookups:
+        for st_ in lookup.SubTable:
+            t = st_.ExtSubTable if lookup.LookupType == 7 else st_
+            if (t.LookupType if lookup.LookupType == 7 else lookup.LookupType) != 1:
+                raise SystemExit("tnum uses a lookup type other than single substitution")
+            subtables.append(t)
+    if not subtables:
+        raise SystemExit("the source has no tnum feature")
+    shift, copies = {}, {}
+    for key, px in sorted(tab.items()):
+        name = cmap[int(key)]
+        adv = units(px)
+        if hmtx[name][0] == adv:
+            continue
+        new = f"{name}.tnum"
+        copy_glyph(font, name, new)
+        copies[new] = name
+        shift[new] = base_shift.get(name, 0) + set_advance(font, new, adv)
+        for t in subtables:
+            for a, b in list(t.mapping.items()):
+                if b == name:
+                    t.mapping[a] = new
+        subtables[0].mapping[name] = new
+    return shift, copies
+
+
 def move_anchors(font, shift):
     """Mark attachment anchors are in their glyph's coordinates; move them with it."""
     gpos = font["GPOS"].table
@@ -517,6 +557,8 @@ def build():
     shift = respace(font, target, seg)
     lig_shift, lig_copies, lig_skipped, lig_components = respace_ligatures(font, target, seg, shift)
     shift.update(lig_shift)
+    tnum_shift, tnum_copies = tabular_digits(font, shift)
+    shift.update(tnum_shift)
     move_anchors(font, shift)
     unmarked = unmark(font, target)
     pairs = kern_pairs(font, target, seg, lig_components)
@@ -532,7 +574,7 @@ def build():
     (ROOT / "build/v0_1-report.json").write_text(json.dumps(report, indent=1) + "\n")
     # What the gate checks rather than trusts; committed, and compared with HEAD.
     (ROOT / "data/v0_1/build.json").write_text(json.dumps(
-        {"wght": wght, "wdth": wdth, "copies": lig_copies}, indent=1, sort_keys=True) + "\n")
+        {"wght": wght, "wdth": wdth, "copies": {**lig_copies, **tnum_copies}}, indent=1, sort_keys=True) + "\n")
     digest = hashlib.sha256(OUT.read_bytes()).hexdigest()
     (ROOT / "SHA256SUMS").write_text(f"{digest}  {OUT.relative_to(ROOT)}\n")
     print(json.dumps({k: v for k, v in report.items() if k != "overlaps"}),
