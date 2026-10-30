@@ -160,13 +160,15 @@ v0.1's file name, `HarenaUI-TextRegular.ttf`, is kept, and the other faces follo
    398 / 96.2: the median ink ratio crosses 1 at `wdth` 96.157, and 398 and 399 compile to
    the same stem. Advances and kerning, which are Segoe's, do not move. Overlaps get one allow-list per face.
 3. **Gate over every face.** `scripts/verify.py` runs v0.1's checks 1–8 on each face, with the
-   same tolerances and its own reference per face, and adds:
+   same tolerances and its own reference per face (check 5 now compares every cmap subtable),
+   and adds:
    - **9 Tables:** GSUB and GPOS equal the Open Sans instance's, apart from the known
      differences — the `kern` lookup, anchors moved with their glyph, the three unmarked
      accents, the ligature and `one.tnum` copies — compared as tables, not only through shaping
      target text (deferred from v0.1).
-   - **10 Faces:** exactly the fifteen files exist, none is italic (no italic bit, no slant), and
-     each face's names, weight class and style bits equal the scheme above.
+   - **10 Faces:** exactly the fifteen files exist, none is italic (no italic bit, no slant) or
+     hinted (no hint tables or glyph programs, `gasp` 0x000A), and each face's names, weight
+     class and style bits equal the scheme above.
 4. **In the browser, once, to close.** v0.1's Done-when 9 for every face, at the five Segoe
    weights, with every DOM measurement also made in `font-style: italic`, which must come out
    at Segoe's italic widths. The served faces are declared at exactly their weight, without
@@ -177,9 +179,10 @@ v0.1's file name, `HarenaUI-TextRegular.ttf`, is kept, and the other faces follo
    unit (check 2's tolerance), and a short string at a small size can then lay out one layout
    unit (1/64 px) away from Segoe's: `y.` at 12 px is 0.166%. So a Small face's DOM
    measurement passes within 0.1% or within one layout unit. The allowance matters only for
-   strings narrower than 15.6 px, and each of them is also measured at 1000 px, where one
-   layout unit is 0.03 font units, so a width defect is still caught there. Canvas, which is
-   not quantized, and the Text and Display faces keep 0.1%.
+   strings narrower than 15.6 px. The browser check does not guard their widths to a font
+   unit (at 1000 px, 0.1% of `y.` is 1.5 units); offline check 2 does, holding every pair
+   within half a unit. Canvas, which is not quantized, and the Text and Display faces keep
+   0.1%.
 
 **Out of scope, and where it goes**
 

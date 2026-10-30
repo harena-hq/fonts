@@ -81,11 +81,10 @@ def names(size, w):
 
 FORBIDDEN = ("segoe", "selawik", "source", "pretendard")
 # Scope item 2's point: median ink width equal, within rounding wdth to 0.1; and
-# the integer wght whose compiled stem is nearest Segoe's within STEM_WINDOW of
-# it (a compiled stem jitters by a unit as wght rises, so neighbours are not
-# enough).
+# the integer wght whose compiled stem is nearest Segoe's. The build searches
+# near its solution; the gate searches the whole axis, so it does not depend on
+# where the build looked.
 INK_RATIO_TOL = 0.005
-STEM_WINDOW = 15
 _L_SOURCE = []
 
 
@@ -253,8 +252,8 @@ def reproducible():
 
 
 def faces():
-    """Check 10: exactly the fifteen files, upright, static, with the weight and
-    style bits PLAN.md v0.2 gives each. Names are check 6, per face."""
+    """Check 10: exactly the fifteen files, upright, static, unhinted, with the
+    weight and style bits PLAN.md v0.2 gives each. Names are check 6, per face."""
     want = {font_path(*f).name for f in FACES}
     have = {p.name for p in (ROOT / "dist").glob("*") if p.is_file()}
     bad = [f"missing {sorted(want - have)}"] if want - have else []
@@ -279,6 +278,15 @@ def faces():
         if bool(sel & (1 << 5)) != bold or bool(sel & (1 << 6)) == bold or bool(mac & 1) != bold:
             off.append(f"style bits fsSelection {sel:#06x} macStyle {mac:#06x}")
         off += [f"has {t}" for t in ("fvar", "gvar", "avar", "STAT", "HVAR", "MVAR") if t in f]
+        # Unhinted, with gasp 0x000A at every size (v0.1, kept by v0.2).
+        off += [f"has {t}" for t in ("fpgm", "prep", "cvt ", "cvar", "hdmx", "LTSH", "VDMX") if t in f]
+        if "gasp" not in f or f["gasp"].gaspRange != {0xFFFF: 0x000A}:
+            off.append("gasp is not {0xFFFF: 0x000A}")
+        glyf = f["glyf"]
+        hinted = [g for g in f.getGlyphOrder()
+                  if hasattr(glyf[g], "program") and glyf[g].program.getBytecode()]
+        if hinted:
+            off.append(f"glyph programs in {hinted[:4]}")
         if off:
             bad.append(f"{face_key(size, w)}: {off}")
     check("10 faces", not bad, f"{len(want)} faces, upright and static, weight and style bits as "
@@ -638,18 +646,20 @@ def face(size, w):
             if row and b and b[1] > b[0]:
                 ratios.append((row[1] - row[0]) / ((b[1] - b[0]) / PX))
         ratio = st.median(ratios)
-        # wght is an integer, and no integer within STEM_WINDOW of it gives a
+        # wght is an integer on Open Sans' axis, and no integer on the axis gives a
         # compiled stem nearer Segoe's (a compiled stem jitters by a unit, so a
         # local check is not enough). Where Segoe's stem is beyond Open Sans'
         # range, the point stops at the axis' end (PLAN.md v0.2, Light).
         axes = {a.axisTag: (a.minValue, a.maxValue) for a in TTFont(OPEN_SANS)["fvar"].axes}
         wmin, wmax = axes["wght"]
-        if not isinstance(point["wght"], int):
-            bad.append(f"wght {point['wght']} is not an integer")
+        dmin, dmax = axes["wdth"]
+        if not isinstance(point["wght"], int) or not wmin <= point["wght"] <= wmax \
+                or not dmin <= point["wdth"] <= dmax:
+            bad.append(f"point {point['wght']}, {point['wdth']} is not an integer wght and a wdth "
+                       "on Open Sans' axes")
         else:
             own = abs(stem - target_stem)
-            for nw in range(max(int(wmin), point["wght"] - STEM_WINDOW),
-                            min(int(wmax), point["wght"] + STEM_WINDOW) + 1):
+            for nw in range(int(wmin), int(wmax) + 1):
                 if abs(l_stem(nw, point["wdth"]) - target_stem) < own - 1e-9:
                     bad.append(f"stem {stem:.2f} px against {target_stem}: wght {nw} is nearer")
                     break
@@ -657,12 +667,15 @@ def face(size, w):
                   (point["wght"] == wmax and stem < target_stem)
         if ("wght" in point["clamped"]) != clamped:
             bad.append(f"build.json says clamped {point['clamped']}, stem {stem:.2f}/{target_stem}")
-        dmin, dmax = axes["wdth"]
         wdth_clamped = (point["wdth"] == dmax and ratio > 1) or (point["wdth"] == dmin and ratio < 1)
         if ("wdth" in point["clamped"]) != wdth_clamped:
             bad.append(f"build.json says clamped {point['clamped']}, ink ratio {ratio:.4f}")
         if abs(ratio - 1) > INK_RATIO_TOL and not wdth_clamped:
             bad.append(f"median ink ratio {ratio:.4f}")
+        tables = lambda f: sorted((t.platformID, t.platEncID, t.format, sorted(t.cmap.items()))
+                                  for t in f["cmap"].tables)
+        if tables(font) != tables(ref):
+            bad.append("a cmap subtable differs from Open Sans'")
         if cmap != rcmap:
             diff = sorted(set(cmap.items()) ^ set(rcmap.items()))
             bad.append(f"cmap differs from Open Sans': {diff[:6]}")
