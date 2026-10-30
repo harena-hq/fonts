@@ -36,6 +36,7 @@ OPEN_SANS = ROOT / "sources/opensans/OpenSans[wdth,wght].ttf"
 SEGOE = ROOT / "data/v0_1/segoe-ui-variable.json"
 STEMS = ROOT / "data/v0/stems.json"
 POINT = ROOT / "data/v0_1/build.json"
+TNUM = ROOT / "data/v0_1/segoe-tnum.json"
 ALLOW = ROOT / "data/v0_1/overlaps.json"
 STRINGS = ROOT / "probe/v0/strings.json"
 INSTANCE = "Segoe UI Variable Text|400"
@@ -283,6 +284,22 @@ def main():
               + (f"; stray: {stray[:6]}" if stray else ""))
     guarded("2 kerning", c2)
 
+    def c2t():
+        tab = json.loads(TNUM.read_text())["tabular"]
+        bad = []
+        for key, px in tab.items():
+            buf = hb.Buffer()
+            buf.add_str(chr(int(key)))
+            buf.guess_segment_properties()
+            hb.shape(tnum_font, buf, {"tnum": True, "kern": True})
+            got = sum(p.x_advance for p in buf.glyph_positions)
+            if abs(got - px * PX) > 0.5:
+                bad.append(f"{chr(int(key))} {got} vs {px * PX:.1f}")
+        check("2t tabular digits", not bad, f"{len(tab) - len(bad)}/{len(tab)} digits at Segoe's tabular advance "
+              "under tnum" + (f"; off: {bad}" if bad else ""))
+    tnum_font = hb.Font(hb.Face(hb.Blob.from_file_path(str(FONT))))
+    guarded("2t tabular digits", c2t)
+
     def c3():
         strings = [s for g in json.loads(STRINGS.read_text()).values() for s in g]
         errs = [(s, (width(s) / PX - seg["strings"][s][0]) / seg["strings"][s][0]) for s in strings]
@@ -325,6 +342,7 @@ def main():
         if order[:n_ref] != ref.getGlyphOrder() or set(order[n_ref:]) != set(copies):
             bad.append("glyph order is not Open Sans' plus the ligature copies")
         rset = set(ref.getGlyphOrder())
+        dxs = {}
         for name in order:
             source = copies.get(name, name)
             if source not in rset:
@@ -344,10 +362,33 @@ def main():
                 dx = pts[0][0][0] - pts[0][1][0]
                 if any(p[0] - q[0] != dx or p[1] != q[1] for p, q in pts):
                     bad.append(name)
+                else:
+                    dxs[name] = dx
+        # Placement (scope item 3): the ink sits where the leftover sidebearing
+        # splits in Open Sans' own left:right ratio; where Open Sans' own
+        # sidebearings are not both non-negative, the ink moves by half the change
+        # in advance. A glyph whose advance did not change does not move. Copies
+        # were placed in two roundings, so they may be off by one unit.
+        misplaced = []
+        for name, dx in dxs.items():
+            source = copies.get(name, name)
+            xmin, xmax = ink_x(ref, source)
+            old, new = ref["hmtx"][source][0], hmtx[name][0]
+            lsb, rsb = xmin, old - xmax
+            if new == old and name not in copies:
+                want = 0
+            elif lsb >= 0 and rsb >= 0 and lsb + rsb > 0:
+                want = round((new - (xmax - xmin)) * lsb / (lsb + rsb) - xmin)
+            else:
+                want = round((new - old) / 2)
+            if abs(dx - want) > (1 if name in copies else 0):
+                misplaced.append(f"{name} {dx:+d} vs {want:+d}")
+        if misplaced:
+            bad.append(f"misplaced: {misplaced[:6]}")
         n = len(order)
         check("5 outlines", not bad,
               f"{n - len(bad)}/{n} glyphs equal Open Sans at wght {point['wght']}, wdth {point['wdth']} "
-              f"({len(copies)} ligature copies); stem {stem:.2f}/{target_stem} px, ink ratio {ratio:.4f}"
+              f"({len(copies)} copies), ink placed per the sidebearing split; stem {stem:.2f}/{target_stem} px, ink ratio {ratio:.4f}"
               + (f"; differ: {bad[:8]}" if bad else ""))
     guarded("5 outlines", c5)
 
