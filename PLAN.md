@@ -84,9 +84,17 @@ canvas and DOM agreeing; committed as data by item 1):
   drawn, and `font-variation-settings: 'wght' …` is ignored. These are not CSS matching's
   answers for `@font-face` faces (500 would go down to Regular).
 - **Its italic is synthesized.** `font-style: italic` draws an oblique of the upright face with
-  identical advances (a slant of about 1/4). Segoe UI Variable has no italic.
-- **Light is reachable** (weights 100–300), though WinUI's type ramp does not use it.
+  identical advances, leaning forward by 1/4 (horizontal per vertical). Segoe UI Variable has
+  no italic.
+- **Light is reachable** (weights 1–325), though WinUI's type ramp does not use it.
   winui-svelte uses 350, 400, 600 and 700, and italic.
+- **Tabular figures are per digit, not one width.** Under `tabular-nums` most faces give all
+  ten digits one advance. Which defaults differ from it varies by face: only `1` in Regular,
+  Bold and Display Semibold; `1`, `4` and `7` in the Semilight faces and Small and Text Light;
+  all ten in Display Light; `1`, `4`, `6` and `9` in Small and Text Semibold, which also leave
+  `7` at its default advance, narrower than the other nine. The build follows each digit's
+  measured value (`tabular` in `data/v0_2/segoe/`); this is Segoe's behaviour, not a
+  measurement to correct.
 
 **Locked — static faces, upright only** ([ADR 0004](docs/adr/0004-static-faces-upright-only.md)):
 
@@ -132,10 +140,11 @@ v0.1's file name, `HarenaUIText-Regular.ttf`, is kept, and the other faces follo
 1. **Measurement, committed.** On the reference guest, with the v0.1 tools:
    - the weight-and-italic table above, every weight 1–1000 per size, from a committed probe,
      as `data/v0_2/matching.json`;
-   - advances and pixel ink for the three Light faces, which v0 did not measure, added beside
-     the twelve others;
+   - advances and pixel ink for every face, including the three Light faces v0 did not
+     measure, one file per face (`data/v0_2/segoe/`), which the build reads instead of
+     `data/v0_1/segoe-ui-variable.json` (whose target set it keeps);
    - pair kerning for every face, over the v0.1 pair set (v0.1 measured Text Regular only);
-   - Segoe's tabular-digit advance for every face;
+   - each digit's advance under `tabular-nums`, for every face;
    - `l` stems for the three Light faces;
    - v0 string widths for the Light faces.
 2. **One build, fifteen faces.** `scripts/build.py` builds every face with v0.1's steps,

@@ -1,7 +1,6 @@
 # 0004 — Fifteen static faces, upright only
 
-Status: **locked**, 2026-10-30. Evidence: the v0.2 spec in `PLAN.md`; data in `data/v0_2/`
-once v0.2's measurement unit lands.
+Status: **locked**, 2026-10-30. Evidence: the v0.2 spec in `PLAN.md`; `data/v0_2/matching.json`.
 
 ## Context
 
@@ -9,13 +8,13 @@ The roadmap left v0.2's form open: one variable font with `wght` and `opsz` axes
 instances, and an italic. The project's purpose decides it: winui-svelte on Linux and macOS
 has to lay out as it does on Windows, and it gets Harena UI there through `@font-face`.
 
-Measured in Edge 151 on Windows 11, canvas and DOM agreeing:
+Measured in Edge 151 on Windows 11, canvas and DOM agreeing (`data/v0_2/matching.json`):
 
 - Edge draws Segoe UI Variable's named instances only. In each optical size, CSS weights
   1–325 draw Light, 326–375 Semilight, 376–499 Regular, 500–649 Semibold and 650–1000 Bold.
   `font-variation-settings: 'wght' …` is ignored.
 - Segoe UI Variable has no italic. `font-style: italic` draws an oblique of the upright face,
-  slanted about 1/4, with the upright advances.
+  leaning forward by 1/4, with the upright advances.
 - The three optical sizes are separate family names (`Segoe UI Variable Small`, `Text`,
   `Display`), and Edge pins each one's `opsz` whatever the font size (v0).
 
