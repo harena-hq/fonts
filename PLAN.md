@@ -60,14 +60,162 @@ repository (Liberation and Carlito precedent).
 | **v0** ✓ | Know, with numbers, whether spacing alone can bring Pretendard JP's Latin to Segoe UI Variable's widths. Answered in `docs/v0-feasibility.md`; ADRs 0001–0003 |
 | **v0.1** ✓ | One static Harena UI instance (Text, 400) whose string widths match Segoe within tolerance, behind an automated gate. Closed 2026-10-30: gate passes, and in Edge on Windows all 589 browser measurements (canvas and DOM at 12–1000 px) are within 0.000% of Segoe |
 | **v0.2** ✓ | Every face Edge can draw from Segoe UI Variable — Small, Text and Display, each at Light, Semilight, Regular, Semibold and Bold — as a static Harena UI face matched to it, behind the same gate. Closed 2026-10-30: gate passes over all fifteen faces; in Edge on Windows, 17,115 measurements are within 0.1% of Segoe, six Small-face DOM ones within one layout unit instead (item 4) |
-| v0.3 | Substitution and numeric features (`ccmp`, `locl`, `pnum`, `onum`, `lnum`, stylistic sets) at Segoe's widths |
+| v0.3 | Every OpenType feature and language a browser can request lays each face out at Segoe's widths: the features Segoe has are matched, the ones it lacks are removed |
 | v0.4 | Harena UI J |
 | v0.5 | Harena UI Icons |
 | v0.6 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.2's is current; v0.1's and v0's
+Each version's spec is written when the previous one closes. v0.3's is current; the earlier ones
 are kept below it.
+
+## v0.3 — every feature a browser can request, at Segoe's widths
+
+**Goal.** In all fifteen faces, every OpenType feature and language a page can request through
+CSS lays out at the width the Segoe UI Variable face gives for the same request. Features Segoe
+has are matched; features it lacks are removed.
+
+**What Segoe does with features** (explored 2026-10-30 on the reference guest, Edge 151, Text
+Regular only, in DOM at 1000 px; item 1 measures every face and commits the data):
+
+- **Segoe has few features.** GSUB has `ccmp`, `dlig`, `frac` and `tnum`. GPOS has `abvm`,
+  `kern`, `mark` and `mkmk`. The one language system is `latn`/`TRK`, and `lang="tr"` changes no
+  width. Segoe has no `liga`, `locl`, `pnum`, `onum`, `lnum`, `zero`, `ordn`, `sups`, `subs`,
+  `numr`, `dnom`, `salt` or stylistic sets. Requesting any of them leaves Segoe's widths
+  unchanged. These tags were read on the guest, like v0.1's cmap; only tag names left it.
+- **Harena UI keeps Open Sans' features, so the same requests change its widths.** Measured on one
+  test line: `pnum` +63 px, `ss01` +92 px, `ss04` −139 px, `sups` −1,599 px, `lang="ca"` −144 px.
+  `lang="mh"`, `nv`, `sr` and `mk` also change widths, as does `font-variant-position: super`.
+  None of these change Segoe's.
+- **Segoe's `dlig` changes widths, and Harena UI has no `dlig`.** With
+  `discretionary-ligatures`, Segoe's `ff`, `rf` and `rt` get 3–4 px narrower, and `ffi` and `ffl`
+  get 21 px wider.
+- **Segoe's `frac` has widths of its own.** `1/2` under `diagonal-fractions` is 890 px in
+  Segoe and 856 px in Harena UI. The same gap shows with no CSS feature in `1⁄2` (U+2044),
+  because HarfBuzz applies `frac` around a fraction slash by default.
+- **`ccmp` differs in one place among the marks Harena UI maps.** Cyrillic `і` and `ј`
+  followed by a mark are 2.5 and 2.9 px wider in Harena UI: Open Sans' `ccmp` swaps in a
+  dotless glyph whose advance is different. Segoe's widths do not change.
+- **The other mark differences come from coverage.** Open Sans maps 18 of the 112 combining marks
+  in U+0300–036F, and Segoe maps nearly all of them. A sequence with an unmapped mark falls back
+  to another font. Segoe also composes `a` + U+0307 into `ȧ` (U+0227) and `R` + U+030F into `Ȑ`,
+  and Open Sans has neither precomposed letter. Both cases stay out of scope with v0.2's
+  coverage note.
+- **Already equal:** synthesized small caps (all five `font-variant-caps` values),
+  `font-kerning: none`, explicit `tnum`, `liga` on or off, `ccmp` off.
+
+**Locked — a feature stays only if Segoe has it.**
+- Every feature Segoe lacks is removed from every face, in every language system. So are the
+  glyphs that only those features reach.
+- Windows shows Segoe without these features. Open Sans' versions change shapes as well as
+  widths: oldstyle figures, a one-storey `g`, Catalan `l·l`, Romanian comma accents.
+- The one exception is `liga`, kept from v0.1. Its ligatures already take Segoe's widths for the
+  same letters, and the gate checks that (check 2).
+- *Rejected:* keeping the alternates and forcing each to its default glyph's width. The layout
+  would match, but a page would show shapes Windows never draws for that request. Every kept
+  alternate would also need a width copy and a gate rule.
+
+**Locked — `dlig` is matched by positioning, not by drawing new ligatures.**
+- Segoe's `dlig` sequences get Segoe's `dlig` widths from a GPOS lookup under the `dlig` tag. It
+  adjusts the glyphs that are left after GSUB, including Open Sans' `ff`, `ffi` and `ffl`
+  ligatures, which `liga` forms first.
+- HarfBuzz applies a feature tag in both tables, and browsers request `dlig` through it, so
+  `discretionary-ligatures` reaches the lookup. Checked in Edge on the guest: a test face with
+  one GPOS `dlig` pair (`r f` −200 units) drew `rf` 97.7 px narrower at 1000 px only under
+  `discretionary-ligatures`.
+- The shapes stay Open Sans': `rf` and `rt` are drawn as two letters, just closer together.
+- *Rejected:* drawing `r_f` and `r_t` ligatures, which would be outlines that are not Open
+  Sans'. *Rejected:* leaving out `dlig`, which leaves `ffi` 21 px off at 1000 px.
+
+**Locked — `frac` and `ccmp` stay, at Segoe's widths.**
+- Open Sans' `frac` forms numerators, denominators and the fraction slash itself, so it does not
+  need the `numr` and `dnom` features, which are removed. The glyphs it outputs take Segoe's
+  `frac` widths, measured per digit as numerator and as denominator.
+- `ccmp` keeps Open Sans' substitutions, which put marks on the right glyph. A substitution
+  whose output's width differs from what Segoe gives for the same sequence points at a copy
+  with Segoe's width. That copy is made the way `.liga` copies are; today it is needed only for
+  Cyrillic `і` and `ј`.
+
+**In scope**
+
+1. **Measurement, committed.** On the reference guest, for every face, as `data/v0_3/`:
+   - Segoe's GSUB and GPOS feature tags and language systems. These are read on the guest, and
+     only the tags leave it.
+   - Every input sequence of Segoe's `dlig` and `frac`, enumerated on the guest from Segoe's
+     GSUB coverage, as code-point strings only. Each one's DOM width at 1000 px, with and
+     without the feature.
+   - Fractions, with `/` and with U+2044, under `diagonal-fractions` and without it. Every
+     digit is measured as a numerator and as a denominator.
+   - A base-and-mark matrix: every target letter followed by each combining mark Harena UI
+     maps, with and without `lang="tr"`.
+   - A feature matrix on fixed lines covering:
+     - every GSUB and GPOS tag in either font, set through `font-feature-settings`;
+     - every `font-variant-*` value;
+     - every language either font has a system for;
+     - `font-kerning: none`.
+
+   The scripts that do this are committed, as v0.2's were.
+2. **Build.** `scripts/build.py`:
+   - removes the features Segoe lacks, and the glyphs they alone reach;
+   - adds the `dlig` GPOS lookup from item 1's widths;
+   - sets `frac`'s glyphs to Segoe's widths;
+   - points the `ccmp` substitutions that change width at copies.
+
+   Everything else is v0.2's build, unchanged. Coverage does not change: no code point is added
+   or removed.
+3. **Gate.**
+   - Check 9 (tables) learns the new known differences: the removed features and glyphs, the
+     `dlig` lookup, `frac`'s glyph widths, and the `ccmp` copies.
+   - It also gains two checks:
+     - **11 Features.** Each face's GSUB features are exactly `ccmp`, `liga`, `frac` and
+       `tnum`, and its GPOS features are exactly `kern`, `mark`, `mkmk` and `dlig`. This holds
+       in every script and language system. Every glyph is reachable from the cmap through
+       those features.
+     - **12 Feature widths.** Every case item 1 measured, shaped with HarfBuzz under the same
+       features and language, is within one font unit of Segoe's width. The coverage cases are
+       left out and printed as a count. They are the sequences whose mark Harena UI does not
+       map, and the two compositions Segoe forms from precomposed letters Open Sans lacks.
+   - The gate is shown failing first, for each of these:
+     - a removed feature put back;
+     - a `dlig` adjustment off by a unit;
+     - a `frac` numerator off by a unit;
+     - an orphan glyph.
+4. **In the browser, once, to close.** Each face against its Segoe face in Edge, in DOM at 12,
+   14, 16, 20, 28 and 1000 px:
+   - item 1's feature matrix;
+   - the `dlig` and fraction cases;
+   - the base-and-mark matrix, without the coverage cases.
+
+   v0.2's browser check is also rerun, to show the earlier geometry has not moved. Tolerances are
+   v0.2's: 0.1%, or one layout unit for a Small face's DOM measurement.
+
+**Out of scope, and where it goes**
+
+- Coverage: the combining marks and precomposed letters Segoe maps and Open Sans does not.
+  These need a second Latin source, as in v0.2's note. No consumer needs them yet.
+- Segoe's `abvm`. It has no counterpart in Open Sans, and nothing measured here depends on it.
+  If item 1 finds a width that does, it comes back into scope.
+- `text-transform`, hyphenation and line breaking. The browser does these, not the font. Their
+  results are text that the checks above already cover.
+- Vertical and East Asian features: v0.4, with Harena UI J.
+
+**Done-when.**
+- `python scripts/verify.py` passes checks 1–12 on all fifteen faces. It exits non-zero on any
+  failure, and on any of the four mutations under item 3.
+- On the guest, item 4 passes within v0.2's tolerances.
+
+**Review.**
+- There are three units:
+  - measurement (item 1);
+  - build and gate together (items 2 and 3), because the v0.2 gate cannot pass a face with
+    features removed;
+  - browser check (item 4).
+- Each unit is reviewed in a separate context before sealing. Build and gate are still reviewed
+  separately.
+- The guest-side enumeration gets a check of its own: nothing but code points and tag names may
+  leave the guest.
+- The milestone closes with a reproduction from a fresh clone and a cross-model adversarial
+  review.
 
 ## v0.2 — every face Edge draws, matched and gated (closed 2026-10-30)
 
