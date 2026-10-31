@@ -78,8 +78,8 @@ them under a Segoe stack, for each language a page can set, with its Latin ident
 1000 px; item 1 measures every face and commits the data):
 
 - **Nearly every character is 1 em.** All 11,172 Hangul, all kana and all but a few Han, in every
-  face, whichever font draws them. Halfwidth forms are 0.5 em. No kerning shows in the sentences
-  tried: each width is the sum of its characters'.
+  face, whichever font draws them. Halfwidth forms are 0.5 em. Hangul pairs and Han pairs show no kerning (40 of each
+  sampled against each other).
 - **The font that draws a character depends on `lang`.**
 
   | `lang` | Hangul | kana | Han |
@@ -88,7 +88,19 @@ them under a Segoe stack, for each language a page can set, with its Latin ident
   | `ko` | Malgun Gothic | Malgun Gothic | Malgun Gothic |
   | `ja` | Malgun Gothic | Yu Gothic | Yu Gothic |
 
-- **So widths depend on `lang` in three known places.**
+  `zh`, `zh-Hans` and `zh-Hant` give the widths `ja` gives alone, apart from a few characters in Bold,
+  and no trimming or kerning. `de`, `vi`, `ru`, `ar`, `th` and `hi` give what no `lang` gives, and so
+  does winui-svelte's whole stack (`"Segoe UI Variable Text", "Segoe UI", sans-serif`).
+
+- **Widths depend on the neighbours as well, because a run of one script draws in one font.** Chromium
+  splits text into script runs, and punctuation joins the run beside it.
+  - In a Hangul run with no `lang`, the same 12 brackets are Malgun's, though alone they are 1 em:
+    `가「` and `「가` are about 1.57 em. This is winui-svelte's gallery, which sets `lang="en"`.
+  - In kana under no `lang` and `ja`, Yu Gothic's kerning applies: 2,798 of 30,976 kana pairs and 333
+    kana-and-punctuation pairs, up to −200 px at 1000 px. `ア、` is 1.86 em. No pair across Hiragana and
+    Katakana kerns, though Chromium shapes both as one run.
+  - Under `ko` and `zh` none of this kerning appears.
+- **So widths depend on `lang` in three more places.**
   - Under `ko`, 12–14 brackets (`〈〉《》「」『』` and others) are Malgun's, 0.52–0.60 em.
   - Under `ja`, Edge's `text-spacing-trim` (on by default) closes up adjacent full-width punctuation
     through Yu Gothic's `halt`: `」「` and `、。` are 1.5 em, not 2.
@@ -125,16 +137,46 @@ shapes among Open Sans', and Private Use Area code points mean different things 
 fonts (the Locked note on the icon family).
 *Rejected:* taking everything Pretendard JP maps.
 
-**Locked — a language's widths are positioning, not glyph copies.** The default advance is the width
-with no `lang`. A character another language gives another width takes a GPOS adjustment under that
-language system, in `dist`, which HarfBuzz always applies. Under `JAN`, `halt` carries Yu Gothic's
-half-width punctuation, measured from pairs, which is what Edge's `text-spacing-trim` reads. Both
+**Locked — a run's widths are positioning, not glyph copies.** The default advance is the width with
+no `lang`. A character another script run or language gives another width takes a GPOS adjustment under
+that script and language system, in `dist`, which HarfBuzz always applies: the brackets in `hang`'s
+default system and in every script's `KOR`, the few that differ in `ZHS` and `ZHT`. Yu Gothic's kana
+kerning is `kern` under `kana`'s default and `JAN` systems. Under `KOR` and `ZHS` only what is measured
+there is, the few pairs of a character those fonts lack that narrow. Each new
+script system also carries Harena UI's default features, so Latin punctuation in a CJK run keeps its
+kerning. Under `JAN`, and in `kana`'s default system since Yu Gothic draws those runs too, `halt`
+carries Yu Gothic's half-width punctuation, which is what Edge's `text-spacing-trim` reads. Both
 were checked in Edge on the guest with a test face: `dist` under `KOR` narrowed `「」` under `ko` alone,
 alone and beside Hangul, kana and Han; `halt` under `JAN` gave `」「`, `。」`, `（「` and `、。` 1.5 em under
 `ja` alone, and left `「」` at 2 em and a sentence at its own width, as Yu Gothic does.
 *Rejected:* one width per character, which leaves `lang="ko"` brackets nearly twice Windows' width.
 *Rejected:* copies under `locl`. They add thousands of glyphs for what one adjustment does.
 *Known cost:* `font-feature-settings: 'dist' 0` undoes the language's widths. Nothing requests it.
+
+**Locked — where the run's first character picks an odd font, Windows is not matched.** A font cannot
+tell which font Windows' fallback would have reached for. So these stay different, and the gate counts
+them rather than passing over them: runs of only symbols whose first character's font draws the rest
+(`㎀「`), or that start a run before Hangul or kana (`（「가`), and a symbol before a letter that it pulls into
+its font in Semibold and Bold; U+30FB beside punctuation outside Japanese, which Yu Gothic draws and
+trims; U+FF5F and
+U+FF60 alone (0.5 em, 1 em beside anything), which take their width beside a letter; U+FA2E and U+FA2F
+before Han, which keep their width alone (0.645 em); and U+3099 and U+309A alone, after anything but
+kana, and under Chinese in Semibold and Bold; and a symbol beside a kana the language's font lacks,
+which that kana's font draws wider (`ゔ｟` under `ko`). With no language, two more that Edge showed:
+U+FF5F and U+FF60 beside one of ten symbols after Hangul (`가〖｟`, 1 em in the symbol's font, 0.5 em here),
+which like `ゔ｟` a contextual adjustment could correct, but nothing writes these characters there; and
+`）・` after a bracket around other letters after kana, and punctuation that starts a kana run where
+Windows trims it anyway (`）（ア`, 0.5 em wider here). And in Semibold and Bold at 20 px and below, a
+character Windows emboldens itself (160 symbols with no language, 1,309 characters under `ko`) takes a
+whole pixel, up to 1 px per character more than here: a static width cannot vary by size, so it stays the
+width from 28 px up. The trigger to reopen is a layout that shows one.
+
+**Locked — with no language, `halt` needs kana before it.** A kana run can start at punctuation: Chromium
+gives a closing bracket its opening bracket's script, so in `ファイル（F）、` the run is `）、`, and Windows'
+fallback takes a font there that does not trim. So kana's default system applies `halt` only after kana,
+past combining marks, with up to two punctuation marks between. Over 6,812 such texts measured on Text Regular this leaves 820
+different where 1,893 were, and the menu label matches. *Rejected:* `halt` everywhere, 0.5 em short on that
+label; no `halt`, which loses `ア）、`. Under `ja` Yu Gothic trims regardless, and `JAN` keeps it unconditional.
 
 **Locked — explicit East Asian features are not matched in v0.4, and are removed.** A page that asks
 for `palt`, `vert`, `ruby` or the like gets 1 em widths, where Windows gives each font's own. Matching
@@ -158,9 +200,14 @@ Gothic's `十` for kana and Han. ADR 0003 left the scale and weight mapping to b
 **In scope**
 
 1. **Measurement, committed.** As `data/v0_4/`, for each of the fifteen Segoe faces, under no `lang`,
-   `en`, `ko` and `ja`, in DOM at 1000 px:
+   `ko`, `ja`, `zh-Hans` and `zh-Hant`, in DOM at 1000 px, with `en` for code points and fixed text
+   alone, which must equal no `lang`:
    - every covered CJK code point's width, and which code points differ between languages;
-   - `halt`: every ordered pair of the full-width punctuation covered, under `ja`, with and without
+   - every character covered that has no script of its own (Common, Inherited) and so joins the run
+     beside it, before and after Hangul and Han;
+   - every ordered pair of kana, and of kana with those symbols, on the Text faces; the kana pairs
+     alone on Small and Display, which must equal Text's;
+   - `halt`: every ordered pair of the full-width punctuation covered, with and without
      `text-spacing-trim: space-all`;
    - fixed sentences mixing Hangul, kana, Han, Latin, digits and spaces, and NFD Hangul and kana with
      U+3099 and U+309A, to confirm that widths add up and sequences compose;
@@ -172,7 +219,9 @@ Gothic's `十` for kana and Han. ADR 0003 left the scale and weight mapping to b
    The scripts are committed.
 2. **Build.** `scripts/build_j.py` takes each built Harena UI face and adds CJK:
    - instances Pretendard JP at the stem-matched weights, separately for Hangul and for kana and Han;
-   - scales Hangul, sets every advance, centres the ink in it;
+   - scales Hangul, sets every advance, and keeps each glyph's source balance in it. Opening
+     punctuation keeps its trailing bearing and closing punctuation its leading one, because `halt`
+     and a narrower width cut the empty side;
    - adds `dist` and `halt` under their language systems, and the script and language systems they
      need;
    - keeps Harena UI's features and adds no others;
@@ -183,26 +232,32 @@ Gothic's `十` for kana and Han. ADR 0003 left the scale and weight mapping to b
      in the J face and its Harena UI face, and vertical metrics, outlines and advances of Harena UI's
      glyphs are equal.
    - **14 Coverage.** The cmap is exactly Harena UI's plus the code points the Locked note lists.
-   - **15 CJK widths.** Every code point, pair, sentence and sequence of item 1, under its language,
-     shaped with HarfBuzz, within half a unit of Windows'.
-   - **16 Features.** GSUB and GPOS features are exactly Harena UI's plus `dist` and `halt`; `dist` and
-     `halt` are empty outside their language systems; `halt` only halves what the measurements show.
+   - **15 CJK widths.** Every code point, neighbour, pair, sentence and sequence of item 1, under its
+     language and script, shaped with HarfBuzz, within half a unit of Windows'. A trimmed pair is shaped
+     with `halt` on the character Edge applies it to, since HarfBuzz does not trim by itself. What the
+     Locked note leaves different is left out and printed as a count.
+   - **16 Features.** GSUB and GPOS features are exactly Harena UI's plus `dist` and `halt`; `dist`,
+     `halt` and the kana `kern` are empty outside their language systems; `halt` only halves what the
+     measurements show.
    - **17 Shapes.** Stems within 3% of the target per face weight; Hangul's median ink body within 2% of
      Malgun Gothic's; every outline equal to Pretendard JP's at the chosen weight, moved and, for Hangul,
      scaled only.
    - **18 Reproducible.** Two builds are identical, as check 8.
 
    The gate is shown failing first for: a Latin glyph changed in a J face; a CJK advance off by a unit;
-   a `dist` adjustment under the wrong language; a `halt` pair too many; an added code point; an orphan
+   a `dist` adjustment under the wrong language; the whole kana `kern` under `KOR`; a `halt` pair too many; an added code point; an orphan
    glyph; a Hangul outline at the wrong scale.
-4. **In the browser, once, to close.** Each J face against its Segoe face in Edge, in DOM at 12, 14, 16,
-   20, 28 and 1000 px, for no `lang`, `ko` and `ja`: item 1's code points, pairs and sentences, and line
-   heights, whose known differences are reported apart. Tolerances are v0.2's. Harena UI's checks are
-   rerun. The font bytes loaded are checked as in v0.3.
+4. **In the browser, once, to close.** Each J face against its Segoe face in Edge, in DOM, per language.
+   At 1000 px: all of item 1's cases, and each punctuation pair after Hangul, Han and kana. At 12, 14,
+   16, 20 and 28 px: the same but for kana pairs that do not kern and pairs after a letter, with every
+   20th Hangul and Han, since those advances scale with size and the 1000 px run has them all; all
+   kana pairs on Text at 14 px. Line heights are reported apart, not judged. Tolerances are v0.2's.
+   Harena UI's checks are rerun. The font bytes loaded are checked in the page.
 
 **Out of scope, and where it goes**
 
-- Han Pretendard JP lacks (it has 7,138): it falls through the stack, as Harena Term's D4 accepted.
+- Han and halfwidth katakana Pretendard JP lacks: they fall through the stack, as Harena Term's D4
+  accepted for Han.
 - Explicit East Asian features and vertical writing: when a consumer needs them.
 - Japanese line heights, and Hangul's 1 px at 40 px and up: v0.6.
 - A Korean-form Han cut: when evidence asks, as already locked.
