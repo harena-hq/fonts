@@ -55,5 +55,5 @@ kana and Han bodies are also closer to Yu Gothic's.
 ## Consequences
 
 - Harena UI J does not look like Pretendard. It is Pretendard JP's drawings at Windows' widths.
-- The 1.08 Hangul scale and the weight mapping are v0.3's to verify against a built font, not
+- The 1.08 Hangul scale and the weight mapping are v0.4's to verify against a built font, not
   against the CSS approximation the specimen used.
