@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2026 Jeeyong Um
-"""The gate, v0.3. v0.1's Done-when checks 1-7 run on each of the fifteen faces
+"""The gate, v0.4. v0.1's Done-when checks 1-7 run on each of the fifteen faces
 and print one line each, prefixed with the face; 8 (reproducible), 9 (tables,
 per face) and 10 (the face set) are v0.2's; 11 (features) and 12 (feature
-widths), per face, are v0.3's. Any failure, including an error inside a check,
+widths), per face, are v0.3's; 13-18 are v0.4's, over Harena UI J, in
+scripts/verify_j.py. Any failure, including an error inside a check,
 makes the exit status non-zero. The last line is `gate: PASS` or `gate: FAIL`.
 
 The gate does not take its expectations from scripts/build.py. The values the
@@ -37,6 +38,9 @@ from fontTools import unicodedata as fu
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables import otBase
 from fontTools.varLib.instancer import instantiateVariableFont
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import verify_j  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 OPEN_SANS = ROOT / "sources/opensans/OpenSans[wdth,wght].ttf"
@@ -426,7 +430,7 @@ def faces():
     """Check 10: exactly the fifteen files, upright, static, unhinted, with the
     weight and style bits PLAN.md v0.2 gives each. Names are check 6, per face."""
     want = {font_path(*f).name for f in FACES}
-    have = {p.name for p in (ROOT / "dist").glob("*") if p.is_file()}
+    have = {p.name for p in (ROOT / "dist").glob("*") if p.is_file() and not p.name.startswith("HarenaUIJ-")}
     bad = [f"missing {sorted(want - have)}"] if want - have else []
     bad += [f"unexpected {sorted(have - want)}"] if have - want else []
     for size, w in FACES:
@@ -1379,6 +1383,16 @@ def main():
     lines.clear()
     with ProcessPoolExecutor() as pool:
         for out, bad in pool.map(face, *zip(*FACES)):
+            print("\n".join(out), flush=True)
+            failed.extend(bad)
+    if "--no-rebuild" in sys.argv:
+        print("SKIP J 18 reproducible: --no-rebuild", flush=True)
+    else:
+        out, bad = verify_j.reproducible_j()
+        print("\n".join(out), flush=True)
+        failed.extend(bad)
+    with ProcessPoolExecutor() as pool:
+        for out, bad in pool.map(verify_j.face_j, *zip(*FACES)):
             print("\n".join(out), flush=True)
             failed.extend(bad)
     print("gate:", "FAIL" if failed else "PASS")
