@@ -115,17 +115,30 @@ Regular only, in DOM at 1000 px; item 1 measures every face and commits the data
   would match, but a page would show shapes Windows never draws for that request. Every kept
   alternate would also need a width copy and a gate rule.
 
-**Locked — `dlig` is matched by positioning, not by drawing new ligatures.**
-- Segoe's `dlig` sequences get Segoe's `dlig` widths from a GPOS lookup under the `dlig` tag. It
-  adjusts the glyphs that are left after GSUB, including Open Sans' `ff`, `ffi` and `ffl`
-  ligatures, which `liga` forms first.
-- HarfBuzz applies a feature tag in both tables, and browsers request `dlig` through it, so
-  `discretionary-ligatures` reaches the lookup. Checked in Edge on the guest: a test face with
-  one GPOS `dlig` pair (`r f` −200 units) drew `rf` 97.7 px narrower at 1000 px only under
-  `discretionary-ligatures`.
-- The shapes stay Open Sans': `rf` and `rt` are drawn as two letters, just closer together.
-- *Rejected:* drawing `r_f` and `r_t` ligatures, which would be outlines that are not Open
-  Sans'. *Rejected:* leaving out `dlig`, which leaves `ffi` 21 px off at 1000 px.
+**Locked — `dlig` is Segoe's substitution, onto Open Sans' own glyphs.** *Changed after the
+milestone review;* the first version matched `dlig` by GPOS positioning, rejected below.
+- Segoe's `dlig` ligatures are its presentation forms. `ff`, `ffi`, `ffl` and `ﬀi` under
+  `dlig` are as wide as U+FB00, U+FB03 and U+FB04 to within 0.012 px in every face measured, and
+  kern against their neighbours as those characters do in 548–551 of 552 measured contexts.
+  Its contextual `r` before `f`, `t` and their kin is a glyph of its own width, unkerned against
+  the printable ASCII around it.
+- Harena UI's `dlig` substitutes the same way. Segoe's sequences become the presentation form
+  that decomposes to them (Open Sans' own `ﬀ`, `ﬃ`, `ﬄ`, whose widths and kerning are already
+  Segoe's from v0.2), from letters and from a default ligature alike. `r` before Segoe's
+  lookahead characters becomes `r.dlig`, a copy of Open Sans' `r` with Segoe's advance, measured
+  with kerning off. Kerning against these glyphs is in `kern`, so `font-kerning: none` and
+  `liga` off combine with `dlig` as in Segoe.
+- Segoe's `ccmp` draws `i` and `j` dotless before a spacing accent (`` ` `` `¨` `´` `ˆ` and ten
+  more, read from v0.2's measurements, where `i` before them measures as `ı`, and confirmed with
+  kerning off), so its `ffi` does not form there. Harena UI's `ccmp` does the same (item 2), so
+  `liga` and `dlig` meet a dotless `i` there too.
+- *Rejected:* GPOS positioning on the default glyphs (the first version). Its corrections for
+  the neighbours' kerning sat under `dlig`, so they stayed on with kerning off and were missed
+  with `liga` off. Anchored to measured runs, they missed contexts no text measured (`Trfi`,
+  where `liga` forms `fi`) and characters no context held (`off…`), and a positioning layer
+  admits rules that cancel on every measured text and not elsewhere (the Codex review showed a
+  defective face passing the gate). *Rejected:* drawing `r_f` and `r_t` ligatures, which would
+  be outlines that are not Open Sans'.
 
 **Locked — `frac` and `ccmp` stay, at Segoe's widths.**
 - Open Sans' `frac` forms numerators, denominators and the fraction slash itself, so it does not
@@ -134,7 +147,12 @@ Regular only, in DOM at 1000 px; item 1 measures every face and commits the data
 - `ccmp` keeps Open Sans' substitutions, which put marks on the right glyph. A substitution
   whose output's width differs from what Segoe gives for the same sequence points at a copy
   with Segoe's width. That copy is made the way `.liga` copies are; today it is needed only for
-  Cyrillic `і` and `ј`.
+  Cyrillic `і` and `ј`. *Changed while building:* the width is the one Segoe gives the letter
+  and mark (item 1's matrix), not the letter's own. Segoe draws `i` + U+0307 as wide as its
+  dotless `ı`, which in Small and Display Light differs from `i`, and Cyrillic `і` + a mark as
+  wide as `і`. An output only `ccmp` reaches (the four dotless forms of `і`, `ј`, `į`, `ị`)
+  is respaced in place, and a copy is made only for an output that is also a mapped glyph and
+  needs another width: today U+FB4A, Hebrew `ת` with dagesh (item 2).
 
 **In scope**
 
@@ -143,11 +161,25 @@ Regular only, in DOM at 1000 px; item 1 measures every face and commits the data
      only the tags leave it.
    - Every input sequence of Segoe's `dlig` and `frac`, enumerated on the guest from Segoe's
      GSUB coverage, as code-point strings only. Each one's DOM width at 1000 px, with and
-     without the feature.
+     without the feature. *Tightened after the milestone review:* the first export also carried
+     lookup indices, types and flags; now only tags and code points leave the guest, and what
+     the probe relies on (no flags, feature variations or required features; the forms read)
+     is asserted there. `dlig` and fractions are also measured with kerning off, and `dlig`
+     with the default ligatures off; the feature matrix adds every combination of two or more
+     of `dlig`, `frac`, `tnum`, kerning off and `liga` off.
    - Fractions, with `/` and with U+2044, under `diagonal-fractions` and without it. Every
      digit is measured as a numerator and as a denominator.
    - A base-and-mark matrix: every target letter followed by each combining mark Harena UI
-     maps, with and without `lang="tr"`.
+     maps, with and without `lang="tr"`. *Widened after the milestone review* from U+0300–036F
+     to every mark both fonts map, adding U+0483–0489 and U+05BC. A mark of the inherited script
+     is compared after every letter; another, after the letters of the scripts it is used with
+     (Unicode Script_Extensions): a Hebrew point after a Latin letter is not text. `i`, `j`,
+     `į`, `і`, `ј`, `ị`, `fi` and `ffi` are also measured before every spacing accent, with and
+     without `dlig`, kerning and `ccmp`; and every pair Segoe kerns, with `ccmp` off.
+     Every ligature Open Sans' `ccmp` or `liga` forms, and each Segoe `dlig` sequence and
+     context, is measured with ZWJ in each subset of its gaps: a joiner keeps composition from
+     hiding a rule from plain text (`A`, ZWJ, ogonek reaches the rule `Ą` hides). The same rules are
+     measured with CGJ, and each letter alone and before CGJ.
    - A feature matrix on fixed lines covering:
      - every GSUB and GPOS tag in either font, set through `font-feature-settings`;
      - every `font-variant-*` value;
@@ -157,27 +189,100 @@ Regular only, in DOM at 1000 px; item 1 measures every face and commits the data
    The scripts that do this are committed, as v0.2's were.
 2. **Build.** `scripts/build.py`:
    - removes the features Segoe lacks, and the glyphs they alone reach;
-   - adds the `dlig` GPOS lookup from item 1's widths;
+   - adds Segoe's `dlig` as a substitution (the Locked note above);
    - sets `frac`'s glyphs to Segoe's widths;
-   - points the `ccmp` substitutions that change width at copies.
+   - gives `ccmp`'s outputs Segoe's widths, at copies where needed.
 
    Everything else is v0.2's build, unchanged. Coverage does not change: no code point is added
    or removed.
+
+   *Found while building:*
+   - **Kerning inside a ligature moves into `kern`.** A default ligature's advance is now the
+     sum of its letters' advances. The kerning between them is a single adjustment on the
+     ligature glyph, in the `kern` feature. With kerning on, its width is v0.1's: Segoe's for
+     the same letters. With `font-kerning: none` it is Segoe's unkerned width, which v0.2's
+     advance missed by the inner kerning (32 units on the test line in Text Light). The
+     ligatures' ink moves with their changed advance, by the sidebearing split.
+   - **Marks, after the milestone review.** The widened matrix found three things, each now
+     matched from it:
+     - U+0488 and U+0489, Cyrillic signs both fonts space, take Segoe's width;
+     - a `ccmp` ligature of a letter and a mark takes Segoe's width for them: Open Sans joins
+       Hebrew `ת` and dagesh into U+FB4A, as wide as `ת` in Segoe (a copy, `uniFB4A.ccmp`);
+     - Segoe draws `i`, `j` and `ị` dotless before the Cyrillic pneumata U+0485 and U+0486 too,
+       and `i` and `j` before the spacing accents, with kerning on or off. Both join the
+       lookahead of Open Sans' own dotless rule, which covers `į`, `і`, `ј` and `ị` as well;
+       Segoe was measured for `i`, `j` and (with the marks) `ị`. v0.2's kerning had stood in
+       for the accents, which held only with kerning on. Those pairs are gone: with `ccmp`
+       off, Segoe sets `i` and `j` before the accents unkerned (measured), so Harena UI does
+       not kern a letter its `ccmp` makes dotless against them (the second milestone review
+       found the pair still applying under `'ccmp' 0`). To rule out any other v0.2 pair standing
+       in for Segoe's `ccmp`, every pair Segoe kerns in any face is also measured with `ccmp`
+       off; all match.
+   - **`ccmp`'s other ligatures, after the seventh milestone review.** Each takes the width Segoe
+     gives its characters, measured with ZWJ between them. Open Sans' `ι` and `υ` with three marks
+     were 119 and 63 units too wide in Text Regular, respaced in place since only `ccmp` reaches
+     them. `Ǫ` and `ǫ` before spacing `ˉ` are as wide as both characters in Segoe, so `Ǭ` and `ǭ`
+     get copies (`uni01EC.ccmp`, `uni01ED.ccmp`).
 3. **Gate.**
-   - Check 9 (tables) learns the new known differences: the removed features and glyphs, the
-     `dlig` lookup, `frac`'s glyph widths, and the `ccmp` copies.
+   - Check 9 (tables) learns the new known differences:
+     - the removed features and glyphs, against an Open Sans reference stripped the same way by
+       the gate's own code;
+     - `kern` as one or two lookups (pairs, then ligatures' inner kerning) after Open Sans' own;
+     - the `dlig` lookups, appended after Open Sans' GSUB lookups and reached by nothing else;
+     - exactly the characters Segoe draws `i` dotless before (marks and spacing accents), added
+       to Open Sans' dotless rule; the gate derives them from the measurements itself;
+     - `frac`'s and `ccmp`'s glyph widths, which check 12 holds;
+     - the `ccmp` copies; and `tnum`'s copies, only for digits (the sixth milestone review
+       found a non-digit's copy passing on build.json's word).
    - It also gains two checks:
-     - **11 Features.** Each face's GSUB features are exactly `ccmp`, `liga`, `frac` and
-       `tnum`, and its GPOS features are exactly `kern`, `mark`, `mkmk` and `dlig`. This holds
-       in every script and language system. Every glyph is reachable from the cmap through
-       those features.
+     - **11 Features.** Each face's GSUB features are exactly `ccmp`, `dlig`, `liga`, `frac`
+       and `tnum`, and its GPOS features are exactly `kern`, `mark` and `mkmk`. This holds in
+       every script and language system, and each feature does the same in every one: every
+       feature but `ccmp` resolves to the same lookups in every language system of every
+       script, and `ccmp` (which Open Sans varies by script) to the same lookups across a
+       script's language systems. No language then has a feature of its own, as none of
+       Segoe's does, so a language combined with a feature lays out as the feature alone
+       (the fourth milestone review found an empty `tnum` for Catalan passing, and the fifth
+       one listed before the real one; a language system now lists each feature once). Every glyph
+       is reachable from the cmap through those features. `dlig` is Segoe's, rule by rule: a ligature reads characters that join (after
+       NFKC) into a Segoe sequence and puts out its presentation form; a single substitution
+       turns a default ligature of such a sequence into that form; a contextual rule turns a
+       character of a Segoe context, before glyphs that begin with a character that may follow
+       it, into its `.dlig` copy. Each Segoe sequence shapes to its form with `liga` on and
+       off. Outside them no character, and no pair of printable ASCII, `dlig` characters and
+       spacing accents, shapes to other glyphs or another width, with kerning and `liga` on
+       and off.
      - **12 Feature widths.** Every case item 1 measured, shaped with HarfBuzz under the same
        features and language, is within one font unit of Segoe's width. The coverage cases are
        left out and printed as a count. They are the sequences whose mark Harena UI does not
-       map, and the two compositions Segoe forms from precomposed letters Open Sans lacks.
+       map, and the compositions Segoe forms into precomposed letters Open Sans lacks.
+       Those sequences include CGJ (U+034F), a mark Open Sans does not map. No font replaces it,
+       but Segoe's `ccmp` reads it and draws `i`, `j` and `ị` narrower before it in some faces (at
+       most 15 px at 1000 px). Harena UI's `ccmp` cannot read a character it does not map, and this
+       milestone adds none. The gate derives those letters and how much narrower per face from item 1's
+       measurements. A case before CGJ is left out only with `ccmp` on and off by exactly that
+       much; every other case with CGJ must match.
+       *Tightened while building:* half a unit, plus each fractionally kerned Segoe pair's own
+       rounding (as check 2 holds each pair): a few hundredths of a unit in Text and Display, more
+       in Small, which Segoe kerns by fractions. Text and Display measure
+       within 0.03 units, so one unit would have let a one-unit error through. The coverage
+       cases come to 42 per language: the compositions above, Greek capitals with grave and
+       `ϓ`, and `Ơ`/`Ư` with ogonek, where canonical reordering exposes the horn. The
+       `font-variant-caps` cases the browser synthesizes are left to item 4.
+     - Check 10 also allows only the tables a static TrueType face needs, so no legacy `kern`
+       or `morx` table can slip in.
+     - Check 2 also holds every stored kern value to Segoe's width for its characters, and
+       shapes each default ligature beside each letter across a ZWNJ as well, so a pair is
+       checked even where a longer ligature hides it (`ﬀ` + `l`, which ZWNJ or a mark between
+       brings back): a wrong value and a missing pair both fail (the third milestone review).
+     - Check 12 also requires every ligature `ccmp` forms among the cases, and every glyph the
+       build added shaped by one, whatever made it: the seventh milestone review found a widened
+       `.ccmp` copy of `Ą` passing because composition hid its rule and no check held its width.
    - The gate is shown failing first, for each of these:
      - a removed feature put back;
-     - a `dlig` adjustment off by a unit;
+     - a `dlig` width off by a unit (and, after the milestone review: a wrong `dlig` form; a
+       widened or longer `dlig` context; `dlig` rules reading other text (`abc`, `é`, Cyrillic,
+       Greek) or applied everywhere; a dotless character added or dropped);
      - a `frac` numerator off by a unit;
      - an orphan glyph.
 4. **In the browser, once, to close.** Each face against its Segoe face in Edge, in DOM at 12,
@@ -187,7 +292,10 @@ Regular only, in DOM at 1000 px; item 1 measures every face and commits the data
    - the base-and-mark matrix, without the coverage cases.
 
    v0.2's browser check is also rerun, to show the earlier geometry has not moved. Tolerances are
-   v0.2's: 0.1%, or one layout unit for a Small face's DOM measurement.
+   v0.2's: 0.1%, or one layout unit for a Small face's DOM measurement. The check confirms what
+   it measured, not only that nothing failed: the font bytes the page loaded hash to the built
+   face's, the faces are the fifteen and the cases all of `data/v0_3/cases.json`, every
+   comparison is counted, and Segoe's live widths at 1000 px equal item 1's.
 
 **Out of scope, and where it goes**
 
