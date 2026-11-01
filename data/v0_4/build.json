@@ -1,0 +1,27 @@
+{
+ "300": {
+  "han_wght": 130,
+  "hangul_scale": 1.099,
+  "hangul_wght": 229
+ },
+ "350": {
+  "han_wght": 130,
+  "hangul_scale": 1.099,
+  "hangul_wght": 229
+ },
+ "400": {
+  "han_wght": 238,
+  "hangul_scale": 1.09,
+  "hangul_wght": 332
+ },
+ "600": {
+  "han_wght": 676,
+  "hangul_scale": 1.066,
+  "hangul_wght": 627
+ },
+ "700": {
+  "han_wght": 676,
+  "hangul_scale": 1.066,
+  "hangul_wght": 627
+ }
+}
