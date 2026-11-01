@@ -55,5 +55,7 @@ kana and Han bodies are also closer to Yu Gothic's.
 ## Consequences
 
 - Harena UI J does not look like Pretendard. It is Pretendard JP's drawings at Windows' widths.
-- The 1.08 Hangul scale and the weight mapping are v0.4's to verify against a built font, not
-  against the CSS approximation the specimen used.
+- The 1.08 Hangul scale and the weight mapping were v0.4's to verify against a built font, not
+  against the CSS approximation the specimen used. Measured, the scale that reaches Malgun Gothic's
+  body differs by weight: 1.099 at Light and Semilight, 1.09 at Regular, 1.066 at Semibold and Bold
+  (`data/v0_4/build.json`).
