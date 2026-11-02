@@ -62,15 +62,15 @@ repository (Liberation and Carlito precedent).
 | **v0.2** ✓ | Every face Edge can draw from Segoe UI Variable — Small, Text and Display, each at Light, Semilight, Regular, Semibold and Bold — as a static Harena UI face matched to it, behind the same gate. Closed 2026-10-30: gate passes over all fifteen faces; in Edge on Windows, 17,115 measurements are within 0.1% of Segoe, six Small-face DOM ones within one layout unit instead (item 4) |
 | **v0.3** ✓ | Every OpenType feature and language a browser can request lays each face out at Segoe's widths: the features Segoe has are matched, the ones it lacks are removed. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 4,505,220 measurements are within 0.1% of Segoe, 742 Small-face DOM ones within one layout unit instead. Coverage is left out and counted: marks Open Sans lacks, including `i`, `j` and `ị` before CGJ |
 | **v0.4** ✓ | In all fifteen faces, Harena UI J lays out Hangul, kana and Han at the widths Edge gives them under a Segoe stack, for each language a page can set, with its Latin identical to Harena UI. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 10,940,956 measurements are within tolerance, 63,570 of them only by allowing the whole pixel Windows gives a character it emboldens in Semibold and Bold at 20 px and below. What cannot or need not match is left out and counted (the Locked notes); Japanese line boxes stay short until v0.6 |
-| v0.5 | Harena UI Icons |
+| **v0.5** ✓ | Harena UI Icons |
 | v0.6 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
-| later | Icons outside WinUI's `Symbol` that lose a state or read as something else (v0.5's *Later*) |
+| later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.5's is open, below; the earlier ones
-are kept after it.
+Each version's spec is written when the previous one closes. v0.6's is written next; the closed ones
+are kept below.
 
-## v0.5 — Harena UI Icons, at Segoe Fluent Icons' geometry
+## v0.5 — Harena UI Icons, at Segoe Fluent Icons' geometry (closed 2026-11-02)
 
 **Goal.** Every code point Segoe Fluent Icons maps draws in Harena UI Icons, a stand-in from open
 outlines, with Segoe's advance, line box and ink box, so a stack naming it after Segoe lays out the
@@ -202,8 +202,8 @@ OFL's text is not yet in the repository, and Harena UI J's string omits the rese
    *Done when:* every width is within one layout unit and every line box equal, with no exclusions, or any
    exclusion is named and counted here.
 
-**Where it stands** (2026-11-02). Items 1 and 3 are done, and item 2 waits on the owner's pass of the sheets
-and composition families.
+**Result** (2026-11-02). All four items are done; item 2 closed on the owner's pass of the rows WinUI's `Symbol`
+draws, below, and the other rows' remaining faults are later work.
 
 - *Table.* 1,609 rows: 1,337 `fluent` (174 marked near, the general idea rather than the same picture), 119
   `compose`, 91 `text`, 44 `mirror`, 5 `bars`, 4 `holes`, 3 `blank` and 6 `none`: E4E8, E614, Wheel (EE94),
@@ -224,6 +224,9 @@ and composition families.
   levels must show their empty bars, as Segoe does, and Preview must not draw what Scan draws. Fluent draws
   neither empty bars nor a page preview, so ZeroBars to FourBars are a fifth recipe, `bars`: four rising bars on a
   20 grid, as many filled as the level and the rest outlined; Preview is a page with an eye badge.
+- *Owner's pass* (2026-11-02): the 193 `Symbol` rows pass. Trim (scissors, which read as Cut) and Reshare (the
+  same drawing as Share) pass for now; a picture of shortening and one Reshare can be told from Share by are later
+  work.
 - *Later.* Outside `Symbol`, those 66 rows, and the 85 of the 325 for which nothing better was found, can still lose a state or
   read as something else: print-layout diagrams, staples, SIM and VPN marks, gestures. A later reader should not
   take the Edge results below as saying anything about meaning; only the owner's pass does.
