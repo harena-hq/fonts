@@ -45,6 +45,8 @@ $GF/notosans/NotoSans-Italic%5Bwdth,wght%5D.ttf|58e6e0ebd1931b29a365aa2d3e2ee9a9
 $NOTO_CJK/NotoSansJP-VF.ttf|f4b373b226668ee33a6e54b02823dcd2d1209f17159f777421ae8c2275160369|sources/notocjk/NotoSansJP-VF.ttf
 $NOTO_CJK/NotoSansKR-VF.ttf|9e1d729e7e2b36f9ef439da102f8c134c10aabe46f1c843bf0aca5c043b86f76|sources/notocjk/NotoSansKR-VF.ttf
 https://github.com/microsoft/Selawik/releases/download/1.01/Selawik_Release.zip|3f62c51e05e3b5a1e6241cf92a371f0be2ea1183aa87b30718bbd40832a8d423|sources/Selawik_Release.zip
+https://registry.npmjs.org/@fluentui/svg-icons/-/svg-icons-1.1.345.tgz|6610366b1eb5ce4ce70c95d11accbf8858b01ec81c71d31bc6493586ac8cc905|sources/svg-icons-1.1.345.tgz
+https://raw.githubusercontent.com/robloo/SymbolIconManager/8bf48d1ce7f1dd5ff2e1ed48410a62e6cabeacce/Source/IconManager.IconSets/Mappings/SegoeFluent.json|2013ee1390a01cf0384315c65357f2fca3c6f7eb92bcf1904ae9be6e586f2cd7|sources/symboliconmanager/SegoeFluent.json
 "
 
 say() { printf '\033[1m==>\033[0m %s\n' "$*"; }
@@ -108,4 +110,10 @@ if [ ! -f sources/selawik/selawk.ttf ]; then
   say "extract Selawik"
   mkdir -p sources/selawik
   unzip -q -o -j sources/Selawik_Release.zip '*.ttf' -d sources/selawik
+fi
+
+if [ ! -f sources/fluent/package/package.json ]; then
+  say "extract Fluent UI System Icons"
+  mkdir -p sources/fluent
+  tar xzf sources/svg-icons-1.1.345.tgz -C sources/fluent
 fi
