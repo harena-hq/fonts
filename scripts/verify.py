@@ -40,6 +40,7 @@ from fontTools.ttLib.tables import otBase
 from fontTools.varLib.instancer import instantiateVariableFont
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import verify_icons  # noqa: E402
 import verify_j  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -430,7 +431,7 @@ def faces():
     """Check 10: exactly the fifteen files, upright, static, unhinted, with the
     weight and style bits PLAN.md v0.2 gives each. Names are check 6, per face."""
     want = {font_path(*f).name for f in FACES}
-    have = {p.name for p in (ROOT / "dist").glob("*") if p.is_file() and not p.name.startswith("HarenaUIJ-")}
+    have = {p.name for p in (ROOT / "dist").glob("*") if p.is_file() and not p.name.startswith(("HarenaUIJ-", "HarenaUIIcons-"))}
     bad = [f"missing {sorted(want - have)}"] if want - have else []
     bad += [f"unexpected {sorted(have - want)}"] if have - want else []
     for size, w in FACES:
@@ -1395,6 +1396,10 @@ def main():
         for out, bad in pool.map(verify_j.face_j, *zip(*FACES)):
             print("\n".join(out), flush=True)
             failed.extend(bad)
+    for name, ok, detail in verify_icons.checks():
+        print(f"{'PASS' if ok else 'FAIL'} {name}" + (f": {detail}" if detail and not ok else ""), flush=True)
+        if not ok:
+            failed.append(name)
     print("gate:", "FAIL" if failed else "PASS")
     sys.exit(1 if failed else 0)
 
