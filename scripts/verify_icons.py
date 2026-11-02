@@ -21,7 +21,7 @@ from fontTools.ttLib import TTFont
 import build_icons
 from build_icons import ICONS, MAX_LOSS, OUTPUT, PLACEHOLDER, ROOT, compose
 
-EXPECTED_NONE = 7  # PLAN.md lists them
+EXPECTED_NONE = 6  # PLAN.md lists them
 # Excluded from I7: these sit where Fluent put them in the circle, so they align with it, not Segoe's box.
 HOLES_WITH = "F136"
 HOLES = {"error_circle_16_filled", "dismiss_circle_16_filled", "checkmark_circle_16_filled", "info_16_filled"}
@@ -61,6 +61,8 @@ def checks(font_path=OUTPUT):
     yield "I4 metrics are Segoe's", metrics == want, str(metrics)
     extra = sorted(FORBIDDEN & set(font.keys()))
     yield "I4 no layout, hinting or colour table", not extra, str(extra)
+    hinted = [n for n in font.getGlyphOrder() if getattr(font["glyf"][n], "program", None) and font["glyf"][n].program.getBytecode()]
+    yield "I4 no glyph carries instructions", not hinted, str(hinted[:6])
 
     wrongly_blank = [r["points"][0] for r in rows if (r["kind"] == "blank") != (points[r["points"][0]][3] is None)]
     yield "I5 blank exactly where Segoe has no ink", not wrongly_blank, str(wrongly_blank[:6])

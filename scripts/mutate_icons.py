@@ -49,6 +49,10 @@ def layout_table(font):
     font["kern"].kernTables = []
 
 
+def glyph_program(font):
+    font["glyf"][font.getBestCmap()[0xE700]].program.fromBytecode([176, 0, 33])
+
+
 def outline_moves(font):
     name = font.getBestCmap()[0xE700]
     glyph = font["glyf"][name]
@@ -65,6 +69,7 @@ def outline_shrinks(font):
 
 
 FONT_MUTATIONS = [
+    (glyph_program, "I4 no glyph carries instructions"),
     (advance, "I3 advances are Segoe's"), (metric, "I4 metrics are Segoe's"), (typo, "I4 metrics are Segoe's"),
     (drop_point, "I1 cmap is Segoe's"), (split_row, "I2 a row's points share a glyph"),
     (layout_table, "I4 no layout, hinting or colour table"), (outline_moves, "I7 ink lies in Segoe's box"),

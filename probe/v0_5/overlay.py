@@ -4,6 +4,7 @@
 Usage: python probe/v0_5/overlay.py <cdp-http-base> <repo-root-url> <font path under the root> [points.json]
 """
 import base64
+import hashlib
 import json
 import subprocess
 import sys
@@ -39,7 +40,7 @@ def main():
     script = (ROOT / "probe/v0_5/overlay.js").read_text()
     pngs = []
     for start in range(0, len(items), PER_SHEET * BATCH):
-        config = {"font": f"{base}/{font}", "rows": items[start:start + PER_SHEET * BATCH], "perSheet": PER_SHEET}
+        config = {"font": f"{base}/{font}?{hashlib.sha256((ROOT / font).read_bytes()).hexdigest()}", "rows": items[start:start + PER_SHEET * BATCH], "perSheet": PER_SHEET}
         tmp.write_text(f"const CONFIG = {json.dumps(config)};\n" + script)
         res = subprocess.run(["node", str(ROOT / "probe/cdp.mjs"), cdp, f"{base}/probe/page.html", str(tmp), "100"],
                              capture_output=True, text=True, timeout=120, check=True)

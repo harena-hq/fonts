@@ -1,9 +1,15 @@
-// Evaluated in the probe page. CONFIG = { font, url, rows: [{point, icon}] }. How closely this font's
-// glyph draws the SVG it came from: the cosine of the two, inked to 64 px at their own extents.
+// Evaluated in the probe page. CONFIG = { font, faces, symbols, url, rows }. How closely this font's glyph
+// draws what its row asks for, drawn here from the sources: the cosine of the two, inked to 64 px at their
+// own extents. Placement is not compared: the gate checks each glyph against Segoe's box.
+const SYMBOL = { light: 300, regular: 400, bold: 700 };
 (async () => {
   const F = await (await fetch(CONFIG.url)).json();
   const face = new FontFace('Built', `url(${CONFIG.font})`);
   document.fonts.add(await face.load());
+  for (const [weight, url] of Object.entries(CONFIG.faces)) {
+    document.fonts.add(await new FontFace(`Ref-${weight}`, `url(${url})`, { weight: '1 999' }).load());
+  }
+  document.fonts.add(await new FontFace('Ref-symbols', `url(${CONFIG.symbols})`, { weight: '100 900' }).load());
   const [N, M] = [700, 64];
   const big = document.createElement('canvas');
   big.width = big.height = N;
@@ -34,21 +40,82 @@
     for (let i = 0; i < M * M; i++) v[i] /= n;
     return v;
   };
+  const svg = (f, z = f.z, side = 420, x = 40, y = 40) => {
+    b.save();
+    b.transform(side / z, 0, 0, side / z, x, y);
+    b.fill(new Path2D(f.d), f.e ? 'evenodd' : 'nonzero');
+    b.restore();
+  };
+  // The recipes as canvas operations, not the build's outline operations: on a 20 grid, a badge of 11 at
+  // the bottom right, over a circle cleared 1 unit beyond it; the symbol a filled circle knocks out.
+  const compose = (r) => {
+    const u = 420 / 20;
+    svg(F[r.icon]);
+    b.save();
+    b.globalCompositeOperation = 'destination-out';
+    b.beginPath();
+    b.arc(40 + 14.5 * u, 40 + 14.5 * u, 6.5 * u, 0, 2 * Math.PI);
+    b.fill();
+    b.restore();
+    svg(F[r.badge], F[r.badge].z, 11 * u, 40 + 9 * u, 40 + 9 * u);
+  };
+  const holes = (r) => {
+    svg(F[r.icon]);
+    const d = b.getImageData(0, 0, N, N).data;
+    let [x0, x1] = [N, -1];
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (d[(y * N + x) * 4 + 3] > 64) {
+      if (x < x0) x0 = x;
+      if (x > x1) x1 = x;
+    }
+    b.clearRect(0, 0, N, N);
+    b.beginPath();
+    b.arc((x0 + x1 + 1) / 2, 40 + 210, (x1 - x0 + 1) / 2 - 4, 0, 2 * Math.PI);  // short of the rim: no ring of edge pixels
+    b.fill();
+    b.save();
+    b.globalCompositeOperation = 'destination-out';
+    svg(F[r.icon]);
+    b.restore();
+  };
+  // Text by the browser's own fallback: the face where it has the character, Pretendard JP where not.
+  const text = (r, px) => {
+    b.font = `${SYMBOL[r.weight]} ${px}px "Ref-${r.weight}", "Ref-symbols"`;
+    b.fillText(r.text, 40, 460);
+  };
+  const width = (r) => {
+    b.font = `${SYMBOL[r.weight]} 420px "Ref-${r.weight}", "Ref-symbols"`;
+    return b.measureText(r.text).width;
+  };
+  const paint = (r) => {
+    if (r.kind === 'mirror') {
+      b.save();
+      b.transform(-1, 0, 0, 1, N, 0);
+      paint(r.of);
+      b.restore();
+    } else if (r.kind === 'compose') compose(r);
+    else if (r.kind === 'holes') holes(r);
+    else if (r.kind === 'text') text(r, 420 * Math.min(1, 620 / width(r)));
+    else if (r.rotate) {  // a quarter turn counterclockwise, about the centre of the drawing's square
+      b.save();
+      b.transform(0, -1, 1, 0, 0, 500);
+      svg(F[r.icon]);
+      b.restore();
+    } else svg(F[r.icon]);
+  };
   const out = {};
   for (const r of CONFIG.rows) {
     b.setTransform(1, 0, 0, 1, 0, 0);
     b.clearRect(0, 0, N, N);
     b.font = '420px "Built"';
-    b.fillText(String.fromCodePoint(parseInt(r.point, 16)), 40, 460);
+    const ch = String.fromCodePoint(parseInt(r.point, 16));
+    const px = 420 * Math.min(1, 620 / b.measureText(ch).width);
+    b.font = `${px}px "Built"`;
+    b.fillText(ch, 40, 460);
     const v = vector();
-    const f = F[r.icon];
     b.clearRect(0, 0, N, N);
-    const k = 420 / f.z;
-    b.setTransform(k, 0, 0, k, 40, 40);
-    b.fill(new Path2D(f.d), f.e ? 'evenodd' : 'nonzero');
+    paint(r);
     const w = vector();
     let t = 0;
-    for (let i = 0; i < M * M; i++) t += v[i] * w[i];
+    if (v && w) for (let i = 0; i < M * M; i++) t += v[i] * w[i];
     out[r.point] = +t.toFixed(4);
   }
   return out;
