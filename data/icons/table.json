@@ -47,9 +47,9 @@
 "E0A6", "E0C4", "E0D5", "E112", "E72B", "F0D3"
 ], "stem": "arrow_left"}, {"by": "seed", "icon": "arrow_right_16_regular", "kind": "fluent", "name": "Forward", "points": [
 "E0AB", "E0AD", "E0AE", "E111", "E72A", "F0D2"
-], "stem": "arrow_right"}, {"by": "seed", "icon": "subtract_16_filled", "kind": "fluent", "name": "SemanticZoom", "points": [
+], "stem": "arrow_right"}, {"by": "meaning", "icon": "zoom_out_16_regular", "kind": "fluent", "name": "SemanticZoom", "points": [
 "E0B8", "E833"
-], "stem": "subtract"}, {"by": "seed", "icon": "previous_16_regular", "kind": "fluent", "name": "Previous", "points": [
+], "stem": "zoom_out", "style": "regular"}, {"by": "seed", "icon": "previous_16_regular", "kind": "fluent", "name": "Previous", "points": [
 "E100", "E892"
 ], "stem": "previous"}, {"by": "seed", "icon": "next_16_regular", "kind": "fluent", "name": "Next", "points": [
 "E101", "E893"
@@ -101,9 +101,9 @@
 "E11D", "E899"
 ], "stem": "emoji_laugh"}, {"by": "seed", "icon": "book_open_16_regular", "kind": "fluent", "name": "TwoPage", "points": [
 "E11E", "E89A"
-], "stem": "book_open"}, {"by": "seed", "icon": "chat_arrow_back_16_regular", "kind": "fluent", "name": "LeaveChat", "points": [
+], "stem": "book_open"}, {"badge": "arrow_circle_left", "base": "chat", "by": "meaning", "icon": "chat_20_regular", "kind": "compose", "name": "LeaveChat", "points": [
 "E11F", "E89B"
-], "stem": "chat_arrow_back"}, {"by": "seed", "icon": "mail_arrow_forward_16_regular", "kind": "fluent", "name": "MailForward", "points": [
+]}, {"by": "seed", "icon": "mail_arrow_forward_16_regular", "kind": "fluent", "name": "MailForward", "points": [
 "E120", "E89C"
 ], "stem": "mail_arrow_forward"}, {"by": "seed", "icon": "clock_16_regular", "kind": "fluent", "name": "Recent", "points": [
 "E121", "E2AD", "E823", "E917"
@@ -129,9 +129,9 @@
 "E12B", "E774"
 ], "stem": "globe"}, {"by": "review", "icon": "cut_16_regular", "kind": "fluent", "name": "Trim", "points": [
 "E12C", "E78A"
-], "stem": "cut"}, {"by": "seed", "icon": "camera_16_regular", "kind": "fluent", "name": "AttachCamera", "points": [
+], "stem": "cut"}, {"by": "meaning", "icon": "camera_add_20_regular", "kind": "fluent", "name": "AttachCamera", "points": [
 "E12D", "E8A2"
-], "stem": "camera"}, {"by": "seed", "icon": "zoom_in_16_regular", "kind": "fluent", "name": "ZoomIn", "points": [
+], "stem": "camera_add", "style": "regular"}, {"by": "seed", "icon": "zoom_in_16_regular", "kind": "fluent", "name": "ZoomIn", "points": [
 "E12E", "E8A3"
 ], "stem": "zoom_in"}, {"by": "seed", "icon": "text_bullet_list_ltr_16_regular", "kind": "fluent", "name": "Bookmarks", "points": [
 "E12F", "E8A4"
@@ -201,9 +201,9 @@
 "E14F", "E8B4"
 ], "stem": "orientation"}, {"by": "seed", "icon": "arrow_import_16_regular", "kind": "fluent", "name": "Import", "points": [
 "E150", "E8B5"
-], "stem": "arrow_import"}, {"by": "seed", "icon": "chevron_double_right_16_regular", "kind": "fluent", "name": "ImportAll", "points": [
+], "stem": "arrow_import"}, {"by": "meaning", "icon": "arrow_import_16_regular", "kind": "fluent", "name": "ImportAll", "points": [
 "E151", "E8B6"
-], "stem": "chevron_double_right"}, {"by": "pick", "icon": "grid_16_regular", "kind": "fluent", "points": [
+], "stem": "arrow_import", "style": "regular"}, {"by": "pick", "icon": "grid_16_regular", "kind": "fluent", "points": [
 "E152"
 ], "stem": "grid"}, {"by": "rule", "icon": "square_16_regular", "kind": "fluent", "near": true, "points": [
 "E153"
@@ -213,9 +213,9 @@
 "E156", "E8B8"
 ], "stem": "video_person"}, {"by": "seed", "icon": "image_multiple_16_regular", "kind": "fluent", "name": "PhotoCollection", "points": [
 "E158", "E7AA", "E8B9"
-], "stem": "image_multiple"}, {"by": "seed", "icon": "save_arrow_right_20_regular", "kind": "fluent", "name": "SaveLocal", "points": [
+], "stem": "image_multiple"}, {"badge": "arrow_download", "base": "save", "by": "meaning", "icon": "save_20_regular", "kind": "compose", "name": "SaveLocal", "points": [
 "E159", "E78C"
-], "stem": "save_arrow_right"}, {"by": "seed", "icon": "image_16_regular", "kind": "fluent", "name": "Caption", "points": [
+]}, {"by": "seed", "icon": "image_16_regular", "kind": "fluent", "name": "Caption", "points": [
 "E15A", "E8BA"
 ], "stem": "image"}, {"by": "seed", "icon": "stop_16_regular", "kind": "fluent", "name": "Stop", "points": [
 "E15B", "E71A"
@@ -233,9 +233,9 @@
 "E162", "E8C0"
 ], "stem": "calendar_work_week"}, {"by": "seed", "icon": "calendar_ltr_16_regular", "kind": "fluent", "name": "Calendar", "points": [
 "E163", "E787"
-], "stem": "calendar_ltr"}, {"by": "seed", "icon": "text_font_16_regular", "kind": "fluent", "name": "Characters", "points": [
+], "stem": "calendar_ltr"}, {"by": "meaning", "icon": "local_language_16_regular", "kind": "fluent", "name": "Characters", "points": [
 "E164", "E8C1"
-], "stem": "text_font"}, {"by": "seed", "icon": "mail_arrow_double_back_16_regular", "kind": "fluent", "name": "MailReplyAll", "points": [
+], "stem": "local_language", "style": "regular"}, {"by": "seed", "icon": "mail_arrow_double_back_16_regular", "kind": "fluent", "name": "MailReplyAll", "points": [
 "E165", "E8C2"
 ], "stem": "mail_arrow_double_back"}, {"by": "seed", "icon": "mail_read_16_regular", "kind": "fluent", "name": "Read", "points": [
 "E166", "E8C3"
@@ -261,21 +261,21 @@
 "E170", "E76E"
 ], "stem": "emoji"}, {"by": "seed", "icon": "important_16_regular", "kind": "fluent", "name": "Important", "points": [
 "E171", "E8C9"
-], "stem": "important"}, {"by": "review", "icon": "arrow_reply_16_filled", "kind": "fluent", "name": "MailReply", "points": [
+], "stem": "important"}, {"badge": "arrow_reply", "base": "mail", "by": "meaning", "icon": "mail_20_regular", "kind": "compose", "name": "MailReply", "points": [
 "E172", "E8CA"
-], "stem": "arrow_reply"}, {"by": "seed", "icon": "slide_play_20_regular", "kind": "fluent", "name": "Slideshow", "points": [
+]}, {"by": "seed", "icon": "slide_play_20_regular", "kind": "fluent", "name": "Slideshow", "points": [
 "E173", "E29B", "E786"
 ], "stem": "slide_play"}, {"by": "seed", "icon": "arrow_sort_16_regular", "kind": "fluent", "name": "Sort", "points": [
 "E174", "E8CB"
 ], "stem": "arrow_sort"}, {"by": "code", "kind": "mirror", "name": "ListMirrored", "of": "E14C", "points": [
 "E175", "EA55"
-]}, {"by": "seed", "icon": "toolbox_16_regular", "kind": "fluent", "name": "Manage", "points": [
+]}, {"by": "meaning", "icon": "window_wrench_16_regular", "kind": "fluent", "name": "Manage", "points": [
 "E178", "E912"
-], "stem": "toolbox"}, {"by": "seed", "icon": "apps_list_20_regular", "kind": "fluent", "name": "AllApps", "points": [
+], "stem": "window_wrench", "style": "regular"}, {"by": "seed", "icon": "apps_list_20_regular", "kind": "fluent", "name": "AllApps", "points": [
 "E179", "E71D"
-], "stem": "apps_list"}, {"by": "seed", "icon": "plug_disconnected_16_regular", "kind": "fluent", "name": "DisconnectDrive", "points": [
+], "stem": "apps_list"}, {"by": "meaning", "icon": "hard_drive_16_regular", "kind": "fluent", "name": "DisconnectDrive", "near": true, "points": [
 "E17A", "E8CD"
-], "stem": "plug_disconnected"}, {"by": "seed", "icon": "map_drive_16_regular", "kind": "fluent", "name": "MapDrive", "points": [
+], "stem": "hard_drive"}, {"by": "seed", "icon": "map_drive_16_regular", "kind": "fluent", "name": "MapDrive", "points": [
 "E17B", "E8CE"
 ], "stem": "map_drive"}, {"by": "seed", "icon": "window_new_16_regular", "kind": "fluent", "name": "NewWindow", "points": [
 "E17C", "E78B"
@@ -283,9 +283,9 @@
 "E17D", "E7AC"
 ], "stem": "open"}, {"by": "seed", "icon": "person_available_16_regular", "kind": "fluent", "name": "ContactPresence", "points": [
 "E181", "E8CF"
-], "stem": "person_available"}, {"by": "seed", "icon": "important_16_regular", "kind": "fluent", "name": "Priority", "points": [
+], "stem": "person_available"}, {"by": "meaning", "icon": "arrow_down_exclamation_16_regular", "kind": "fluent", "name": "Priority", "points": [
 "E182", "E8D0"
-], "stem": "important"}, {"by": "seed", "icon": "calendar_today_16_regular", "kind": "fluent", "name": "GotoToday", "points": [
+], "stem": "arrow_down_exclamation", "style": "regular"}, {"by": "seed", "icon": "calendar_today_16_regular", "kind": "fluent", "name": "GotoToday", "points": [
 "E184", "E8D1"
 ], "stem": "calendar_today"}, {"by": "seed", "icon": "text_font_16_regular", "kind": "fluent", "name": "Font", "points": [
 "E185", "E8D2"
@@ -299,11 +299,11 @@
 "E189", "E8D6"
 ], "stem": "music_note_2"}, {"by": "seed", "icon": "diamond_16_regular", "kind": "fluent", "points": [
 "E18A"
-], "stem": "diamond"}, {"by": "seed", "icon": "lock_closed_16_regular", "kind": "fluent", "name": "SetlockScreen", "points": [
+], "stem": "diamond"}, {"by": "meaning", "icon": "phone_lock_20_regular", "kind": "fluent", "name": "SetlockScreen", "points": [
 "E18C", "E7B5"
-], "stem": "lock_closed"}, {"by": "seed", "icon": "arrow_up_16_regular", "kind": "fluent", "name": "SetTile", "points": [
+], "stem": "phone_lock", "style": "regular"}, {"by": "meaning", "icon": "pin_16_regular", "kind": "fluent", "name": "SetTile", "points": [
 "E18D", "E97B"
-], "stem": "arrow_up"}, {"by": "pick", "kind": "text", "points": [
+], "stem": "pin", "style": "regular"}, {"by": "pick", "kind": "text", "points": [
 "E18E"
 ], "text": "字", "weight": "light"}, {"by": "review", "icon": "subtitles_16_regular", "kind": "fluent", "name": "Subtitles", "points": [
 "E18F", "ED1E", "F15F"
@@ -317,13 +317,13 @@
 "E193", "E7E6"
 ], "stem": "highlight"}, {"by": "seed", "icon": "arrow_sync_off_16_regular", "kind": "fluent", "name": "DisableUpdates", "points": [
 "E194", "E8D8"
-], "stem": "arrow_sync_off"}, {"by": "seed", "icon": "star_off_16_regular", "kind": "fluent", "name": "UnfavoriteStarSolid", "points": [
+], "stem": "arrow_sync_off"}, {"by": "seed", "icon": "star_off_16_filled", "kind": "fluent", "name": "UnfavoriteStarSolid", "points": [
 "E195", "E8D9"
 ], "stem": "star_off", "style": "filled"}, {"by": "seed", "icon": "pin_off_16_regular", "kind": "fluent", "name": "Unpin", "points": [
 "E196", "E77A"
-], "stem": "pin_off"}, {"by": "seed", "icon": "folder_arrow_up_16_regular", "kind": "fluent", "name": "OpenLocal", "points": [
+], "stem": "pin_off"}, {"by": "meaning", "icon": "folder_open_16_regular", "kind": "fluent", "name": "OpenLocal", "points": [
 "E197", "E8DA"
-], "stem": "folder_arrow_up"}, {"by": "seed", "icon": "speaker_mute_16_regular", "kind": "fluent", "name": "Mute", "points": [
+], "stem": "folder_open", "style": "regular"}, {"by": "seed", "icon": "speaker_mute_16_regular", "kind": "fluent", "name": "Mute", "points": [
 "E198", "E74F"
 ], "stem": "speaker_mute"}, {"by": "seed", "icon": "text_italic_16_regular", "kind": "fluent", "name": "Italic", "points": [
 "E199", "E1B6", "E8DB"
@@ -349,11 +349,11 @@
 "E1A3", "E71E"
 ], "stem": "search"}, {"by": "seed", "icon": "zoom_out_16_regular", "kind": "fluent", "name": "ZoomOut", "points": [
 "E1A4", "E71F"
-], "stem": "zoom_out"}, {"by": "seed", "icon": "document_arrow_right_16_regular", "kind": "fluent", "name": "OpenFile", "points": [
+], "stem": "zoom_out"}, {"by": "meaning", "icon": "open_16_regular", "kind": "fluent", "name": "OpenFile", "points": [
 "E1A5", "E8E5"
-], "stem": "document_arrow_right"}, {"by": "seed", "icon": "person_circle_16_regular", "kind": "fluent", "name": "OtherUser", "points": [
+], "stem": "open", "style": "regular"}, {"by": "meaning", "icon": "person_swap_16_regular", "kind": "fluent", "name": "OtherUser", "points": [
 "E1A6", "E7EE"
-], "stem": "person_circle"}, {"by": "seed", "icon": "window_shield_16_regular", "kind": "fluent", "name": "Admin", "points": [
+], "stem": "person_swap", "style": "regular"}, {"by": "seed", "icon": "window_shield_16_regular", "kind": "fluent", "name": "Admin", "points": [
 "E1A7", "E7EF", "EA0D"
 ], "stem": "window_shield"}, {"by": "code", "kind": "mirror", "name": "MailForwardMirrored", "of": "E120", "points": [
 "E1A8", "EA56"
@@ -363,9 +363,9 @@
 "E1AD", "EA52"
 ]}, {"by": "code", "kind": "mirror", "name": "ImportAllMirrored", "of": "E151", "points": [
 "E1AE", "EA53"
-]}, {"by": "code", "kind": "mirror", "name": "MailReplyMirrored", "of": "E172", "points": [
+]}, {"by": "meaning", "icon": "arrow_forward_16_regular", "kind": "fluent", "name": "MailReplyMirrored", "points": [
 "E1AF", "EA57"
-]}, {"by": "pick", "kind": "text", "points": [
+], "stem": "arrow_forward", "style": "regular"}, {"by": "pick", "kind": "text", "points": [
 "E1B0"
 ], "text": "C", "weight": "light"}, {"by": "pick", "kind": "text", "points": [
 "E1B1"
@@ -397,9 +397,9 @@
 "E1C0"
 ], "stem": "panel_left_expand"}, {"by": "code", "kind": "mirror", "name": "EditMirrored", "of": "E104", "points": [
 "E1C2", "EB7E"
-]}, {"by": "seed", "icon": "building_16_regular", "kind": "fluent", "name": "Street", "points": [
+]}, {"by": "meaning", "icon": "street_home_20_regular", "kind": "fluent", "name": "Street", "points": [
 "E1C3", "E913"
-], "stem": "building"}, {"by": "review", "icon": "map_pin_20_regular", "kind": "fluent", "name": "MapPin", "points": [
+], "stem": "street_home", "style": "regular"}, {"by": "review", "icon": "map_pin_20_regular", "kind": "fluent", "name": "MapPin", "points": [
 "E1C4", "E707"
 ], "stem": "map_pin"}, {"by": "review", "icon": "square_hint_arrow_back_16_regular", "kind": "fluent", "name": "ClearSelection", "points": [
 "E1C5", "E8E6"
@@ -411,9 +411,9 @@
 "E1C8", "E8E9"
 ], "stem": "text_font_size"}, {"by": "seed", "icon": "phone_16_regular", "kind": "fluent", "name": "CellPhone", "points": [
 "E1C9", "E25A", "E8EA"
-], "stem": "phone"}, {"by": "seed", "icon": "arrow_sync_16_regular", "kind": "fluent", "name": "Reshare", "points": [
+], "stem": "phone"}, {"by": "meaning", "icon": "share_16_regular", "kind": "fluent", "name": "Reshare", "points": [
 "E1CA", "E8EB"
-], "stem": "arrow_sync"}, {"by": "seed", "icon": "tag_16_regular", "kind": "fluent", "name": "Tag", "points": [
+], "stem": "share", "style": "regular"}, {"by": "seed", "icon": "tag_16_regular", "kind": "fluent", "name": "Tag", "points": [
 "E1CB", "E8EC"
 ], "stem": "tag"}, {"by": "seed", "icon": "arrow_repeat_1_16_regular", "kind": "fluent", "name": "RepeatOne", "points": [
 "E1CC", "E8ED"
@@ -447,9 +447,9 @@
 "E1DB", "E8F5"
 ], "stem": "calendar_reply"}, {"by": "code", "kind": "mirror", "name": "CalendarMirrored", "of": "E163", "points": [
 "E1DC", "ED28"
-]}, {"by": "seed", "icon": "folder_prohibited_16_regular", "kind": "fluent", "name": "UnsyncFolder", "points": [
+]}, {"badge": "arrow_sync_off", "base": "folder", "by": "meaning", "icon": "folder_20_regular", "kind": "compose", "name": "UnsyncFolder", "points": [
 "E1DD", "E8F6"
-], "stem": "folder_prohibited"}, {"by": "seed", "icon": "shield_error_16_regular", "kind": "fluent", "name": "ReportHacked", "points": [
+]}, {"by": "seed", "icon": "shield_error_16_regular", "kind": "fluent", "name": "ReportHacked", "points": [
 "E1DE", "E730"
 ], "stem": "shield_error"}, {"by": "seed", "icon": "folder_sync_16_regular", "kind": "fluent", "name": "SyncFolder", "points": [
 "E1DF", "E8F7"
@@ -463,17 +463,17 @@
 "E1E3", "E7C9"
 ], "stem": "tap_single"}, {"by": "seed", "icon": "grid_dots_16_regular", "kind": "fluent", "name": "GoToStart", "points": [
 "E1E4", "E8FC"
-], "stem": "grid_dots"}, {"by": "review", "icon": "cellular_data_1_20_filled", "kind": "fluent", "name": "ZeroBars", "points": [
+], "stem": "grid_dots"}, {"by": "meaning", "icon": "cellular_off_20_regular", "kind": "fluent", "name": "ZeroBars", "points": [
 "E1E5", "E904"
-], "stem": "cellular_data_1"}, {"by": "seed", "icon": "cellular_data_4_20_filled", "kind": "fluent", "name": "OneBar", "points": [
+], "stem": "cellular_off", "style": "regular"}, {"by": "meaning", "icon": "cellular_data_5_20_filled", "kind": "fluent", "name": "OneBar", "points": [
 "E1E6", "E905"
-], "stem": "cellular_data_4"}, {"by": "seed", "icon": "cellular_data_3_20_filled", "kind": "fluent", "name": "TwoBars", "points": [
+], "stem": "cellular_data_5", "style": "filled"}, {"by": "meaning", "icon": "cellular_data_4_20_filled", "kind": "fluent", "name": "TwoBars", "points": [
 "E1E7", "E906"
-], "stem": "cellular_data_3"}, {"by": "seed", "icon": "cellular_data_2_20_filled", "kind": "fluent", "name": "ThreeBars", "points": [
+], "stem": "cellular_data_4", "style": "filled"}, {"by": "meaning", "icon": "cellular_data_3_20_filled", "kind": "fluent", "name": "ThreeBars", "points": [
 "E1E8", "E907"
-], "stem": "cellular_data_2"}, {"by": "seed", "icon": "cellular_data_1_20_filled", "kind": "fluent", "name": "FourBars", "points": [
+], "stem": "cellular_data_3", "style": "filled"}, {"by": "meaning", "icon": "cellular_data_2_20_filled", "kind": "fluent", "name": "FourBars", "points": [
 "E1E9", "E908"
-], "stem": "cellular_data_1"}, {"by": "code", "kind": "mirror", "name": "AllAppsMirrored", "of": "E179", "points": [
+], "stem": "cellular_data_2", "style": "filled"}, {"by": "code", "kind": "mirror", "name": "AllAppsMirrored", "of": "E179", "points": [
 "E1EC", "EA40"
 ]}, {"by": "code", "kind": "mirror", "name": "OpenWithMirrored", "of": "E17D", "points": [
 "E1ED", "EA5C"
@@ -525,9 +525,9 @@
 "E291"
 ], "stem": "text_indent_increase_ltr"}, {"by": "seed", "icon": "text_bullet_list_ltr_16_regular", "kind": "fluent", "name": "BulletedList", "points": [
 "E292", "E8FD"
-], "stem": "text_bullet_list_ltr"}, {"by": "seed", "icon": "scan_16_regular", "kind": "fluent", "name": "Scan", "points": [
+], "stem": "text_bullet_list_ltr"}, {"by": "meaning", "icon": "scan_dash_16_regular", "kind": "fluent", "name": "Scan", "points": [
 "E294", "E8FE"
-], "stem": "scan"}, {"by": "seed", "icon": "scan_dash_16_regular", "kind": "fluent", "name": "Preview", "points": [
+], "stem": "scan_dash", "style": "regular"}, {"by": "seed", "icon": "scan_dash_16_regular", "kind": "fluent", "name": "Preview", "points": [
 "E295", "E8FF"
 ], "stem": "scan_dash"}, {"by": "review", "icon": "text_indent_increase_ltr_16_regular", "kind": "fluent", "points": [
 "E297"
@@ -549,11 +549,11 @@
 "E2B4", "E8A7"
 ], "stem": "open"}, {"by": "seed", "icon": "print_16_regular", "kind": "fluent", "name": "Print", "points": [
 "E2F6", "E749"
-], "stem": "print"}, {"by": "pick", "icon": "print_16_regular", "kind": "fluent", "name": "Printer3D", "near": true, "points": [
+], "stem": "print"}, {"badge": "cube", "base": "print", "by": "meaning", "icon": "print_20_regular", "kind": "compose", "name": "Printer3D", "points": [
 "E2F7", "E914"
-], "stem": "print"}, {"by": "rule", "icon": "window_arrow_up_16_regular", "kind": "fluent", "near": true, "points": [
+]}, {"badge": "arrow_sync_circle", "base": "web_asset", "by": "meaning", "icon": "web_asset_20_regular", "kind": "compose", "points": [
 "E320"
-], "stem": "window_arrow_up"}, {"by": "rule", "icon": "chat_16_regular", "kind": "fluent", "near": true, "points": [
+]}, {"by": "rule", "icon": "chat_16_regular", "kind": "fluent", "near": true, "points": [
 "E34B"
 ], "stem": "chat"}, {"by": "review", "icon": "video_person_sparkle_16_regular", "kind": "fluent", "points": [
 "E34D"
@@ -565,9 +565,9 @@
 "E37A"
 ], "stem": "location_arrow"}, {"by": "pick", "icon": "cursor_16_regular", "kind": "fluent", "name": "Click", "points": [
 "E3B3", "E8B0"
-], "stem": "cursor"}, {"by": "rule", "icon": "keyboard_off_16_regular", "kind": "fluent", "near": true, "points": [
+], "stem": "cursor"}, {"badge": "arrow_sync_circle", "base": "keyboard", "by": "meaning", "icon": "keyboard_20_regular", "kind": "compose", "points": [
 "E3BA"
-], "stem": "keyboard_off"}, {"by": "rule", "icon": "keyboard_16_regular", "kind": "fluent", "near": true, "points": [
+]}, {"by": "rule", "icon": "keyboard_16_regular", "kind": "fluent", "near": true, "points": [
 "E3BB"
 ], "stem": "keyboard"}, {"by": "pick", "icon": "badge_20_regular", "kind": "fluent", "points": [
 "E3BC"
@@ -595,9 +595,9 @@
 "E3CB"
 ]}, {"by": "agreed", "icon": "keyboard_shift_uppercase_16_regular", "kind": "fluent", "name": "UpArrowShiftKey", "points": [
 "E3D7", "E752"
-], "stem": "keyboard_shift_uppercase"}, {"by": "rule", "icon": "home_16_regular", "kind": "fluent", "near": true, "points": [
+], "stem": "keyboard_shift_uppercase"}, {"badge": "lock_closed", "base": "keyboard_shift", "by": "meaning", "icon": "keyboard_shift_20_regular", "kind": "compose", "points": [
 "E3D8"
-], "stem": "home"}, {"by": "rule", "icon": "usb_plug_20_regular", "kind": "fluent", "near": true, "points": [
+]}, {"by": "rule", "icon": "usb_plug_20_regular", "kind": "fluent", "near": true, "points": [
 "E407"
 ], "stem": "usb_plug"}, {"badge": "dismiss", "base": "battery_0", "by": "rule", "icon": "battery_0_20_regular", "kind": "compose", "points": [
 "E408"
@@ -623,23 +623,23 @@
 "E412"
 ]}, {"badge": "warning", "base": "battery_0", "by": "rule", "icon": "battery_0_20_regular", "kind": "compose", "points": [
 "E413"
-]}, {"badge": "warning", "base": "battery_1", "by": "rule", "icon": "battery_1_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_1", "by": "meaning", "icon": "battery_1_20_regular", "kind": "compose", "points": [
 "E414"
-]}, {"badge": "warning", "base": "battery_2", "by": "rule", "icon": "battery_2_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_2", "by": "meaning", "icon": "battery_2_20_regular", "kind": "compose", "points": [
 "E415"
-]}, {"badge": "warning", "base": "battery_3", "by": "rule", "icon": "battery_3_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_3", "by": "meaning", "icon": "battery_3_20_regular", "kind": "compose", "points": [
 "E416"
-]}, {"badge": "warning", "base": "battery_4", "by": "rule", "icon": "battery_4_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_4", "by": "meaning", "icon": "battery_4_20_regular", "kind": "compose", "points": [
 "E417"
-]}, {"badge": "warning", "base": "battery_5", "by": "rule", "icon": "battery_5_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_5", "by": "meaning", "icon": "battery_5_20_regular", "kind": "compose", "points": [
 "E418"
-]}, {"badge": "warning", "base": "battery_6", "by": "rule", "icon": "battery_6_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_6", "by": "meaning", "icon": "battery_6_20_regular", "kind": "compose", "points": [
 "E419"
-]}, {"badge": "warning", "base": "battery_7", "by": "rule", "icon": "battery_7_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_7", "by": "meaning", "icon": "battery_7_20_regular", "kind": "compose", "points": [
 "E41A"
-]}, {"badge": "warning", "base": "battery_8", "by": "rule", "icon": "battery_8_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_8", "by": "meaning", "icon": "battery_8_20_regular", "kind": "compose", "points": [
 "E41B"
-]}, {"badge": "warning", "base": "battery_9", "by": "rule", "icon": "battery_9_20_regular", "kind": "compose", "points": [
+]}, {"badge": "warning", "base": "battery_9", "by": "meaning", "icon": "battery_9_20_regular", "kind": "compose", "points": [
 "E41C"
 ]}, {"badge": "warning", "base": "battery_10", "by": "rule", "icon": "battery_10_20_regular", "kind": "compose", "points": [
 "E41D"
@@ -673,13 +673,13 @@
 "E496"
 ], "stem": "receipt"}, {"by": "pick", "icon": "cursor_hover_16_regular", "kind": "fluent", "points": [
 "E4AD"
-], "stem": "cursor_hover"}, {"by": "rule", "kind": "none", "points": [
+], "stem": "cursor_hover"}, {"by": "meaning", "kind": "none", "points": [
 "E4E8"
 ]}, {"by": "pick", "icon": "arrow_previous_16_regular", "kind": "fluent", "points": [
 "E5B0"
 ], "stem": "arrow_previous"}, {"by": "pick", "icon": "arrow_next_16_regular", "kind": "fluent", "points": [
 "E5B1"
-], "stem": "arrow_next"}, {"by": "rule", "kind": "none", "points": [
+], "stem": "arrow_next"}, {"by": "meaning", "kind": "none", "points": [
 "E614"
 ]}, {"by": "pick", "kind": "text", "points": [
 "E615"
@@ -757,15 +757,15 @@
 "E66A"
 ], "stem": "rectangle_landscape_line_horizontal"}, {"by": "pick", "icon": "panel_bottom_20_regular", "kind": "fluent", "points": [
 "E66B"
-], "stem": "panel_bottom"}, {"by": "rule", "icon": "square_16_regular", "kind": "fluent", "near": true, "points": [
+], "stem": "panel_bottom"}, {"by": "meaning", "icon": "checkbox_indeterminate_16_regular", "kind": "fluent", "points": [
 "E66C"
-], "stem": "square"}, {"by": "pick", "icon": "person_voice_16_regular", "kind": "fluent", "points": [
+], "stem": "checkbox_indeterminate", "style": "regular"}, {"by": "pick", "icon": "person_voice_16_regular", "kind": "fluent", "points": [
 "E66D"
-], "stem": "person_voice"}, {"by": "rule", "icon": "wifi_4_20_filled", "kind": "fluent", "near": true, "points": [
+], "stem": "person_voice"}, {"by": "meaning", "icon": "wifi_lock_20_regular", "kind": "fluent", "points": [
 "E670"
-], "stem": "wifi_4"}, {"by": "rule", "icon": "wifi_3_20_filled", "kind": "fluent", "near": true, "points": [
+], "stem": "wifi_lock", "style": "regular"}, {"by": "meaning", "icon": "wifi_lock_20_regular", "kind": "fluent", "points": [
 "E671"
-], "stem": "wifi_3"}, {"by": "review", "icon": "wifi_lock_20_regular", "kind": "fluent", "points": [
+], "stem": "wifi_lock", "style": "regular"}, {"by": "review", "icon": "wifi_lock_20_regular", "kind": "fluent", "points": [
 "E672"
 ], "stem": "wifi_lock"}, {"by": "review", "icon": "wifi_lock_20_regular", "kind": "fluent", "points": [
 "E673"
@@ -777,9 +777,9 @@
 "E678"
 ], "stem": "camera_off"}, {"by": "rule", "icon": "text_bullet_list_16_regular", "kind": "fluent", "near": true, "points": [
 "E679"
-], "stem": "text_bullet_list"}, {"by": "rule", "icon": "developer_board_16_regular", "kind": "fluent", "near": true, "points": [
+], "stem": "text_bullet_list"}, {"badge": "arrow_sync_circle", "base": "developer_board", "by": "meaning", "icon": "developer_board_20_regular", "kind": "compose", "points": [
 "E67A"
-], "stem": "developer_board"}, {"by": "seed", "icon": "navigation_16_regular", "kind": "fluent", "name": "GlobalNavButton", "points": [
+]}, {"by": "seed", "icon": "navigation_16_regular", "kind": "fluent", "name": "GlobalNavButton", "points": [
 "E700"
 ], "stem": "navigation"}, {"by": "agreed", "icon": "wifi_1_20_regular", "kind": "fluent", "name": "Wifi", "points": [
 "E701", "EC3F"
@@ -801,9 +801,9 @@
 "E70A"
 ], "stem": "tablet"}, {"by": "agreed", "icon": "note_16_regular", "kind": "fluent", "name": "QuickNote", "points": [
 "E70B"
-], "stem": "note"}, {"by": "rule", "icon": "phone_laptop_16_regular", "kind": "fluent", "name": "RememberedDevice", "near": true, "points": [
+], "stem": "note"}, {"badge": "star", "base": "phone_laptop", "by": "meaning", "icon": "phone_laptop_20_regular", "kind": "compose", "name": "RememberedDevice", "points": [
 "E70C"
-], "stem": "phone_laptop"}, {"by": "agreed", "icon": "send_16_filled", "kind": "fluent", "name": "SendFill", "points": [
+]}, {"by": "agreed", "icon": "send_16_filled", "kind": "fluent", "name": "SendFill", "points": [
 "E725"
 ], "stem": "send"}, {"by": "pick", "icon": "person_walking_16_filled", "kind": "fluent", "name": "WalkSolid", "points": [
 "E726"
@@ -845,9 +845,9 @@
 "E753"
 ], "stem": "cloud"}, {"by": "pick", "icon": "flashlight_16_regular", "kind": "fluent", "name": "Flashlight", "points": [
 "E754"
-], "stem": "flashlight"}, {"by": "rule", "icon": "lock_closed_16_regular", "kind": "fluent", "name": "RotationLock", "near": true, "points": [
+], "stem": "flashlight"}, {"badge": "arrow_sync_circle", "base": "lock_closed", "by": "meaning", "icon": "lock_closed_20_regular", "kind": "compose", "name": "RotationLock", "points": [
 "E755"
-], "stem": "lock_closed"}, {"by": "pick", "icon": "window_console_20_regular", "kind": "fluent", "name": "CommandPrompt", "points": [
+]}, {"by": "pick", "icon": "window_console_20_regular", "kind": "fluent", "name": "CommandPrompt", "points": [
 "E756"
 ], "stem": "window_console"}, {"by": "pick", "icon": "arrow_move_20_regular", "kind": "fluent", "name": "SIPMove", "points": [
 "E759"
@@ -899,9 +899,9 @@
 "E788"
 ], "stem": "caret_down_right"}, {"by": "agreed", "icon": "megaphone_16_regular", "kind": "fluent", "name": "Megaphone", "points": [
 "E789"
-], "stem": "megaphone"}, {"by": "rule", "icon": "data_pie_16_regular", "kind": "fluent", "name": "DataSense", "near": true, "points": [
+], "stem": "megaphone"}, {"by": "meaning", "icon": "data_usage_16_regular", "kind": "fluent", "name": "DataSense", "points": [
 "E791"
-], "stem": "data_pie"}, {"by": "pick", "icon": "brightness_high_16_filled", "kind": "fluent", "name": "Light", "points": [
+], "stem": "data_usage", "style": "regular"}, {"by": "pick", "icon": "brightness_high_16_filled", "kind": "fluent", "name": "Light", "points": [
 "E793"
 ], "stem": "brightness_high"}, {"by": "pick", "icon": "sparkle_16_regular", "kind": "fluent", "name": "Effects", "points": [
 "E794"
@@ -931,7 +931,7 @@
 "E7C6"
 ], "stem": "star_half"}, {"by": "review", "kind": "mirror", "name": "HalfStarRight", "of": "E7C6", "points": [
 "E7C7"
-]}, {"by": "review", "kind": "text", "name": "LangJPN", "points": [
+]}, {"by": "meaning", "kind": "text", "name": "LangJPN", "points": [
 "E7DE"
 ], "text": "日", "weight": "regular"}, {"by": "agreed", "icon": "vehicle_ship_16_regular", "kind": "fluent", "name": "Ferry", "points": [
 "E7E3"
@@ -959,7 +959,7 @@
 "E7F5"
 ], "stem": "speaker_box"}, {"by": "agreed", "icon": "headphones_16_regular", "kind": "fluent", "name": "Headphone", "points": [
 "E7F6"
-], "stem": "headphones"}, {"by": "agreed", "icon": "laptop_16_regular", "kind": "fluent", "name": "DeviceLaptopPic", "points": [
+], "stem": "headphones"}, {"by": "meaning", "icon": "laptop_16_regular", "kind": "fluent", "name": "DeviceLaptopPic", "near": true, "points": [
 "E7F7"
 ], "stem": "laptop"}, {"by": "agreed", "icon": "laptop_16_regular", "kind": "fluent", "name": "DeviceLaptopNoPic", "points": [
 "E7F8"
@@ -983,11 +983,11 @@
 "E805"
 ], "stem": "person_walking"}, {"by": "agreed", "icon": "vehicle_bus_16_regular", "kind": "fluent", "name": "Bus", "points": [
 "E806"
-], "stem": "vehicle_bus"}, {"by": "rule", "icon": "arrow_up_16_filled", "kind": "fluent", "name": "TiltUp", "near": true, "points": [
+], "stem": "vehicle_bus"}, {"by": "meaning", "icon": "table_arrow_up_20_regular", "kind": "fluent", "name": "TiltUp", "points": [
 "E809"
-], "stem": "arrow_up"}, {"by": "agreed", "icon": "table_16_regular", "kind": "fluent", "name": "TiltDown", "points": [
+], "stem": "table_arrow_up", "style": "regular"}, {"badge": "arrow_down", "base": "table", "by": "meaning", "icon": "table_20_regular", "kind": "compose", "name": "TiltDown", "points": [
 "E80A"
-], "stem": "table"}, {"by": "pick", "icon": "call_16_regular", "kind": "fluent", "name": "CallControl", "points": [
+]}, {"by": "pick", "icon": "call_16_regular", "kind": "fluent", "name": "CallControl", "points": [
 "E80B"
 ], "stem": "call"}, {"by": "pick", "icon": "rotate_right_20_regular", "kind": "fluent", "name": "RotateMapRight", "points": [
 "E80C"
@@ -1021,9 +1021,9 @@
 "E822"
 ], "stem": "road_cone"}, {"by": "agreed", "icon": "building_bank_16_regular", "kind": "fluent", "name": "Bank", "points": [
 "E825"
-], "stem": "building_bank"}, {"by": "pick", "icon": "arrow_download_16_filled", "kind": "fluent", "name": "DownloadMap", "points": [
+], "stem": "building_bank"}, {"badge": "arrow_download", "base": "map", "by": "meaning", "icon": "map_20_regular", "kind": "compose", "name": "DownloadMap", "points": [
 "E826"
-], "stem": "arrow_download"}, {"by": "pick", "icon": "inking_tool_16_filled", "kind": "fluent", "name": "InkingToolFill2", "points": [
+]}, {"by": "pick", "icon": "inking_tool_16_filled", "kind": "fluent", "name": "InkingToolFill2", "points": [
 "E829"
 ], "stem": "inking_tool"}, {"by": "pick", "icon": "highlight_16_filled", "kind": "fluent", "name": "HighlightFill2", "points": [
 "E82A"
@@ -1039,9 +1039,9 @@
 "E82F", "EA80"
 ], "stem": "lightbulb"}, {"by": "agreed", "icon": "arrow_left_16_filled", "kind": "fluent", "name": "ChromeBack", "points": [
 "E830"
-], "stem": "arrow_left"}, {"by": "pick", "icon": "box_16_regular", "kind": "fluent", "name": "ProvisioningPackage", "points": [
+], "stem": "arrow_left"}, {"badge": "settings", "base": "box", "by": "meaning", "icon": "box_20_regular", "kind": "compose", "name": "ProvisioningPackage", "points": [
 "E835"
-], "stem": "box"}, {"by": "review", "icon": "phone_desktop_add_20_regular", "kind": "fluent", "name": "AddRemoteDevice", "points": [
+]}, {"by": "review", "icon": "phone_desktop_add_20_regular", "kind": "fluent", "name": "AddRemoteDevice", "points": [
 "E836"
 ], "stem": "phone_desktop_add"}, {"by": "agreed", "icon": "folder_open_16_regular", "kind": "fluent", "name": "FolderOpen", "points": [
 "E838", "ED25"
@@ -1049,9 +1049,9 @@
 "E839"
 ], "stem": "network_adapter"}, {"by": "pick", "icon": "share_16_filled", "kind": "fluent", "name": "ShareBroadband", "points": [
 "E83A"
-], "stem": "share"}, {"by": "rule", "icon": "globe_desktop_20_regular", "kind": "fluent", "name": "DirectAccess", "near": true, "points": [
+], "stem": "share"}, {"by": "meaning", "icon": "desktop_tower_20_regular", "kind": "fluent", "name": "DirectAccess", "points": [
 "E83B"
-], "stem": "globe_desktop"}, {"by": "pick", "icon": "call_16_regular", "kind": "fluent", "name": "DialUp", "points": [
+], "stem": "desktop_tower", "style": "regular"}, {"by": "pick", "icon": "call_16_regular", "kind": "fluent", "name": "DialUp", "points": [
 "E83C"
 ], "stem": "call"}, {"by": "agreed", "icon": "shield_task_16_filled", "kind": "fluent", "name": "DefenderApp", "points": [
 "E83D"
@@ -1071,15 +1071,15 @@
 "E846"
 ], "stem": "arrow_right"}, {"by": "pick", "icon": "arrow_right_16_regular", "kind": "fluent", "name": "RightArrowKeyTime2", "points": [
 "E847"
-], "stem": "arrow_right"}, {"by": "pick", "kind": "text", "name": "LeftQuote", "points": [
+], "stem": "arrow_right"}, {"by": "meaning", "kind": "text", "name": "LeftQuote", "points": [
 "E848"
-], "text": "’", "weight": "bold"}, {"by": "pick", "kind": "text", "name": "RightQuote", "points": [
+], "text": "’", "weight": "regular"}, {"by": "meaning", "kind": "text", "name": "RightQuote", "points": [
 "E849"
-], "text": "’", "weight": "bold"}, {"by": "pick", "icon": "arrow_down_16_regular", "kind": "fluent", "name": "DownShiftKey", "points": [
+], "text": "‘", "weight": "regular"}, {"by": "pick", "icon": "arrow_down_16_regular", "kind": "fluent", "name": "DownShiftKey", "points": [
 "E84A"
-], "stem": "arrow_down"}, {"by": "pick", "icon": "keyboard_shift_uppercase_16_regular", "kind": "fluent", "name": "UpShiftKey", "points": [
+], "stem": "arrow_down"}, {"by": "meaning", "kind": "text", "name": "UpShiftKey", "points": [
 "E84B"
-], "stem": "keyboard_shift_uppercase"}, {"by": "pick", "kind": "text", "name": "PuncKey0", "points": [
+], "text": "⇧ABC", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "PuncKey0", "points": [
 "E84C"
 ], "text": "′″°", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "PuncKeyLeftBottom", "points": [
 "E84D"
@@ -1127,23 +1127,23 @@
 "E862"
 ], "stem": "battery_charge_8"}, {"by": "agreed", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver0", "points": [
 "E863"
-], "stem": "battery_saver"}, {"by": "agreed", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver1", "points": [
+], "stem": "battery_saver"}, {"badge": "leaf_one", "base": "battery_1", "by": "meaning", "icon": "battery_1_20_regular", "kind": "compose", "name": "BatterySaver1", "points": [
 "E864"
-], "stem": "battery_saver"}, {"by": "agreed", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver2", "points": [
+]}, {"badge": "leaf_one", "base": "battery_2", "by": "meaning", "icon": "battery_2_20_regular", "kind": "compose", "name": "BatterySaver2", "points": [
 "E865"
-], "stem": "battery_saver"}, {"by": "agreed", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver3", "points": [
+]}, {"badge": "leaf_one", "base": "battery_3", "by": "meaning", "icon": "battery_3_20_regular", "kind": "compose", "name": "BatterySaver3", "points": [
 "E866"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver4", "points": [
+]}, {"badge": "leaf_one", "base": "battery_4", "by": "meaning", "icon": "battery_4_20_regular", "kind": "compose", "name": "BatterySaver4", "points": [
 "E867"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver5", "points": [
+]}, {"badge": "leaf_one", "base": "battery_5", "by": "meaning", "icon": "battery_5_20_regular", "kind": "compose", "name": "BatterySaver5", "points": [
 "E868"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver6", "points": [
+]}, {"badge": "leaf_one", "base": "battery_6", "by": "meaning", "icon": "battery_6_20_regular", "kind": "compose", "name": "BatterySaver6", "points": [
 "E869"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver7", "points": [
+]}, {"badge": "leaf_one", "base": "battery_7", "by": "meaning", "icon": "battery_7_20_regular", "kind": "compose", "name": "BatterySaver7", "points": [
 "E86A"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "BatterySaver8", "points": [
+]}, {"badge": "leaf_one", "base": "battery_8", "by": "meaning", "icon": "battery_8_20_regular", "kind": "compose", "name": "BatterySaver8", "points": [
 "E86B"
-], "stem": "battery_saver"}, {"by": "agreed", "icon": "cellular_data_5_20_regular", "kind": "fluent", "name": "SignalBars1", "points": [
+]}, {"by": "agreed", "icon": "cellular_data_5_20_regular", "kind": "fluent", "name": "SignalBars1", "points": [
 "E86C", "EC37"
 ], "stem": "cellular_data_5"}, {"by": "agreed", "icon": "cellular_data_4_20_regular", "kind": "fluent", "name": "SignalBars2", "points": [
 "E86D", "EC38"
@@ -1161,9 +1161,9 @@
 "E873", "EC3D"
 ], "stem": "wifi_3"}, {"by": "agreed", "icon": "wifi_2_20_regular", "kind": "fluent", "name": "Wifi3", "points": [
 "E874", "EC3E"
-], "stem": "wifi_2"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "MobSIMLock", "near": true, "points": [
+], "stem": "wifi_2"}, {"by": "meaning", "icon": "sim_16_regular", "kind": "fluent", "name": "MobSIMLock", "near": true, "points": [
 "E875", "ED2C", "F61A", "F61D"
-], "stem": "sim"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "MobSIMMissing", "near": true, "points": [
+], "stem": "sim"}, {"by": "meaning", "icon": "sim_16_regular", "kind": "fluent", "name": "MobSIMMissing", "near": true, "points": [
 "E876", "F619"
 ], "stem": "sim"}, {"by": "pick", "icon": "phone_vibrate_20_regular", "kind": "fluent", "name": "Vibrate", "points": [
 "E877"
@@ -1181,19 +1181,19 @@
 "E87D"
 ], "text": "R", "weight": "regular"}, {"by": "pick", "icon": "keyboard_shift_16_regular", "kind": "fluent", "name": "JpnRomanjiShift", "points": [
 "E87E"
-], "stem": "keyboard_shift"}, {"by": "rule", "kind": "text", "name": "JpnRomanjiShiftLock", "points": [
+], "stem": "keyboard_shift"}, {"by": "meaning", "kind": "text", "name": "JpnRomanjiShiftLock", "points": [
 "E87F"
-], "text": "R", "weight": "bold"}, {"by": "rule", "icon": "arrow_swap_16_filled", "kind": "fluent", "name": "StatusDataTransfer", "near": true, "points": [
+], "text": "⇪", "weight": "regular"}, {"by": "rule", "icon": "arrow_swap_16_filled", "kind": "fluent", "name": "StatusDataTransfer", "near": true, "points": [
 "E880"
 ], "stem": "arrow_swap"}, {"by": "rule", "icon": "arrow_swap_16_filled", "kind": "fluent", "name": "StatusDataTransferVPN", "near": true, "points": [
 "E881"
-], "stem": "arrow_swap"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "StatusDualSIM2", "points": [
+], "stem": "arrow_swap"}, {"by": "meaning", "kind": "text", "name": "StatusDualSIM2", "points": [
 "E882"
-], "stem": "sim"}, {"by": "rule", "icon": "sim_16_regular", "kind": "fluent", "name": "StatusDualSIM2VPN", "near": true, "points": [
+], "text": "2", "weight": "regular"}, {"by": "rule", "icon": "sim_16_regular", "kind": "fluent", "name": "StatusDualSIM2VPN", "near": true, "points": [
 "E883"
-], "stem": "sim"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "StatusDualSIM1", "points": [
+], "stem": "sim"}, {"by": "meaning", "kind": "text", "name": "StatusDualSIM1", "points": [
 "E884"
-], "stem": "sim"}, {"by": "rule", "icon": "sim_16_regular", "kind": "fluent", "name": "StatusDualSIM1VPN", "near": true, "points": [
+], "text": "1", "weight": "regular"}, {"by": "rule", "icon": "sim_16_regular", "kind": "fluent", "name": "StatusDualSIM1VPN", "near": true, "points": [
 "E885"
 ], "stem": "sim"}, {"by": "pick", "icon": "cellular_4g_20_filled", "kind": "fluent", "name": "StatusSGLTE", "points": [
 "E886"
@@ -1203,9 +1203,9 @@
 "E888"
 ], "stem": "cellular_data_1"}, {"by": "pick", "icon": "lock_closed_16_filled", "kind": "fluent", "name": "StatusVPN", "near": true, "points": [
 "E889"
-], "stem": "lock_closed"}, {"by": "review", "kind": "text", "name": "LanguageKor", "points": [
+], "stem": "lock_closed"}, {"by": "meaning", "kind": "text", "name": "LanguageKor", "points": [
 "E88B"
-], "text": "가", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "LanguageCht", "points": [
+], "text": "한", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "LanguageCht", "points": [
 "E88C"
 ], "text": "繁", "weight": "regular"}, {"by": "pick", "icon": "local_language_16_filled", "kind": "fluent", "name": "LanguageChs", "near": true, "points": [
 "E88D"
@@ -1271,9 +1271,9 @@
 "E92F"
 ], "stem": "keyboard_dock"}, {"by": "agreed", "icon": "checkmark_circle_16_regular", "kind": "fluent", "name": "Completed", "points": [
 "E930"
-], "stem": "checkmark_circle"}, {"by": "rule", "icon": "pen_16_filled", "kind": "fluent", "name": "ChromeAnnotate", "near": true, "points": [
+], "stem": "checkmark_circle"}, {"badge": "cut", "base": "pen", "by": "meaning", "icon": "pen_20_regular", "kind": "compose", "name": "ChromeAnnotate", "points": [
 "E931"
-], "stem": "pen"}, {"by": "pick", "icon": "tag_16_regular", "kind": "fluent", "name": "Label", "points": [
+]}, {"by": "pick", "icon": "tag_16_regular", "kind": "fluent", "name": "Label", "points": [
 "E932"
 ], "stem": "tag"}, {"by": "rule", "kind": "text", "name": "IBeam", "points": [
 "E933"
@@ -1339,9 +1339,9 @@
 "E95E"
 ], "stem": "heart_pulse"}, {"by": "pick", "icon": "connector_16_regular", "kind": "fluent", "name": "Wire", "points": [
 "E95F"
-], "stem": "connector"}, {"by": "rule", "icon": "camera_dome_16_regular", "kind": "fluent", "name": "Webcam2", "near": true, "points": [
+], "stem": "connector"}, {"by": "meaning", "icon": "camera_16_regular", "kind": "fluent", "name": "Webcam2", "points": [
 "E960"
-], "stem": "camera_dome"}, {"by": "pick", "icon": "keyboard_mouse_16_regular", "kind": "fluent", "name": "Input", "points": [
+], "stem": "camera", "style": "regular"}, {"by": "pick", "icon": "keyboard_mouse_16_regular", "kind": "fluent", "name": "Input", "points": [
 "E961"
 ], "stem": "keyboard_mouse"}, {"by": "rule", "icon": "cursor_16_regular", "kind": "fluent", "name": "Mouse", "near": true, "points": [
 "E962"
@@ -1355,9 +1355,9 @@
 "E966"
 ], "stem": "arrow_enter_left"}, {"by": "pick", "icon": "xbox_console_20_regular", "kind": "fluent", "name": "GameConsole", "points": [
 "E967"
-], "stem": "xbox_console"}, {"by": "rule", "icon": "globe_16_regular", "kind": "fluent", "name": "Network", "near": true, "points": [
+], "stem": "xbox_console"}, {"by": "meaning", "icon": "server_link_16_regular", "kind": "fluent", "name": "Network", "points": [
 "E968"
-], "stem": "globe"}, {"by": "rule", "icon": "server_16_regular", "kind": "fluent", "name": "StorageNetworkWireless", "near": true, "points": [
+], "stem": "server_link", "style": "regular"}, {"by": "rule", "icon": "server_16_regular", "kind": "fluent", "name": "StorageNetworkWireless", "near": true, "points": [
 "E969"
 ], "stem": "server"}, {"by": "pick", "icon": "storage_16_regular", "kind": "fluent", "name": "StorageTape", "points": [
 "E96A"
@@ -1371,25 +1371,25 @@
 "E973"
 ], "stem": "chevron_left"}, {"by": "seed", "icon": "chevron_right_16_regular", "kind": "fluent", "name": "ChevronRightMed", "points": [
 "E974"
-], "stem": "chevron_right"}, {"by": "review", "kind": "text", "name": "Korean", "points": [
+], "stem": "chevron_right"}, {"by": "meaning", "kind": "text", "name": "Korean", "points": [
 "E97D"
-], "text": "가", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "HalfAlpha", "points": [
+], "text": "한", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "HalfAlpha", "points": [
 "E97E"
 ], "text": "A", "weight": "light"}, {"by": "pick", "kind": "text", "name": "FullAlpha", "points": [
 "E97F"
 ], "text": "A", "weight": "light"}, {"by": "pick", "kind": "text", "name": "Key12On", "points": [
 "E980"
-], "text": "가", "weight": "regular"}, {"by": "review", "kind": "text", "name": "ChineseChangjie", "points": [
+], "text": "가", "weight": "regular"}, {"by": "meaning", "kind": "text", "name": "ChineseChangjie", "points": [
 "E981"
-], "text": "倉", "weight": "regular"}, {"by": "review", "kind": "text", "name": "QWERTYOn", "points": [
+], "text": "倉", "weight": "regular"}, {"by": "meaning", "kind": "text", "name": "QWERTYOn", "points": [
 "E982"
-], "text": "中", "weight": "regular"}, {"by": "review", "kind": "text", "name": "QWERTYOff", "points": [
+], "text": "中", "weight": "regular"}, {"by": "meaning", "kind": "text", "name": "QWERTYOff", "points": [
 "E983"
-], "text": "英", "weight": "regular"}, {"by": "review", "kind": "text", "name": "ChineseQuick", "points": [
+], "text": "英", "weight": "regular"}, {"by": "meaning", "kind": "text", "name": "ChineseQuick", "points": [
 "E984"
-], "text": "速", "weight": "regular"}, {"by": "review", "kind": "text", "name": "Japanese", "points": [
+], "text": "速", "weight": "regular"}, {"by": "meaning", "kind": "text", "name": "Japanese", "points": [
 "E985"
-], "text": "あ", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "FullHiragana", "points": [
+], "text": "日", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "FullHiragana", "points": [
 "E986"
 ], "text": "あ", "weight": "regular"}, {"by": "pick", "kind": "text", "name": "FullKatakana", "points": [
 "E987"
@@ -1409,9 +1409,9 @@
 "E993"
 ], "stem": "speaker_1"}, {"by": "agreed", "icon": "speaker_2_16_regular", "kind": "fluent", "name": "Volume2", "points": [
 "E994"
-], "stem": "speaker_2"}, {"by": "pick", "icon": "question_16_filled", "kind": "fluent", "name": "BatteryUnknown", "points": [
+], "stem": "speaker_2"}, {"badge": "dismiss_circle", "base": "battery_0", "by": "meaning", "icon": "battery_0_20_regular", "kind": "compose", "name": "BatteryUnknown", "points": [
 "E996"
-], "stem": "question"}, {"by": "pick", "icon": "warning_16_filled", "kind": "fluent", "name": "WifiAttentionOverlay", "points": [
+]}, {"by": "pick", "icon": "warning_16_filled", "kind": "fluent", "name": "WifiAttentionOverlay", "points": [
 "E998"
 ], "stem": "warning"}, {"by": "pick", "icon": "bot_16_regular", "kind": "fluent", "name": "Robot", "points": [
 "E99A"
@@ -1425,11 +1425,11 @@
 "E9A4"
 ], "stem": "text_bullet_list_square"}, {"by": "agreed", "icon": "page_fit_16_regular", "kind": "fluent", "name": "FitPage", "points": [
 "E9A6"
-], "stem": "page_fit"}, {"by": "pick", "icon": "password_16_regular", "kind": "fluent", "name": "PasswordKeyShow", "points": [
+], "stem": "page_fit"}, {"badge": "eye", "base": "password", "by": "meaning", "icon": "password_20_regular", "kind": "compose", "name": "PasswordKeyShow", "points": [
 "E9A8"
-], "stem": "password"}, {"by": "pick", "icon": "password_16_regular", "kind": "fluent", "name": "PasswordKeyHide", "points": [
+]}, {"badge": "eye_off", "base": "password", "by": "meaning", "icon": "password_20_regular", "kind": "compose", "name": "PasswordKeyHide", "points": [
 "E9A9"
-], "stem": "password"}, {"by": "pick", "icon": "text_paragraph_direction_right_16_regular", "kind": "fluent", "name": "BidiLtr", "points": [
+]}, {"by": "pick", "icon": "text_paragraph_direction_right_16_regular", "kind": "fluent", "name": "BidiLtr", "points": [
 "E9AA"
 ], "stem": "text_paragraph_direction_right"}, {"by": "review", "icon": "text_paragraph_direction_left_16_regular", "kind": "fluent", "name": "BidiRtl", "points": [
 "E9AB"
@@ -1517,7 +1517,7 @@
 "EA3D"
 ], "stem": "arrow_turn_right"}, {"by": "agreed", "icon": "circle_16_regular", "kind": "fluent", "name": "Record2", "points": [
 "EA3F"
-], "stem": "circle"}, {"by": "code", "kind": "mirror", "name": "CallForwardInternationalMirrored", "of": "E87A", "points": [
+], "stem": "circle"}, {"badge": "globe", "base": "call_forward", "by": "meaning", "icon": "call_forward_20_regular", "kind": "compose", "name": "CallForwardInternationalMirrored", "points": [
 "EA43"
 ]}, {"by": "code", "kind": "mirror", "name": "CallForwardRoamingMirrored", "of": "E87B", "points": [
 "EA44"
@@ -1533,11 +1533,11 @@
 "EA5B"
 ], "stem": "panel_left_expand"}, {"by": "code", "kind": "mirror", "name": "ParkingLocationMirrored", "of": "E811", "points": [
 "EA5E"
-]}, {"by": "code", "kind": "mirror", "name": "ResizeMouseMediumMirrored", "of": "E744", "points": [
+]}, {"by": "meaning", "icon": "resize_large_16_regular", "kind": "fluent", "name": "ResizeMouseMediumMirrored", "points": [
 "EA5F"
-]}, {"by": "code", "kind": "mirror", "name": "ResizeMouseSmallMirrored", "of": "E743", "points": [
+], "stem": "resize_large", "style": "regular"}, {"by": "meaning", "icon": "resize_small_16_regular", "kind": "fluent", "name": "ResizeMouseSmallMirrored", "points": [
 "EA60"
-]}, {"by": "code", "kind": "mirror", "name": "ResizeMouseTallMirrored", "of": "E746", "points": [
+], "stem": "resize_small", "style": "regular"}, {"by": "code", "kind": "mirror", "name": "ResizeMouseTallMirrored", "of": "E746", "points": [
 "EA61"
 ]}, {"by": "code", "kind": "mirror", "name": "ResizeTouchNarrowerMirrored", "of": "E7EA", "points": [
 "EA62"
@@ -1597,9 +1597,9 @@
 "EA97", "EC7F"
 ], "stem": "call_forward"}, {"by": "agreed", "icon": "broom_16_regular", "kind": "fluent", "name": "Broom", "points": [
 "EA99"
-], "stem": "broom"}, {"by": "rule", "icon": "cellular_data_5_20_regular", "kind": "fluent", "name": "SignalBarsAni1", "near": true, "points": [
+], "stem": "broom"}, {"by": "meaning", "icon": "cellular_data_4_20_regular", "kind": "fluent", "name": "SignalBarsAni1", "points": [
 "EAA1"
-], "stem": "cellular_data_5"}, {"by": "pick", "icon": "cellular_data_2_20_regular", "kind": "fluent", "name": "SignalBarsAni2", "points": [
+], "stem": "cellular_data_4", "style": "regular"}, {"by": "pick", "icon": "cellular_data_2_20_regular", "kind": "fluent", "name": "SignalBarsAni2", "points": [
 "EAA2"
 ], "stem": "cellular_data_2"}, {"by": "pick", "icon": "cellular_data_3_20_regular", "kind": "fluent", "name": "SignalBarsAni3", "points": [
 "EAA3"
@@ -1617,15 +1617,15 @@
 "EAB7"
 ], "stem": "chat_sparkle"}, {"by": "pick", "icon": "row_triple_20_regular", "kind": "fluent", "name": "CellFlowVertical", "points": [
 "EABB"
-], "stem": "row_triple"}, {"by": "rule", "icon": "video_background_effect_16_regular", "kind": "fluent", "name": "WindowsStudioEffects", "near": true, "points": [
+], "stem": "row_triple"}, {"by": "meaning", "icon": "camera_sparkles_16_regular", "kind": "fluent", "name": "WindowsStudioEffects", "points": [
 "EABC"
-], "stem": "video_background_effect"}, {"by": "pick", "icon": "video_background_effect_16_filled", "kind": "fluent", "name": "PortraitBlur", "points": [
+], "stem": "camera_sparkles", "style": "regular"}, {"by": "pick", "icon": "video_background_effect_16_filled", "kind": "fluent", "name": "PortraitBlur", "points": [
 "EABE"
-], "stem": "video_background_effect"}, {"by": "rule", "icon": "desktop_16_regular", "kind": "fluent", "name": "DesktopLeafTwo", "near": true, "points": [
+], "stem": "video_background_effect"}, {"badge": "leaf_two", "base": "desktop", "by": "meaning", "icon": "desktop_20_regular", "kind": "compose", "name": "DesktopLeafTwo", "points": [
 "EAC7"
-], "stem": "desktop"}, {"by": "pick", "icon": "emoji_16_regular", "kind": "fluent", "name": "Emojiplay", "near": true, "points": [
+]}, {"badge": "play_circle", "base": "emoji", "by": "meaning", "icon": "emoji_20_regular", "kind": "compose", "name": "Emojiplay", "points": [
 "EAD4"
-], "stem": "emoji"}, {"by": "review", "icon": "emoji_edit_16_regular", "kind": "fluent", "name": "EmojiBrush", "points": [
+]}, {"by": "review", "icon": "emoji_edit_16_regular", "kind": "fluent", "name": "EmojiBrush", "points": [
 "EAD5"
 ], "stem": "emoji_edit"}, {"by": "pick", "icon": "eye_tracking_16_regular", "kind": "fluent", "name": "EyeTracking", "points": [
 "EAD6"
@@ -1643,13 +1643,13 @@
 "EB0F"
 ], "stem": "triangle_down"}, {"by": "pick", "icon": "triangle_up_20_filled", "kind": "fluent", "name": "StockUp", "points": [
 "EB11"
-], "stem": "triangle_up"}, {"by": "pick", "icon": "battery_charge_20_regular", "kind": "fluent", "name": "MobBatteryUnknownCharging", "points": [
+], "stem": "triangle_up"}, {"badge": "dismiss_circle", "base": "battery_charge", "by": "meaning", "icon": "battery_charge_20_regular", "kind": "compose", "name": "MobBatteryUnknownCharging", "points": [
 "EB17"
-], "stem": "battery_charge"}, {"by": "pick", "icon": "sparkle_off_16_regular", "kind": "fluent", "name": "ClicktoDoOff", "near": true, "points": [
+]}, {"by": "meaning", "icon": "sparkle_off_16_regular", "kind": "fluent", "name": "ClicktoDoOff", "points": [
 "EB19"
-], "stem": "sparkle_off"}, {"by": "pick", "icon": "battery_charge_20_regular", "kind": "fluent", "name": "BatteryUnknownCharging", "points": [
+], "stem": "sparkle_off", "style": "regular"}, {"badge": "dismiss_circle", "base": "battery_charge", "by": "meaning", "icon": "battery_charge_20_regular", "kind": "compose", "name": "BatteryUnknownCharging", "points": [
 "EB1A"
-], "stem": "battery_charge"}, {"by": "pick", "icon": "sparkle_action_16_regular", "kind": "fluent", "name": "ClicktoDo", "points": [
+]}, {"by": "pick", "icon": "sparkle_action_16_regular", "kind": "fluent", "name": "ClicktoDo", "points": [
 "EB1D"
 ], "stem": "sparkle_action"}, {"by": "pick", "icon": "glasses_16_regular", "kind": "fluent", "name": "Glasses2", "points": [
 "EB25"
@@ -1685,23 +1685,23 @@
 "EB4E"
 ], "stem": "briefcase"}, {"by": "agreed", "icon": "lightbulb_16_filled", "kind": "fluent", "name": "ReminderFill", "points": [
 "EB4F"
-], "stem": "lightbulb"}, {"by": "agreed", "icon": "lightbulb_16_regular", "kind": "fluent", "name": "Reminder", "points": [
+], "stem": "lightbulb"}, {"by": "meaning", "icon": "lightbulb_checkmark_20_regular", "kind": "fluent", "name": "Reminder", "points": [
 "EB50"
-], "stem": "lightbulb"}, {"badge": "dismiss", "base": "network_adapter", "by": "pick", "icon": "network_adapter_16_regular", "kind": "compose", "name": "EthernetError", "points": [
+], "stem": "lightbulb_checkmark", "style": "regular"}, {"badge": "dismiss", "base": "network_adapter", "by": "pick", "icon": "network_adapter_16_regular", "kind": "compose", "name": "EthernetError", "points": [
 "EB55"
-]}, {"by": "rule", "icon": "network_adapter_16_regular", "kind": "fluent", "name": "EthernetWarning", "near": true, "points": [
+]}, {"badge": "warning", "base": "network_adapter", "by": "meaning", "icon": "network_adapter_16_regular", "kind": "compose", "name": "EthernetWarning", "points": [
 "EB56"
-], "stem": "network_adapter"}, {"by": "rule", "icon": "arrow_sync_16_filled", "kind": "fluent", "name": "StatusConnecting1", "near": true, "points": [
+]}, {"by": "rule", "icon": "arrow_sync_16_filled", "kind": "fluent", "name": "StatusConnecting1", "near": true, "points": [
 "EB57"
 ], "stem": "arrow_sync"}, {"by": "rule", "icon": "arrow_sync_16_filled", "kind": "fluent", "name": "StatusConnecting2", "near": true, "points": [
 "EB58"
 ], "stem": "arrow_sync"}, {"by": "pick", "icon": "shield_error_16_filled", "kind": "fluent", "name": "StatusUnsecure", "points": [
 "EB59"
-], "stem": "shield_error"}, {"by": "rule", "icon": "wifi_warning_20_regular", "kind": "fluent", "name": "WifiError0", "near": true, "points": [
+], "stem": "shield_error"}, {"badge": "dismiss_circle", "base": "wifi_1", "by": "meaning", "icon": "wifi_1_20_regular", "kind": "compose", "name": "WifiError0", "points": [
 "EB5A"
-], "stem": "wifi_warning"}, {"by": "rule", "icon": "wifi_warning_20_filled", "kind": "fluent", "name": "WifiError1", "near": true, "points": [
+]}, {"badge": "dismiss_circle", "base": "wifi_1", "by": "meaning", "icon": "wifi_1_20_regular", "kind": "compose", "name": "WifiError1", "points": [
 "EB5B"
-], "stem": "wifi_warning"}, {"by": "rule", "icon": "wifi_warning_20_filled", "kind": "fluent", "name": "WifiError2", "near": true, "points": [
+]}, {"by": "rule", "icon": "wifi_warning_20_filled", "kind": "fluent", "name": "WifiError2", "near": true, "points": [
 "EB5C"
 ], "stem": "wifi_warning"}, {"by": "rule", "icon": "wifi_warning_20_filled", "kind": "fluent", "name": "WifiError3", "near": true, "points": [
 "EB5D"
@@ -1813,27 +1813,27 @@
 "EBB6"
 ], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "MobBatterySaver1", "points": [
 "EBB7"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "MobBatterySaver2", "points": [
+], "stem": "battery_saver"}, {"badge": "leaf_one", "base": "battery_2", "by": "meaning", "icon": "battery_2_20_regular", "kind": "compose", "name": "MobBatterySaver2", "points": [
 "EBB8"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "MobBatterySaver3", "points": [
+]}, {"badge": "leaf_one", "base": "battery_3", "by": "meaning", "icon": "battery_3_20_regular", "kind": "compose", "name": "MobBatterySaver3", "points": [
 "EBB9"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_regular", "kind": "fluent", "name": "MobBatterySaver4", "points": [
+]}, {"badge": "leaf_one", "base": "battery_4", "by": "meaning", "icon": "battery_4_20_regular", "kind": "compose", "name": "MobBatterySaver4", "points": [
 "EBBA"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver5", "points": [
+]}, {"badge": "leaf_one", "base": "battery_5", "by": "meaning", "icon": "battery_5_20_regular", "kind": "compose", "name": "MobBatterySaver5", "points": [
 "EBBB"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver6", "points": [
+]}, {"badge": "leaf_one", "base": "battery_7", "by": "meaning", "icon": "battery_7_20_regular", "kind": "compose", "name": "MobBatterySaver6", "points": [
 "EBBC"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver7", "points": [
+]}, {"badge": "leaf_one", "base": "battery_8", "by": "meaning", "icon": "battery_8_20_regular", "kind": "compose", "name": "MobBatterySaver7", "points": [
 "EBBD"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver8", "points": [
+]}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver8", "points": [
 "EBBE"
 ], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver9", "points": [
 "EBBF"
 ], "stem": "battery_saver"}, {"by": "pick", "icon": "battery_saver_20_filled", "kind": "fluent", "name": "MobBatterySaver10", "points": [
 "EBC0"
-], "stem": "battery_saver"}, {"by": "pick", "icon": "book_16_regular", "kind": "fluent", "name": "DictionaryCloud", "points": [
+], "stem": "battery_saver"}, {"badge": "cloud", "base": "book", "by": "meaning", "icon": "book_20_regular", "kind": "compose", "name": "DictionaryCloud", "points": [
 "EBC3"
-], "stem": "book"}, {"by": "pick", "icon": "arrow_reset_20_filled", "kind": "fluent", "name": "ResetDrive", "points": [
+]}, {"by": "pick", "icon": "arrow_reset_20_filled", "kind": "fluent", "name": "ResetDrive", "points": [
 "EBC4"
 ], "stem": "arrow_reset"}, {"by": "review", "icon": "speaker_2_16_regular", "kind": "fluent", "name": "VolumeBars", "points": [
 "EBC5"
@@ -1847,9 +1847,9 @@
 "EBD2"
 ], "stem": "cube"}, {"by": "agreed", "icon": "cloud_arrow_down_16_regular", "kind": "fluent", "name": "CloudDownload", "points": [
 "EBD3"
-], "stem": "cloud_arrow_down"}, {"by": "pick", "icon": "wifi_1_20_regular", "kind": "fluent", "name": "MobWifiCallBars", "points": [
+], "stem": "cloud_arrow_down"}, {"by": "meaning", "icon": "wifi_3_20_regular", "kind": "fluent", "name": "MobWifiCallBars", "near": true, "points": [
 "EBD4", "F657"
-], "stem": "wifi_1"}, {"by": "pick", "icon": "call_16_filled", "kind": "fluent", "name": "MobWifiCall0", "points": [
+], "stem": "wifi_3"}, {"by": "pick", "icon": "call_16_filled", "kind": "fluent", "name": "MobWifiCall0", "points": [
 "EBD5", "F658"
 ], "stem": "call"}, {"by": "pick", "icon": "call_16_filled", "kind": "fluent", "name": "MobWifiCall1", "points": [
 "EBD6", "F659"
@@ -1869,9 +1869,9 @@
 "EBE7"
 ], "stem": "arrow_right"}, {"by": "agreed", "icon": "bug_16_regular", "kind": "fluent", "name": "Bug", "points": [
 "EBE8"
-], "stem": "bug"}, {"by": "pick", "icon": "tablet_16_regular", "kind": "fluent", "name": "TabletMode", "points": [
+], "stem": "bug"}, {"badge": "hand_point", "base": "tablet", "by": "meaning", "icon": "tablet_20_regular", "kind": "compose", "name": "TabletMode", "points": [
 "EBFC"
-], "stem": "tablet"}, {"by": "pick", "icon": "presence_busy_16_filled", "kind": "fluent", "name": "StatusCircleLeft", "points": [
+]}, {"by": "pick", "icon": "presence_busy_16_filled", "kind": "fluent", "name": "StatusCircleLeft", "points": [
 "EBFD"
 ], "stem": "presence_busy"}, {"by": "pick", "icon": "triangle_up_20_filled", "kind": "fluent", "name": "StatusTriangleLeft", "near": true, "points": [
 "EBFE"
@@ -1893,13 +1893,13 @@
 "EC09"
 ], "stem": "shopping_bag"}, {"by": "agreed", "icon": "leaf_two_16_regular", "kind": "fluent", "name": "Sustainable", "points": [
 "EC0A"
-], "stem": "leaf_two"}, {"by": "pick", "icon": "building_16_regular", "kind": "fluent", "name": "BuildingEnergy", "points": [
+], "stem": "leaf_two"}, {"by": "meaning", "icon": "building_16_regular", "kind": "fluent", "name": "BuildingEnergy", "near": true, "points": [
 "EC0B"
 ], "stem": "building"}, {"by": "pick", "icon": "toggle_right_16_filled", "kind": "fluent", "name": "ToggleFilled", "points": [
 "EC11"
-], "stem": "toggle_right"}, {"by": "rule", "icon": "square_16_regular", "kind": "fluent", "name": "ToggleBorder", "near": true, "points": [
+], "stem": "toggle_right"}, {"by": "meaning", "icon": "rectangle_landscape_16_regular", "kind": "fluent", "name": "ToggleBorder", "points": [
 "EC12"
-], "stem": "square"}, {"by": "rule", "icon": "circle_16_regular", "kind": "fluent", "name": "SliderThumb", "near": true, "points": [
+], "stem": "rectangle_landscape", "style": "regular"}, {"by": "rule", "icon": "circle_16_regular", "kind": "fluent", "name": "SliderThumb", "near": true, "points": [
 "EC13"
 ], "stem": "circle"}, {"by": "pick", "icon": "presence_busy_16_filled", "kind": "fluent", "name": "ToggleThumb", "points": [
 "EC14"
@@ -1929,17 +1929,17 @@
 "EC32"
 ], "stem": "drink_coffee"}, {"by": "review", "icon": "text_edit_style_16_regular", "kind": "fluent", "name": "FormatText", "points": [
 "EC34"
-], "stem": "text_edit_style"}, {"by": "review", "kind": "text", "name": "LanguageJpn", "points": [
+], "stem": "text_edit_style"}, {"by": "meaning", "kind": "text", "name": "LanguageJpn", "points": [
 "EC45"
-], "text": "あ", "weight": "regular"}, {"by": "agreed", "icon": "weather_moon_16_regular", "kind": "fluent", "name": "MobQuietHours", "points": [
+], "text": "日", "weight": "regular"}, {"by": "agreed", "icon": "weather_moon_16_regular", "kind": "fluent", "name": "MobQuietHours", "points": [
 "EC46"
 ], "stem": "weather_moon"}, {"by": "pick", "icon": "gauge_16_regular", "kind": "fluent", "name": "SpeedOff", "near": true, "points": [
 "EC48"
 ], "stem": "gauge"}, {"by": "pick", "icon": "top_speed_16_regular", "kind": "fluent", "name": "SpeedMedium", "points": [
 "EC49"
-], "stem": "top_speed"}, {"by": "pick", "icon": "top_speed_16_regular", "kind": "fluent", "name": "SpeedHigh", "points": [
+], "stem": "top_speed"}, {"by": "meaning", "icon": "top_speed_16_regular", "kind": "fluent", "name": "SpeedHigh", "points": [
 "EC4A"
-], "stem": "top_speed"}, {"by": "pick", "icon": "desktop_16_regular", "kind": "fluent", "name": "ThisPC", "points": [
+], "stem": "top_speed", "style": "regular"}, {"by": "pick", "icon": "desktop_16_regular", "kind": "fluent", "name": "ThisPC", "points": [
 "EC4E", "F71E"
 ], "stem": "desktop"}, {"by": "agreed", "icon": "music_note_1_20_regular", "kind": "fluent", "name": "MusicNote", "points": [
 "EC4F"
@@ -1951,7 +1951,7 @@
 "EC54"
 ], "stem": "mic_prohibited"}, {"by": "pick", "icon": "sleep_20_regular", "kind": "fluent", "name": "MicSleep", "points": [
 "EC55"
-], "stem": "sleep"}, {"by": "pick", "icon": "mic_16_filled", "kind": "fluent", "name": "MicError", "near": true, "points": [
+], "stem": "sleep"}, {"by": "meaning", "icon": "mic_16_filled", "kind": "fluent", "name": "MicError", "near": true, "points": [
 "EC56"
 ], "stem": "mic"}, {"by": "review", "icon": "replay_16_regular", "kind": "fluent", "name": "PlaybackRate1x", "points": [
 "EC57"
@@ -1977,11 +1977,11 @@
 "EC71"
 ], "stem": "mic"}, {"by": "pick", "icon": "mic_16_regular", "kind": "fluent", "name": "MicClipping", "points": [
 "EC72"
-], "stem": "mic"}, {"by": "pick", "icon": "tablet_16_regular", "kind": "fluent", "name": "TabletSelected", "points": [
+], "stem": "mic"}, {"badge": "checkmark_circle", "base": "tablet", "by": "meaning", "icon": "tablet_20_regular", "kind": "compose", "name": "TabletSelected", "points": [
 "EC74"
-], "stem": "tablet"}, {"by": "pick", "icon": "phone_16_regular", "kind": "fluent", "name": "MobileSelected", "points": [
+]}, {"by": "meaning", "icon": "phone_checkmark_16_regular", "kind": "fluent", "name": "MobileSelected", "points": [
 "EC75"
-], "stem": "phone"}, {"by": "pick", "icon": "laptop_checkmark_20_regular", "kind": "fluent", "name": "LaptopSelected", "points": [
+], "stem": "phone_checkmark", "style": "regular"}, {"by": "pick", "icon": "laptop_checkmark_20_regular", "kind": "fluent", "name": "LaptopSelected", "points": [
 "EC76"
 ], "stem": "laptop_checkmark"}, {"by": "review", "icon": "desktop_checkmark_16_regular", "kind": "fluent", "name": "TVMonitorSelected", "points": [
 "EC77"
@@ -1989,9 +1989,9 @@
 "EC7A"
 ], "stem": "wrench_screwdriver"}, {"by": "rule", "icon": "camera_16_regular", "kind": "fluent", "name": "BodyCam", "near": true, "points": [
 "EC80"
-], "stem": "camera"}, {"by": "pick", "icon": "vehicle_car_16_regular", "kind": "fluent", "name": "PoliceCar", "points": [
+], "stem": "camera"}, {"badge": "alert_urgent", "base": "vehicle_car", "by": "meaning", "icon": "vehicle_car_20_regular", "kind": "compose", "name": "PoliceCar", "points": [
 "EC81"
-], "stem": "vehicle_car"}, {"by": "pick", "icon": "presence_busy_16_filled", "kind": "fluent", "name": "UpdateStatusDot2", "points": [
+]}, {"by": "pick", "icon": "presence_busy_16_filled", "kind": "fluent", "name": "UpdateStatusDot2", "points": [
 "EC83"
 ], "stem": "presence_busy"}, {"by": "pick", "icon": "pen_16_regular", "kind": "fluent", "name": "Draw", "points": [
 "EC87"
@@ -2021,9 +2021,9 @@
 "ECAF"
 ], "stem": "location"}, {"by": "pick", "icon": "square_add_16_regular", "kind": "fluent", "name": "AddSurfaceHub", "points": [
 "ECC4"
-], "stem": "square_add"}, {"by": "pick", "icon": "arrow_clockwise_16_regular", "kind": "fluent", "name": "DevUpdate", "points": [
+], "stem": "square_add"}, {"badge": "arrow_sync_circle", "base": "clock", "by": "meaning", "icon": "clock_20_regular", "kind": "compose", "name": "DevUpdate", "points": [
 "ECC5"
-], "stem": "arrow_clockwise"}, {"by": "agreed", "icon": "ruler_16_regular", "kind": "fluent", "name": "Unit", "points": [
+]}, {"by": "agreed", "icon": "ruler_16_regular", "kind": "fluent", "name": "Unit", "points": [
 "ECC6"
 ], "stem": "ruler"}, {"by": "agreed", "icon": "add_circle_16_regular", "kind": "fluent", "name": "AddTo", "points": [
 "ECC8"
@@ -2049,15 +2049,15 @@
 "ECF0"
 ], "stem": "usb_plug"}, {"by": "pick", "icon": "usb_plug_20_regular", "kind": "fluent", "name": "WirelessUSB", "near": true, "points": [
 "ECF1"
-], "stem": "usb_plug"}, {"by": "rule", "icon": "usb_plug_20_filled", "kind": "fluent", "name": "USBSafeConnect", "near": true, "points": [
+], "stem": "usb_plug"}, {"badge": "checkmark_circle", "base": "usb_plug", "by": "meaning", "icon": "usb_plug_20_regular", "kind": "compose", "name": "USBSafeConnect", "points": [
 "ECF3"
-], "stem": "usb_plug"}, {"by": "code", "kind": "mirror", "name": "ActionCenterNotificationMirrored", "of": "E7E7", "points": [
+]}, {"by": "code", "kind": "mirror", "name": "ActionCenterNotificationMirrored", "of": "E7E7", "points": [
 "ED0C"
 ]}, {"by": "rule", "icon": "add_square_16_regular", "kind": "fluent", "name": "SubscriptionAdd", "near": true, "points": [
 "ED0E", "ED11"
-], "stem": "add_square"}, {"by": "pick", "icon": "arrow_reset_20_filled", "kind": "fluent", "name": "ResetDevice", "points": [
+], "stem": "add_square"}, {"badge": "arrow_sync_circle", "base": "phone", "by": "meaning", "icon": "phone_20_regular", "kind": "compose", "name": "ResetDevice", "points": [
 "ED10"
-], "stem": "arrow_reset"}, {"by": "agreed", "icon": "qr_code_20_regular", "kind": "fluent", "name": "QRCode", "points": [
+]}, {"by": "agreed", "icon": "qr_code_20_regular", "kind": "fluent", "name": "QRCode", "points": [
 "ED14"
 ], "stem": "qr_code"}, {"by": "agreed", "icon": "person_feedback_16_regular", "kind": "fluent", "name": "Feedback", "points": [
 "ED15"
@@ -2071,7 +2071,7 @@
 "ED2A", "F61B"
 ], "stem": "sim"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "MobeSIMNoProfile", "points": [
 "ED2B", "F61C"
-], "stem": "sim"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "MobeSIMBusy", "near": true, "points": [
+], "stem": "sim"}, {"by": "meaning", "icon": "sim_16_regular", "kind": "fluent", "name": "MobeSIMBusy", "near": true, "points": [
 "ED2D", "F61E"
 ], "stem": "sim"}, {"by": "pick", "icon": "dismiss_circle_16_filled", "kind": "fluent", "name": "SignalError", "points": [
 "ED2E"
@@ -2079,21 +2079,21 @@
 "ED2F"
 ], "stem": "live"}, {"by": "pick", "icon": "headphones_16_filled", "kind": "fluent", "name": "Headphone0", "points": [
 "ED30"
-], "stem": "headphones"}, {"by": "pick", "icon": "headphones_16_filled", "kind": "fluent", "name": "Headphone1", "points": [
+], "stem": "headphones"}, {"badge": "speaker_0", "base": "headphones", "by": "meaning", "icon": "headphones_20_regular", "kind": "compose", "name": "Headphone1", "points": [
 "ED31"
-], "stem": "headphones"}, {"by": "pick", "icon": "headphones_16_regular", "kind": "fluent", "name": "Headphone2", "points": [
+]}, {"badge": "speaker_1", "base": "headphones", "by": "meaning", "icon": "headphones_20_regular", "kind": "compose", "name": "Headphone2", "points": [
 "ED32"
-], "stem": "headphones"}, {"by": "pick", "icon": "headphones_16_regular", "kind": "fluent", "name": "Headphone3", "points": [
+]}, {"badge": "speaker_2", "base": "headphones", "by": "meaning", "icon": "headphones_20_regular", "kind": "compose", "name": "Headphone3", "points": [
 "ED33"
-], "stem": "headphones"}, {"by": "pick", "icon": "apps_16_regular", "kind": "fluent", "name": "Apps", "points": [
+]}, {"by": "pick", "icon": "apps_16_regular", "kind": "fluent", "name": "Apps", "points": [
 "ED35"
 ], "stem": "apps"}, {"by": "pick", "icon": "search_sparkle_16_regular", "kind": "fluent", "name": "SearchSparkle", "points": [
 "ED37"
 ], "stem": "search_sparkle"}, {"by": "pick", "icon": "brightness_high_16_regular", "kind": "fluent", "name": "KeyboardBrightnessHigh", "points": [
 "ED39"
-], "stem": "brightness_high"}, {"by": "pick", "icon": "brightness_low_16_regular", "kind": "fluent", "name": "KeyboardBrightnessLow", "points": [
+], "stem": "brightness_high"}, {"badge": "brightness_low", "base": "keyboard", "by": "meaning", "icon": "keyboard_20_regular", "kind": "compose", "name": "KeyboardBrightnessLow", "points": [
 "ED3A"
-], "stem": "brightness_low"}, {"by": "seed", "icon": "skip_back_10_20_regular", "kind": "fluent", "name": "SkipBack10", "points": [
+]}, {"by": "seed", "icon": "skip_back_10_20_regular", "kind": "fluent", "name": "SkipBack10", "points": [
 "ED3C"
 ], "stem": "skip_back_10"}, {"by": "seed", "icon": "skip_forward_30_20_regular", "kind": "fluent", "name": "SkipForward30", "points": [
 "ED3D"
@@ -2139,9 +2139,9 @@
 "ED60"
 ], "stem": "eraser"}, {"by": "pick", "icon": "eraser_20_regular", "kind": "fluent", "name": "PointErase", "points": [
 "ED61"
-], "stem": "eraser"}, {"by": "pick", "icon": "clear_formatting_16_regular", "kind": "fluent", "name": "ClearAllInk", "points": [
+], "stem": "eraser"}, {"by": "meaning", "icon": "eraser_20_regular", "kind": "fluent", "name": "ClearAllInk", "points": [
 "ED62"
-], "stem": "clear_formatting"}, {"by": "pick", "icon": "pen_16_regular", "kind": "fluent", "name": "Pencil", "near": true, "points": [
+], "stem": "eraser", "style": "regular"}, {"by": "pick", "icon": "pen_16_regular", "kind": "fluent", "name": "Pencil", "near": true, "points": [
 "ED63"
 ], "stem": "pen"}, {"by": "pick", "icon": "highlight_16_regular", "kind": "fluent", "name": "Marker", "points": [
 "ED64"
@@ -2157,19 +2157,19 @@
 "EDA3"
 ], "stem": "network_adapter"}, {"by": "pick", "icon": "tap_single_20_regular", "kind": "fluent", "name": "Touchscreen", "near": true, "points": [
 "EDA4"
-], "stem": "tap_single"}, {"by": "pick", "icon": "print_16_regular", "kind": "fluent", "name": "NetworkPrinter", "points": [
+], "stem": "tap_single"}, {"badge": "network_adapter", "base": "print", "by": "meaning", "icon": "print_20_regular", "kind": "compose", "name": "NetworkPrinter", "points": [
 "EDA5"
-], "stem": "print"}, {"by": "pick", "icon": "print_16_regular", "kind": "fluent", "name": "CloudPrinter", "points": [
+]}, {"badge": "cloud", "base": "print", "by": "meaning", "icon": "print_20_regular", "kind": "compose", "name": "CloudPrinter", "points": [
 "EDA6"
-], "stem": "print"}, {"by": "pick", "icon": "keyboard_16_regular", "kind": "fluent", "name": "KeyboardShortcut", "points": [
+]}, {"by": "meaning", "icon": "key_command_16_regular", "kind": "fluent", "name": "KeyboardShortcut", "points": [
 "EDA7"
-], "stem": "keyboard"}, {"by": "pick", "icon": "line_thickness_20_regular", "kind": "fluent", "name": "BrushSize", "near": true, "points": [
+], "stem": "key_command", "style": "regular"}, {"by": "pick", "icon": "line_thickness_20_regular", "kind": "fluent", "name": "BrushSize", "near": true, "points": [
 "EDA8"
-], "stem": "line_thickness"}, {"by": "rule", "icon": "read_aloud_16_filled", "kind": "fluent", "name": "NarratorForward", "near": true, "points": [
+], "stem": "line_thickness"}, {"badge": "arrow_right", "base": "read_aloud", "by": "meaning", "icon": "read_aloud_20_regular", "kind": "compose", "name": "NarratorForward", "points": [
 "EDA9"
-], "stem": "read_aloud"}, {"by": "rule", "icon": "read_aloud_16_filled", "kind": "fluent", "name": "NarratorForwardMirrored", "near": true, "points": [
+]}, {"badge": "arrow_left", "base": "read_aloud", "by": "meaning", "icon": "read_aloud_20_regular", "kind": "compose", "name": "NarratorForwardMirrored", "points": [
 "EDAA"
-], "stem": "read_aloud"}, {"by": "pick", "icon": "arrow_sync_16_filled", "kind": "fluent", "name": "SyncBadge12", "points": [
+]}, {"by": "pick", "icon": "arrow_sync_16_filled", "kind": "fluent", "name": "SyncBadge12", "points": [
 "EDAB"
 ], "stem": "arrow_sync"}, {"by": "pick", "icon": "alert_16_regular", "kind": "fluent", "name": "RingerBadge12", "points": [
 "EDAC"
@@ -2223,9 +2223,9 @@
 "EDFB"
 ], "stem": "calligraphy_pen"}, {"by": "code", "kind": "mirror", "name": "ReplyMirrored", "of": "E248", "points": [
 "EE35"
-]}, {"by": "rule", "icon": "lock_closed_16_regular", "kind": "fluent", "name": "LockscreenDesktop", "near": true, "points": [
+]}, {"badge": "lock_closed", "base": "desktop", "by": "meaning", "icon": "desktop_20_regular", "kind": "compose", "name": "LockscreenDesktop", "points": [
 "EE3F"
-], "stem": "lock_closed"}, {"by": "pick", "icon": "person_shield_16_regular", "kind": "fluent", "name": "FullHiraganaPrivateMode", "points": [
+]}, {"by": "pick", "icon": "person_shield_16_regular", "kind": "fluent", "name": "FullHiraganaPrivateMode", "points": [
 "EE41"
 ], "stem": "person_shield"}, {"by": "pick", "icon": "person_shield_16_regular", "kind": "fluent", "name": "FullKatakanaPrivateMode", "points": [
 "EE42"
@@ -2241,9 +2241,9 @@
 "EE49"
 ], "stem": "contract_up_right"}, {"by": "agreed", "icon": "play_16_regular", "kind": "fluent", "name": "Play36", "points": [
 "EE4A"
-], "stem": "play"}, {"by": "pick", "icon": "pen_16_regular", "kind": "fluent", "name": "PenPalette", "near": true, "points": [
+], "stem": "play"}, {"badge": "paint_bucket", "base": "pen", "by": "meaning", "icon": "pen_20_regular", "kind": "compose", "name": "PenPalette", "points": [
 "EE56"
-], "stem": "pen"}, {"by": "pick", "icon": "guest_16_regular", "kind": "fluent", "name": "GuestUser", "points": [
+]}, {"by": "pick", "icon": "guest_16_regular", "kind": "fluent", "name": "GuestUser", "points": [
 "EE57"
 ], "stem": "guest"}, {"by": "pick", "icon": "phone_16_regular", "kind": "fluent", "name": "TaskbarPhone", "points": [
 "EE64"
@@ -2263,7 +2263,7 @@
 "EE7E"
 ], "stem": "person_passkey"}, {"by": "pick", "icon": "clipboard_task_list_rtl_20_regular", "kind": "fluent", "name": "TrackersMirrored", "points": [
 "EE92"
-], "stem": "clipboard_task_list_rtl"}, {"by": "rule", "kind": "none", "name": "Wheel", "points": [
+], "stem": "clipboard_task_list_rtl"}, {"by": "meaning", "kind": "none", "name": "Wheel", "points": [
 "EE94"
 ]}, {"by": "pick", "icon": "stop_16_filled", "kind": "fluent", "name": "StopSolid", "points": [
 "EE95"
@@ -2277,7 +2277,7 @@
 "EECA"
 ], "stem": "app_folder"}, {"by": "code", "kind": "mirror", "name": "PenWorkspaceMirrored", "of": "EDC6", "points": [
 "EF15"
-]}, {"by": "code", "kind": "mirror", "name": "PenPaletteMirrored", "of": "EE56", "points": [
+]}, {"badge": "paint_bucket", "base": "pen", "by": "meaning", "icon": "pen_20_regular", "kind": "compose", "name": "PenPaletteMirrored", "points": [
 "EF16"
 ]}, {"by": "code", "kind": "mirror", "name": "StrokeEraseMirrored", "of": "ED60", "points": [
 "EF17"
@@ -2297,7 +2297,7 @@
 "EF2E"
 ], "stem": "maximize"}, {"by": "pick", "icon": "square_multiple_16_regular", "kind": "fluent", "name": "ChromeRestoreContrast", "points": [
 "EF2F"
-], "stem": "square_multiple"}, {"by": "rule", "kind": "none", "name": "TrafficLight", "points": [
+], "stem": "square_multiple"}, {"by": "meaning", "kind": "none", "name": "TrafficLight", "points": [
 "EF31"
 ]}, {"by": "agreed", "icon": "replay_16_regular", "kind": "fluent", "name": "Replay", "points": [
 "EF3B"
@@ -2327,11 +2327,11 @@
 "EFA5"
 ], "stem": "panel_bottom"}, {"by": "agreed", "icon": "person_voice_16_regular", "kind": "fluent", "name": "Speech", "points": [
 "EFA9"
-], "stem": "person_voice"}, {"by": "rule", "icon": "document_folder_16_regular", "kind": "fluent", "name": "DocumentManagement", "near": true, "points": [
+], "stem": "person_voice"}, {"by": "meaning", "icon": "document_settings_16_regular", "kind": "fluent", "name": "DocumentManagement", "points": [
 "EFDA"
-], "stem": "document_folder"}, {"by": "rule", "icon": "calendar_16_regular", "kind": "fluent", "name": "CRMScheduleReports", "near": true, "points": [
+], "stem": "document_settings", "style": "regular"}, {"by": "meaning", "icon": "calendar_clock_16_regular", "kind": "fluent", "name": "CRMScheduleReports", "points": [
 "EFFF"
-], "stem": "calendar"}, {"by": "pick", "icon": "document_text_16_regular", "kind": "fluent", "name": "KnowledgeArticle", "points": [
+], "stem": "calendar_clock", "style": "regular"}, {"by": "pick", "icon": "document_text_16_regular", "kind": "fluent", "name": "KnowledgeArticle", "points": [
 "F000"
 ], "stem": "document_text"}, {"by": "agreed", "icon": "share_android_16_regular", "kind": "fluent", "name": "Relationship", "points": [
 "F003"
@@ -2343,23 +2343,23 @@
 "F035"
 ], "stem": "apps_settings"}, {"by": "pick", "icon": "panel_right_add_20_filled", "kind": "fluent", "name": "WidgetAdd", "points": [
 "F036"
-], "stem": "panel_right_add"}, {"by": "pick", "icon": "clipboard_paste_16_regular", "kind": "fluent", "name": "PasteSparkle", "points": [
+], "stem": "panel_right_add"}, {"badge": "sparkle", "base": "clipboard_paste", "by": "meaning", "icon": "clipboard_paste_20_regular", "kind": "compose", "name": "PasteSparkle", "points": [
 "F03D"
-], "stem": "clipboard_paste"}, {"by": "pick", "icon": "clipboard_paste_16_regular", "kind": "fluent", "name": "AdvancedPaste", "points": [
+]}, {"by": "meaning", "icon": "clipboard_arrow_right_16_regular", "kind": "fluent", "name": "AdvancedPaste", "points": [
 "F03E"
-], "stem": "clipboard_paste"}, {"by": "pick", "icon": "person_square_16_regular", "kind": "fluent", "name": "PortraitLight", "points": [
+], "stem": "clipboard_arrow_right", "style": "regular"}, {"by": "pick", "icon": "person_square_16_regular", "kind": "fluent", "name": "PortraitLight", "points": [
 "F06C"
-], "stem": "person_square"}, {"by": "rule", "icon": "globe_16_regular", "kind": "fluent", "name": "DefaultAPN", "near": true, "points": [
+], "stem": "person_square"}, {"badge": "settings", "base": "globe", "by": "meaning", "icon": "globe_20_regular", "kind": "compose", "name": "DefaultAPN", "points": [
 "F080"
-], "stem": "globe"}, {"by": "pick", "icon": "person_16_regular", "kind": "fluent", "name": "UserAPN", "points": [
+]}, {"by": "pick", "icon": "person_16_regular", "kind": "fluent", "name": "UserAPN", "points": [
 "F081"
 ], "stem": "person"}, {"by": "pick", "kind": "text", "name": "DoublePinyin", "points": [
 "F085"
 ], "text": "A双", "weight": "regular"}, {"by": "pick", "icon": "shield_16_regular", "kind": "fluent", "name": "DefenderApp", "points": [
 "F08A"
-], "stem": "shield"}, {"by": "pick", "icon": "weather_moon_16_regular", "kind": "fluent", "name": "BlueLight", "points": [
+], "stem": "shield"}, {"by": "meaning", "icon": "weather_sunny_16_regular", "kind": "fluent", "name": "BlueLight", "points": [
 "F08C"
-], "stem": "weather_moon"}, {"by": "agreed", "icon": "caret_left_16_filled", "kind": "fluent", "name": "CaretSolidLeft", "points": [
+], "stem": "weather_sunny", "style": "regular"}, {"by": "agreed", "icon": "caret_left_16_filled", "kind": "fluent", "name": "CaretSolidLeft", "points": [
 "F08D"
 ], "stem": "caret_left"}, {"by": "agreed", "icon": "caret_down_16_filled", "kind": "fluent", "name": "CaretSolidDown", "points": [
 "F08E"
@@ -2383,9 +2383,9 @@
 "F0AF"
 ], "stem": "arrow_right"}, {"by": "agreed", "icon": "arrow_left_16_filled", "kind": "fluent", "name": "ArrowLeft8", "points": [
 "F0B0"
-], "stem": "arrow_left"}, {"by": "rule", "icon": "shield_error_16_regular", "kind": "fluent", "name": "QuarentinedItems", "near": true, "points": [
+], "stem": "arrow_left"}, {"badge": "shield_error", "base": "server", "by": "meaning", "icon": "server_20_regular", "kind": "compose", "name": "QuarentinedItems", "points": [
 "F0B2"
-], "stem": "shield_error"}, {"by": "code", "kind": "mirror", "name": "QuarentinedItemsMirrored", "of": "F0B2", "points": [
+]}, {"badge": "shield_error", "base": "server", "by": "meaning", "icon": "server_20_regular", "kind": "compose", "name": "QuarentinedItemsMirrored", "points": [
 "F0B3"
 ]}, {"by": "rule", "icon": "ruler_16_regular", "kind": "fluent", "name": "Protractor", "near": true, "points": [
 "F0B4"
@@ -2449,13 +2449,13 @@
 "F0ED"
 ], "stem": "speaker_2"}, {"by": "rule", "icon": "speaker_2_16_regular", "kind": "fluent", "name": "SpatialVolume3", "near": true, "points": [
 "F0EE"
-], "stem": "speaker_2"}, {"by": "pick", "icon": "shield_16_regular", "kind": "fluent", "name": "ApplicationGuard", "points": [
+], "stem": "speaker_2"}, {"badge": "shield", "base": "app_generic", "by": "meaning", "icon": "app_generic_20_regular", "kind": "compose", "name": "ApplicationGuard", "points": [
 "F0EF"
-], "stem": "shield"}, {"by": "pick", "icon": "cast_20_regular", "kind": "fluent", "name": "ProjectToDeviceSettings", "points": [
+]}, {"badge": "settings", "base": "cast", "by": "meaning", "icon": "cast_20_regular", "kind": "compose", "name": "ProjectToDeviceSettings", "points": [
 "F0F6"
-], "stem": "cast"}, {"by": "pick", "icon": "star_half_16_filled", "kind": "fluent", "name": "OutlineStarLeftHalf", "points": [
+]}, {"by": "meaning", "icon": "star_half_16_regular", "kind": "fluent", "name": "OutlineStarLeftHalf", "points": [
 "F0F7"
-], "stem": "star_half"}, {"by": "pick", "icon": "star_half_16_filled", "kind": "fluent", "name": "OutlineStarRightHalf", "points": [
+], "stem": "star_half", "style": "regular"}, {"by": "pick", "icon": "star_half_16_filled", "kind": "fluent", "name": "OutlineStarRightHalf", "points": [
 "F0F8"
 ], "stem": "star_half"}, {"by": "pick", "icon": "pen_16_filled", "kind": "fluent", "name": "ChromeAnnotateContrast", "points": [
 "F0F9"
@@ -2475,13 +2475,13 @@
 "F10C"
 ], "stem": "game_controller_bumper_left"}, {"by": "pick", "icon": "game_controller_bumper_right_20_regular", "kind": "fluent", "name": "BumperRight", "points": [
 "F10D"
-], "stem": "game_controller_bumper_right"}, {"by": "rule", "icon": "xbox_controller_16_regular", "kind": "fluent", "name": "Dpad", "near": true, "points": [
+], "stem": "game_controller_bumper_right"}, {"by": "meaning", "icon": "arrow_move_20_regular", "kind": "fluent", "name": "Dpad", "points": [
 "F10E"
-], "stem": "xbox_controller"}, {"by": "pick", "kind": "text", "name": "EnglishPunctuation", "points": [
+], "stem": "arrow_move", "style": "regular"}, {"by": "pick", "kind": "text", "name": "EnglishPunctuation", "points": [
 "F110"
-], "text": ".,", "weight": "bold"}, {"by": "pick", "kind": "text", "name": "ChinesePunctuation", "points": [
+], "text": ".,", "weight": "bold"}, {"by": "meaning", "kind": "text", "name": "ChinesePunctuation", "points": [
 "F111"
-], "text": "。；", "weight": "bold"}, {"by": "pick", "icon": "read_aloud_16_regular", "kind": "fluent", "name": "ReadOutLoud", "points": [
+], "text": "。，", "weight": "regular"}, {"by": "pick", "icon": "read_aloud_16_regular", "kind": "fluent", "name": "ReadOutLoud", "points": [
 "F112"
 ], "stem": "read_aloud"}, {"by": "pick", "icon": "cast_20_regular", "kind": "fluent", "name": "ProjectToDevice", "points": [
 "F117"
@@ -2501,9 +2501,9 @@
 "F129"
 ], "stem": "eraser_small"}, {"by": "pick", "icon": "eraser_medium_20_regular", "kind": "fluent", "name": "LargeErase", "points": [
 "F12A"
-], "stem": "eraser_medium"}, {"by": "agreed", "icon": "mic_16_regular", "kind": "fluent", "name": "MicrophoneListening", "points": [
+], "stem": "eraser_medium"}, {"by": "meaning", "icon": "mic_pulse_16_regular", "kind": "fluent", "name": "MicrophoneListening", "points": [
 "F12E"
-], "stem": "mic"}, {"by": "pick", "icon": "important_16_regular", "kind": "fluent", "name": "StatusExclamationCircle7", "points": [
+], "stem": "mic_pulse", "style": "regular"}, {"by": "pick", "icon": "important_16_regular", "kind": "fluent", "name": "StatusExclamationCircle7", "points": [
 "F12F"
 ], "stem": "important"}, {"by": "pick", "icon": "video_360_20_regular", "kind": "fluent", "name": "Video360", "points": [
 "F131"
@@ -2569,13 +2569,13 @@
 "F154"
 ], "text": "15", "weight": "light"}, {"by": "pick", "kind": "text", "name": "Dial16", "points": [
 "F155"
-], "text": "16", "weight": "light"}, {"by": "rule", "icon": "circle_16_regular", "kind": "fluent", "name": "DialShape2", "near": true, "points": [
+], "text": "16", "weight": "light"}, {"by": "meaning", "icon": "triangle_16_regular", "kind": "fluent", "name": "DialShape2", "points": [
 "F157"
-], "stem": "circle"}, {"by": "pick", "icon": "cube_16_regular", "kind": "fluent", "name": "DialShape3", "points": [
+], "stem": "triangle", "style": "regular"}, {"by": "pick", "icon": "cube_16_regular", "kind": "fluent", "name": "DialShape3", "points": [
 "F158"
-], "stem": "cube"}, {"by": "rule", "icon": "circle_16_regular", "kind": "fluent", "name": "DialShape4", "near": true, "points": [
+], "stem": "cube"}, {"by": "meaning", "icon": "diamond_16_regular", "kind": "fluent", "name": "DialShape4", "points": [
 "F159"
-], "stem": "circle"}, {"by": "pick", "icon": "emoji_16_regular", "kind": "fluent", "name": "Emoji3", "points": [
+], "stem": "diamond", "style": "regular"}, {"by": "pick", "icon": "emoji_16_regular", "kind": "fluent", "name": "Emoji3", "points": [
 "F160"
 ], "stem": "emoji"}, {"by": "rule", "icon": "money_16_filled", "kind": "fluent", "name": "TollSolid", "near": true, "points": [
 "F161"
@@ -2659,9 +2659,9 @@
 "F1E8"
 ], "stem": "leaf_two"}, {"by": "pick", "icon": "grid_circles_24_regular", "kind": "fluent", "name": "GridviewGroup", "points": [
 "F207"
-], "stem": "grid_circles"}, {"by": "rule", "icon": "keyboard_16_regular", "kind": "fluent", "name": "KeyboardSettings", "near": true, "points": [
+], "stem": "grid_circles"}, {"badge": "settings", "base": "keyboard", "by": "meaning", "icon": "keyboard_20_regular", "kind": "compose", "name": "KeyboardSettings", "points": [
 "F210"
-], "stem": "keyboard"}, {"by": "pick", "icon": "network_adapter_16_regular", "kind": "fluent", "name": "NetworkPhysical", "points": [
+]}, {"by": "pick", "icon": "network_adapter_16_regular", "kind": "fluent", "name": "NetworkPhysical", "points": [
 "F211"
 ], "stem": "network_adapter"}, {"by": "pick", "icon": "iot_16_regular", "kind": "fluent", "name": "IOT", "points": [
 "F22C"
@@ -2679,13 +2679,13 @@
 "F261"
 ], "stem": "keyboard_123"}, {"by": "pick", "icon": "keyboard_dock_20_regular", "kind": "fluent", "name": "KeyboardDock", "points": [
 "F26B"
-], "stem": "keyboard_dock"}, {"by": "pick", "icon": "keyboard_16_regular", "kind": "fluent", "name": "KeyboardUndock", "near": true, "points": [
+], "stem": "keyboard_dock"}, {"by": "meaning", "icon": "keyboard_layout_float_20_regular", "kind": "fluent", "name": "KeyboardUndock", "points": [
 "F26C"
-], "stem": "keyboard"}, {"by": "pick", "icon": "keyboard_layout_one_handed_left_20_regular", "kind": "fluent", "name": "KeyboardLeftDock", "points": [
+], "stem": "keyboard_layout_float", "style": "regular"}, {"by": "pick", "icon": "keyboard_layout_one_handed_left_20_regular", "kind": "fluent", "name": "KeyboardLeftDock", "points": [
 "F26D"
 ], "stem": "keyboard_layout_one_handed_left"}, {"by": "pick", "icon": "keyboard_dock_20_regular", "kind": "fluent", "name": "KeyboardRightDock", "near": true, "points": [
 "F26E"
-], "stem": "keyboard_dock"}, {"by": "rule", "kind": "none", "name": "Ear", "points": [
+], "stem": "keyboard_dock"}, {"by": "meaning", "kind": "none", "name": "Ear", "points": [
 "F270"
 ]}, {"by": "pick", "icon": "hand_point_16_regular", "kind": "fluent", "name": "PointerHand", "points": [
 "F271"
@@ -2693,9 +2693,9 @@
 "F272"
 ], "stem": "target_arrow"}, {"by": "rule", "icon": "flash_flow_16_regular", "kind": "fluent", "name": "ActionFramework", "near": true, "points": [
 "F277"
-], "stem": "flash_flow"}, {"by": "pick", "icon": "surface_earbuds_20_regular", "kind": "fluent", "name": "Earbudsingle", "near": true, "points": [
+], "stem": "flash_flow"}, {"by": "meaning", "icon": "headphones_monoaural_16_regular", "kind": "fluent", "name": "Earbudsingle", "points": [
 "F27C"
-], "stem": "surface_earbuds"}, {"by": "rule", "kind": "none", "name": "HearingAid", "points": [
+], "stem": "headphones_monoaural", "style": "regular"}, {"by": "meaning", "kind": "none", "name": "HearingAid", "points": [
 "F27F"
 ]}, {"by": "pick", "icon": "alert_snooze_16_regular", "kind": "fluent", "name": "MobSnooze", "points": [
 "F285"
@@ -2731,9 +2731,9 @@
 "F385"
 ], "stem": "globe"}, {"by": "pick", "icon": "presence_available_16_filled", "kind": "fluent", "name": "NetworkConnectedCheckmark", "near": true, "points": [
 "F386"
-], "stem": "presence_available"}, {"by": "rule", "kind": "none", "name": "NFCBadge", "points": [
+], "stem": "presence_available"}, {"by": "meaning", "icon": "payment_wireless_16_regular", "kind": "fluent", "name": "NFCBadge", "points": [
 "F39B"
-]}, {"by": "agreed", "icon": "sign_out_20_regular", "kind": "fluent", "name": "SignOut", "points": [
+], "stem": "payment_wireless", "style": "regular"}, {"by": "agreed", "icon": "sign_out_20_regular", "kind": "fluent", "name": "SignOut", "points": [
 "F3B1"
 ], "stem": "sign_out"}, {"by": "pick", "icon": "thumb_like_16_filled", "kind": "fluent", "name": "LikeSolid", "points": [
 "F3BF"
@@ -2753,9 +2753,9 @@
 "F405"
 ], "stem": "call_end"}, {"by": "pick", "icon": "screen_cut_20_regular", "kind": "fluent", "name": "ClippingTool", "points": [
 "F406"
-], "stem": "screen_cut"}, {"by": "pick", "icon": "rectangle_landscape_16_regular", "kind": "fluent", "name": "RectangularClipping", "points": [
+], "stem": "screen_cut"}, {"by": "meaning", "icon": "crop_16_regular", "kind": "fluent", "name": "RectangularClipping", "points": [
 "F407"
-], "stem": "rectangle_landscape"}, {"by": "review", "icon": "lasso_20_regular", "kind": "fluent", "name": "FreeFormClipping", "points": [
+], "stem": "crop", "style": "regular"}, {"by": "review", "icon": "lasso_20_regular", "kind": "fluent", "name": "FreeFormClipping", "points": [
 "F408"
 ], "stem": "lasso"}, {"by": "pick", "icon": "copy_arrow_right_16_regular", "kind": "fluent", "name": "CopyTo", "points": [
 "F413"
@@ -2787,9 +2787,9 @@
 "F465"
 ], "stem": "arrow_enter_left"}, {"by": "pick", "kind": "text", "name": "HWPOverwrite", "points": [
 "F466"
-], "text": "e", "weight": "light"}, {"by": "pick", "icon": "phone_16_regular", "kind": "fluent", "name": "PhoneResumeAlert", "points": [
+], "text": "e", "weight": "light"}, {"badge": "warning", "base": "phone", "by": "meaning", "icon": "phone_20_regular", "kind": "compose", "name": "PhoneResumeAlert", "points": [
 "F470"
-], "stem": "phone"}, {"by": "rule", "icon": "mic_16_regular", "kind": "fluent", "name": "MicLocationCombo", "near": true, "points": [
+]}, {"by": "meaning", "icon": "mic_16_regular", "kind": "fluent", "name": "MicLocationCombo", "near": true, "points": [
 "F47F"
 ], "stem": "mic"}, {"by": "pick", "icon": "globe_stand_20_regular", "kind": "fluent", "name": "Globe2", "points": [
 "F49A"
@@ -2801,7 +2801,7 @@
 "F4AA"
 ], "stem": "sticker"}, {"by": "pick", "icon": "alert_snooze_16_regular", "kind": "fluent", "name": "Snooze", "points": [
 "F4BD"
-], "stem": "alert_snooze"}, {"by": "pick", "icon": "surface_hub_20_regular", "kind": "fluent", "name": "SurfaceHubSelected", "near": true, "points": [
+], "stem": "alert_snooze"}, {"by": "meaning", "icon": "surface_hub_20_regular", "kind": "fluent", "name": "SurfaceHubSelected", "near": true, "points": [
 "F4BE"
 ], "stem": "surface_hub"}, {"by": "pick", "icon": "headset_vr_20_regular", "kind": "fluent", "name": "HoloLensSelected", "points": [
 "F4BF"
@@ -2819,9 +2819,9 @@
 "F54C"
 ], "stem": "agents"}, {"by": "pick", "icon": "laptop_shield_16_regular", "kind": "fluent", "name": "LaptopSecure", "points": [
 "F552"
-], "stem": "laptop_shield"}, {"by": "pick", "icon": "print_16_regular", "kind": "fluent", "name": "PrintDefault", "points": [
+], "stem": "laptop_shield"}, {"badge": "checkmark_circle", "base": "print", "by": "meaning", "icon": "print_20_regular", "kind": "compose", "name": "PrintDefault", "points": [
 "F56D"
-], "stem": "print"}, {"by": "code", "kind": "mirror", "name": "PageMirrored", "of": "E130", "points": [
+]}, {"by": "code", "kind": "mirror", "name": "PageMirrored", "of": "E130", "points": [
 "F56E"
 ]}, {"by": "code", "kind": "mirror", "name": "LandscapeOrientationMirrored", "of": "EF6B", "points": [
 "F56F"
@@ -2829,9 +2829,9 @@
 "F570"
 ], "stem": "color_off"}, {"by": "pick", "icon": "document_bullet_list_multiple_20_regular", "kind": "fluent", "name": "PrintAllPages", "points": [
 "F571"
-], "stem": "document_bullet_list_multiple"}, {"by": "rule", "icon": "document_16_regular", "kind": "fluent", "name": "PrintCustomRange", "near": true, "points": [
+], "stem": "document_bullet_list_multiple"}, {"by": "meaning", "icon": "document_arrow_right_16_regular", "kind": "fluent", "name": "PrintCustomRange", "points": [
 "F572"
-], "stem": "document"}, {"by": "pick", "icon": "document_margins_20_regular", "kind": "fluent", "name": "PageMarginPortraitNarrow", "points": [
+], "stem": "document_arrow_right", "style": "regular"}, {"by": "pick", "icon": "document_margins_20_regular", "kind": "fluent", "name": "PageMarginPortraitNarrow", "points": [
 "F573"
 ], "stem": "document_margins"}, {"by": "pick", "icon": "document_margins_20_regular", "kind": "fluent", "name": "PageMarginPortraitNormal", "near": true, "points": [
 "F574"
@@ -2941,9 +2941,9 @@
 "F5A8"
 ], "stem": "document"}, {"by": "pick", "icon": "book_16_regular", "kind": "fluent", "name": "StaplingLandscapeBookBinding", "points": [
 "F5A9"
-], "stem": "book"}, {"by": "rule", "icon": "arrow_swap_16_filled", "kind": "fluent", "name": "StatusDataTransferRoaming", "near": true, "points": [
+], "stem": "book"}, {"badge": "globe", "base": "arrow_swap", "by": "meaning", "icon": "arrow_swap_20_regular", "kind": "compose", "name": "StatusDataTransferRoaming", "points": [
 "F5AA"
-], "stem": "arrow_swap"}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "MobSIMError", "points": [
+]}, {"by": "pick", "icon": "sim_16_regular", "kind": "fluent", "name": "MobSIMError", "points": [
 "F5AB", "F618"
 ], "stem": "sim"}, {"by": "rule", "icon": "document_multiple_16_regular", "kind": "fluent", "name": "CollateLandscapeSeparated", "near": true, "points": [
 "F5AC"
@@ -2965,9 +2965,9 @@
 "F5ED"
 ], "stem": "square_multiple"}, {"by": "pick", "icon": "square_multiple_16_filled", "kind": "fluent", "name": "SetSolid", "points": [
 "F5EE"
-], "stem": "square_multiple"}, {"by": "rule", "icon": "eye_16_filled", "kind": "fluent", "name": "FuzzyReading", "near": true, "points": [
+], "stem": "square_multiple"}, {"by": "meaning", "icon": "blur_16_regular", "kind": "fluent", "name": "FuzzyReading", "points": [
 "F5EF"
-], "stem": "eye"}, {"by": "rule", "icon": "battery_0_20_regular", "kind": "fluent", "name": "VerticalBattery0", "points": [
+], "stem": "blur", "style": "regular"}, {"by": "rule", "icon": "battery_0_20_regular", "kind": "fluent", "name": "VerticalBattery0", "points": [
 "F5F2"
 ], "rotate": 90, "stem": "battery_0"}, {"by": "rule", "icon": "battery_1_20_regular", "kind": "fluent", "name": "VerticalBattery1", "points": [
 "F5F3"
@@ -3017,17 +3017,17 @@
 "F61F"
 ], "stem": "headphones_sound_wave"}, {"by": "pick", "icon": "sound_wave_circle_sparkle_off_16_regular", "kind": "fluent", "name": "NoiseCancelationOff", "points": [
 "F620"
-], "stem": "sound_wave_circle_sparkle_off"}, {"by": "pick", "icon": "share_16_filled", "kind": "fluent", "name": "MusicSharing", "points": [
+], "stem": "sound_wave_circle_sparkle_off"}, {"badge": "share", "base": "headphones", "by": "meaning", "icon": "headphones_20_regular", "kind": "compose", "name": "MusicSharing", "points": [
 "F623"
-], "stem": "share"}, {"by": "rule", "icon": "music_note_off_1_20_filled", "kind": "fluent", "name": "MusicSharingOff", "near": true, "points": [
+]}, {"badge": "prohibited", "base": "headphones", "by": "meaning", "icon": "headphones_20_regular", "kind": "compose", "name": "MusicSharingOff", "points": [
 "F624"
-], "stem": "music_note_off_1"}, {"by": "agreed", "icon": "circle_16_filled", "kind": "fluent", "name": "CircleShapeSolid", "points": [
+]}, {"by": "agreed", "icon": "circle_16_filled", "kind": "fluent", "name": "CircleShapeSolid", "points": [
 "F63C"
 ], "stem": "circle"}, {"by": "pick", "icon": "pen_16_regular", "kind": "fluent", "name": "Pen", "points": [
 "F67B"
-], "stem": "pen"}, {"by": "pick", "icon": "text_16_filled", "kind": "fluent", "name": "TextSelect", "points": [
+], "stem": "pen"}, {"by": "meaning", "icon": "scan_text_16_regular", "kind": "fluent", "name": "TextSelect", "points": [
 "F683"
-], "stem": "text"}, {"by": "pick", "icon": "arrow_move_20_regular", "kind": "fluent", "name": "TextNavigate", "points": [
+], "stem": "scan_text", "style": "regular"}, {"by": "pick", "icon": "arrow_move_20_regular", "kind": "fluent", "name": "TextNavigate", "points": [
 "F684"
 ], "stem": "arrow_move"}, {"by": "pick", "icon": "local_language_16_regular", "kind": "fluent", "name": "PinyinIMELogo2", "near": true, "points": [
 "F698"
@@ -3069,9 +3069,9 @@
 "F738"
 ], "stem": "history"}, {"by": "pick", "icon": "history_16_regular", "kind": "fluent", "name": "SetHistoryStatus2", "points": [
 "F739"
-], "stem": "history"}, {"by": "rule", "icon": "keyboard_16_regular", "kind": "fluent", "name": "Keyboardsettings20", "near": true, "points": [
+], "stem": "history"}, {"badge": "settings", "base": "keyboard", "by": "meaning", "icon": "keyboard_20_regular", "kind": "compose", "name": "Keyboardsettings20", "points": [
 "F73D"
-], "stem": "keyboard"}, {"by": "pick", "icon": "keyboard_layout_one_handed_left_20_filled", "kind": "fluent", "name": "OneHandedRight20", "near": true, "points": [
+]}, {"by": "pick", "icon": "keyboard_layout_one_handed_left_20_filled", "kind": "fluent", "name": "OneHandedRight20", "near": true, "points": [
 "F73E"
 ], "stem": "keyboard_layout_one_handed_left", "style": "filled"}, {"by": "agreed", "icon": "keyboard_layout_one_handed_left_20_regular", "kind": "fluent", "name": "OneHandedLeft20", "points": [
 "F73F"
@@ -3095,9 +3095,9 @@
 "F763"
 ], "stem": "calendar"}, {"by": "agreed", "icon": "mic_off_16_regular", "kind": "fluent", "name": "MicOff2", "points": [
 "F781"
-], "stem": "mic_off"}, {"by": "rule", "icon": "arrow_download_16_filled", "kind": "fluent", "name": "DeliveryOptimization", "near": true, "points": [
+], "stem": "mic_off"}, {"by": "meaning", "icon": "arrow_bidirectional_up_down_16_regular", "kind": "fluent", "name": "DeliveryOptimization", "points": [
 "F785"
-], "stem": "arrow_download"}, {"by": "agreed", "icon": "dismiss_16_regular", "kind": "fluent", "name": "CancelMedium", "points": [
+], "stem": "arrow_bidirectional_up_down", "style": "regular"}, {"by": "agreed", "icon": "dismiss_16_regular", "kind": "fluent", "name": "CancelMedium", "points": [
 "F78A"
 ], "stem": "dismiss"}, {"by": "agreed", "icon": "search_16_regular", "kind": "fluent", "name": "SearchMedium", "points": [
 "F78B"
@@ -3125,9 +3125,9 @@
 "F7B5"
 ], "text": "abc", "weight": "light"}, {"by": "rule", "icon": "text_edit_style_16_filled", "kind": "fluent", "name": "OverwriteWordsFill", "near": true, "points": [
 "F7B6"
-], "stem": "text_edit_style"}, {"by": "pick", "icon": "new_16_regular", "kind": "fluent", "name": "AddNewLine", "points": [
+], "stem": "text_edit_style"}, {"by": "meaning", "icon": "text_add_space_after_20_regular", "kind": "fluent", "name": "AddNewLine", "points": [
 "F7B7"
-], "stem": "new"}, {"by": "review", "icon": "arrow_enter_left_20_filled", "kind": "fluent", "name": "AddNewLineFill", "points": [
+], "stem": "text_add_space_after", "style": "regular"}, {"by": "review", "icon": "arrow_enter_left_20_filled", "kind": "fluent", "name": "AddNewLineFill", "points": [
 "F7B8"
 ], "stem": "arrow_enter_left"}, {"by": "pick", "kind": "text", "name": "OverwriteWordsKorean", "points": [
 "F7B9"
@@ -3167,9 +3167,9 @@
 "F89A"
 ]}, {"by": "rule", "icon": "shield_16_regular", "kind": "fluent", "name": "SmartScreen", "near": true, "points": [
 "F8A5"
-], "stem": "shield"}, {"by": "pick", "icon": "shield_16_filled", "kind": "fluent", "name": "ExploitProtection", "points": [
+], "stem": "shield"}, {"by": "meaning", "icon": "shield_settings_16_regular", "kind": "fluent", "name": "ExploitProtection", "points": [
 "F8A6"
-], "stem": "shield"}, {"by": "agreed", "icon": "add_16_filled", "kind": "fluent", "name": "AddBold", "points": [
+], "stem": "shield_settings", "style": "regular"}, {"by": "agreed", "icon": "add_16_filled", "kind": "fluent", "name": "AddBold", "points": [
 "F8AA"
 ], "stem": "add"}, {"by": "agreed", "icon": "subtract_16_filled", "kind": "fluent", "name": "SubtractBold", "points": [
 "F8AB"
@@ -3187,9 +3187,9 @@
 "F8B1"
 ], "stem": "mic"}, {"by": "agreed", "icon": "person_voice_16_filled", "kind": "fluent", "name": "SpeechSolidBold", "points": [
 "F8B2"
-], "stem": "person_voice"}, {"by": "pick", "icon": "cursor_click_20_filled", "kind": "fluent", "name": "ClickedOutLoudSolidBold", "points": [
+], "stem": "person_voice"}, {"badge": "speaker_2", "base": "cursor", "by": "meaning", "icon": "cursor_20_regular", "kind": "compose", "name": "ClickedOutLoudSolidBold", "points": [
 "F8B3"
-], "stem": "cursor_click"}, {"by": "pick", "icon": "person_voice_16_regular", "kind": "fluent", "name": "CopilotVoice", "points": [
+]}, {"by": "pick", "icon": "person_voice_16_regular", "kind": "fluent", "name": "CopilotVoice", "points": [
 "F8B4"
 ], "stem": "person_voice"}, {"by": "pick", "icon": "shield_keyhole_16_filled", "kind": "fluent", "name": "VPNOverlay", "points": [
 "F8C0"

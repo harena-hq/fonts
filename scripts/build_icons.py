@@ -46,6 +46,7 @@ PLACEHOLDER = "square_hint_16_regular"
 BADGES = {"add": "add_circle", "dismiss": "dismiss_circle", "checkmark": "checkmark_circle", "warning": "warning",
           "error": "error_circle", "lock": "lock_closed", "prohibited": "prohibited", "clock": "clock", "heart": "heart",
           "charge": "flash"}
+# A row may name any other stem as its badge.
 # The one composition recipe, in a 20-unit square: a filled badge at the bottom right, the base
 # knocked out around it.
 BADGE_SIZE = 11
@@ -115,7 +116,7 @@ def compose(base, badge):
     outline, size = svg(base)
     grid = to_path(scaled(outline, 20 / size))
     grid.simplify(fix_winding=True)
-    mark, side = svg(f"{BADGES[badge]}_16_filled")
+    mark, side = svg(f"{BADGES.get(badge, badge)}_16_filled")
     left = 20 - BADGE_SIZE
     placed = scaled(mark, BADGE_SIZE / side, left, 0)
     hole = circle(left + BADGE_SIZE / 2, BADGE_SIZE / 2, BADGE_SIZE / 2 + BADGE_GAP)

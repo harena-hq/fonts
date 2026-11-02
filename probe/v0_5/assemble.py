@@ -150,6 +150,7 @@ def main():
             row.pop("icon", None)
         if point in fixes["styles"]:
             row["style"] = fixes["styles"][point]
+            row.pop("icon", None)  # a seeded icon would keep its style: style.py chooses again
         if point in LABELS:
             row.pop("stem", None), row.pop("icon", None), row.pop("near", None)
             row.update(kind="text", text=LABELS[point][0], weight=LABELS[point][1], by="review")
@@ -160,6 +161,19 @@ def main():
         if step:
             row.pop("stem", None)
             row.update(step, by="rule")
+        if point in fixes["meaning"]:  # the second review: the meaning before the likeness
+            answer = fixes["meaning"][point]
+            for gone in ("stem", "icon", "near", "rotate", "style", "of", "base", "badge", "text", "weight", "with"):
+                row.pop(gone, None)
+            if "text" in answer:
+                row.update(kind="text", text=answer["text"], weight="regular")
+            elif "base" in answer:
+                row.update(kind="compose", base=answer["base"], badge=answer["badge"])
+            elif "stem" in answer:
+                row.update(kind="fluent", stem=answer["stem"], style=answer["style"])
+            else:
+                row["kind"] = "none"
+            row["by"] = "meaning"
         for key in ("stem", "base"):
             if key in row and row[key] not in ICON:
                 missing.append((name or point, row[key]))

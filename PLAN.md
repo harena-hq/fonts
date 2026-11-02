@@ -64,6 +64,7 @@ repository (Liberation and Carlito precedent).
 | **v0.4** ✓ | In all fifteen faces, Harena UI J lays out Hangul, kana and Han at the widths Edge gives them under a Segoe stack, for each language a page can set, with its Latin identical to Harena UI. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 10,940,956 measurements are within tolerance, 63,570 of them only by allowing the whole pixel Windows gives a character it emboldens in Semibold and Bold at 20 px and below. What cannot or need not match is left out and counted (the Locked notes); Japanese line boxes stay short until v0.6 |
 | v0.5 | Harena UI Icons |
 | v0.6 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
+| later | Icons outside WinUI's `Symbol` that lose a state or read as something else (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
 Each version's spec is written when the previous one closes. v0.5's is open, below; the earlier ones
@@ -200,20 +201,35 @@ OFL's text is not yet in the repository, and Harena UI J's string omits the rese
 **Where it stands** (2026-11-02). Items 1 and 3 are done, and item 2 waits on the owner's pass of the sheets
 and composition families.
 
-- *Table.* 1,609 rows: 1,411 `fluent` (216 marked near, the general idea rather than the same picture), 88
-  `text`, 50 `mirror`, 46 `compose` in four battery families and two others, 4 `holes`, 3 `blank` and 7 `none`:
-  E4E8, E614, Wheel (EE94), TrafficLight (EF31), Ear (F270), HearingAid (F27F), NFCBadge (F39B). Fluent has no
-  counterpart for these.
-- *How rows were settled.* Codex reviewed every row on overlay sheets and named 97 changes, all taken
-  (`probe/v0_5/review_fixes.json`). Of 268 findings, the 176 that name no Fluent icon stand as limits, most of
-  them states Fluent cannot draw: print-layout diagrams, SIM and VPN marks, battery-saver levels.
+- *Table.* 1,609 rows: 1,343 `fluent` (174 marked near, the general idea rather than the same picture), 118
+  `compose`, 91 `text`, 44 `mirror`, 4 `holes`, 3 `blank` and 6 `none`: E4E8, E614, Wheel (EE94), TrafficLight
+  (EF31), Ear (F270), HearingAid (F27F). Fluent has no counterpart for these.
+- *How rows were settled.* Codex reviewed every row on overlay sheets; of its 268 findings 217 said WRONG. The 97
+  changes it named were taken (`probe/v0_5/review_fixes.json`), though the battery ladder overrides 11 of them.
+- *The second review, for meaning.* The owner saw stand-ins that could change what an icon means, so the rows were
+  judged again: Sonnet on every sheet, joined with what Codex's first round had left open, 325 rows. Sonnet chose
+  again for each, widening the badge recipe to any filled Fluent stem where the original is an object plus a state,
+  and Codex judged the 199 rows that changed. It rejected 65, which keep their earlier choice, as does one more whose
+  combining mark the build cannot place. Three badges gave way to Fluent's own drawing: E670, E809, EC75.
+- *WinUI's `Symbol` first* (owner, 2026-11-02). The owner set the bar for v0.5 at the 193 rows WinUI's `Symbol` enum
+  draws (`SymbolIcon`; its 197 members as winui-svelte records them from WinUI's source, `Target` aside), and moved
+  the rest to later work. All map and none is a placeholder. Codex judged them on their own sheets twice; 16 changed
+  between the runs, as an object plus its state where Fluent has no single drawing. The second run still lists 25,
+  mostly a missing mark (signal bars drawn without their empty bars, Trim as scissors); its calls differ between
+  runs on the same drawing, so these go to the owner rather than another round.
+- *Later.* Outside `Symbol`, those 66 rows, and the 85 of the 325 for which nothing better was found, can still lose a state or
+  read as something else: print-layout diagrams, staples, SIM and VPN marks, gestures. A later reader should not
+  take the Edge results below as saying anything about meaning; only the owner's pass does.
 - *In Edge.* 168,504 widths at seven sizes and six styles are all within one layout unit, with no exclusion but
   the two controls that cannot be laid out alone. Line boxes are equal at every size; 28 strings of text and icons
-  under a stack match in width and height; the stack draws Segoe's pixels at every point. All 1,388 glyphs compared
-  with their source SVG in Edge match, E7A5 aside: its Segoe box is a sliver, too small to compare. Synthetic bold
-  inks more than regular in all 2,005 inked glyphs.
-- *Code review.* Codex's quota ran out before it: a new Opus context reviewed the branch, FIX-FIRST on the
-  copyright string and six gate and record gaps, all fixed. No other vendor's model has read this code.
+  under a stack match in width and height; the stack draws Segoe's pixels at every point. All 1,606 inked glyphs,
+  of every kind, match what Edge draws from their sources, E7A5 aside: its Segoe box is a sliver, too small to
+  compare. Each kind fails against another kind's drawing and with its recipe undone. Synthetic bold was last
+  measured before the second review.
+- *Code review.* Codex's quota ran out before the first: a new Opus context reviewed the branch, FIX-FIRST on the
+  copyright string and six gate and record gaps, all fixed. When it returned, Codex reviewed the branch, FIX-FIRST on
+  a style fix a seeded icon ignored, a comparison that left out 218 rows, and a hinting check that read only table
+  names, all fixed.
 
 **Out of scope.** WOFF2, npm and the stylesheet: v0.6. Linux and macOS rendering: 1.0. Matching stroke weights,
 colour icons and Segoe MDL2 Assets' widths. winui-svelte changing its stack, which is its own decision.
