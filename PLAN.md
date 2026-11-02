@@ -66,8 +66,8 @@ repository (Liberation and Carlito precedent).
 | v0.6 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.5's is next; the earlier ones are
-kept below.
+Each version's spec is written when the previous one closes. v0.5's is open, below; the earlier ones
+are kept after it.
 
 ## v0.5 — Harena UI Icons, at Segoe Fluent Icons' geometry
 
@@ -98,10 +98,10 @@ of the 1,609 glyphs: its code points, Microsoft's name if published, and what dr
 
 | kind | draws | for |
 |---|---|---|
-| `fluent` | one Fluent UI System Icons SVG | the same idea in Fluent's drawing |
+| `fluent` | one Fluent UI System Icons SVG, a quarter turned where Segoe draws upright what Fluent draws on its side (battery ladders, 23 rows) | the same idea in Fluent's drawing |
 | `compose` | a Fluent SVG and a filled Fluent badge, by one fixed recipe | states Fluent has no icon for, when the rules below pass |
 | `mirror` | another row, flipped | Segoe's mirrored forms |
-| `text` | Harena UI or Harena UI J outlines, of the row's weight | letters, script legends and IME key legends |
+| `text` | Harena UI J outlines of the row's weight, or Pretendard JP's where J has none of the symbols (4 rows) | letters, script legends and IME key legends |
 | `holes` | the cut-out subpaths of a filled Fluent SVG | symbols that stack on another glyph |
 | `blank` | nothing | glyphs with no ink in Segoe |
 | `none` | one neutral placeholder | no counterpart, counted |
@@ -137,12 +137,13 @@ phone. No single number separates good from bad, so:
    outlined badge is unreadable at 16 px.
 4. A composition removing 40% or more of its base's ink fails, automatically. 40% is provisional, from that pass.
 5. Compositions pass by family, one sheet at real size (16 and 20 px), by the owner.
-6. What fails becomes `none`. It is never forced.
+6. What fails is never forced: it takes its base alone, marked near, or `none`.
 
 **Locked — fitted without distortion.** Each outline is scaled uniformly until it fills the Segoe ink box
 on one axis, and centred on the other. Stroke weight follows from the fit and is not matched: it is shape,
-not layout. Fluent size is 16 first, then 20; `Solid`, `Fill` and `Bold` rows take `filled`, and others
-`regular`.
+not layout. Fluent size is 16 first, then 20, then 24; a composition's base is on the recipe's 20-unit grid.
+`Solid`, `Fill` and `Bold` rows take `filled`; others take whichever drawing inks nearer Segoe's glyph.
+*Rejected:* choosing by cosine, which picked filled twice as often: normalising favours a solid shape.
 
 **Locked — coverage is Segoe Fluent Icons' map, nothing more.** The one MDL2-only point and U+F5F0 stay out.
 WinUI's `Symbol.Target` names U+F5F0, but neither font of its `SymbolThemeFontFamily` maps it; of 254 font
@@ -150,7 +151,9 @@ files scanned on the guest only fonts private to apps do, and Edge draws a missi
 own face behind this one still draws it.
 
 **Licence.** Font under OFL 1.1, as the others. Fluent's outlines are MIT, whose notice ships beside the
-font. Fluent's and this font's names contain no reserved name. Sources are pinned by SHA-256:
+font (`docs/LICENSE-Fluent-UI-System-Icons.txt`). Text rows carry Open Sans's and Pretendard JP's outlines, so
+the font's copyright string names them, with Pretendard JP's Reserved Font Name; no Harena name contains it.
+OFL's text is not yet in the repository, and Harena UI J's string omits the reservation wording: v0.6, with delivery. Sources are pinned by SHA-256:
 `@fluentui/svg-icons` 1.1.345 and SymbolIconManager's mapping file at a commit.
 
 **Items**
@@ -177,20 +180,40 @@ font. Fluent's and this font's names contain no reserved name. Sources are pinne
    - the `cmap` is exactly Segoe's 2,008 points, and each row's points share one glyph;
    - each advance equals Segoe's in font units;
    - metrics are 2048/0/0 in all three places; there is no GSUB, GPOS, `kern`, hinting or colour table;
-   - each row's ink lies within Segoe's box within 1 unit, fills it on one axis and is centred on the other
-     (`blank` rows have no ink, and only they do);
-   - each outline is reproduced from its row and its source file: a font with any other outline fails;
+   - each row's ink lies within Segoe's box within 2 units (outlines round), fills it on one axis and is centred
+     on the other; `blank` rows are exactly those with no ink in Segoe; the 4 `holes` rows are excluded, and
+     must sit inside their circle's box, where Fluent placed them, so they align with it;
+   - each outline is reproduced from its row and its source file: a font with any other outline fails. This
+     cannot catch a bug in the build's own SVG reading, so item 4 compares every glyph with its SVG as Edge
+     parses it;
    - `none` is exactly the recorded count, each Fluent name exists in the pinned package, and each `compose` row
      removes under 40% of its base's ink;
    - two builds are byte-identical, and `SHA256SUMS-Icons` matches.
-   *Done when:* a fresh clone's gate passes, and each mutation of a row, an advance, a metric and an outline is
-   caught.
+   *Done when:* a fresh clone's gate passes, and each mutation in `scripts/mutate_icons.py` fails its own check.
 4. **In Edge.** `probe/v0_5/`: under `"Harena UI Icons"` alone, against `"Segoe Fluent Icons"`, every code
    point at 12–40 px and 1000 px, across weights 300–700 and italic, in DOM and canvas; line box height at each
    size; strings of mixed icons and text under the stack; and that the stack draws Segoe's pixels where Segoe is
    installed.
    *Done when:* every width is within one layout unit and every line box equal, with no exclusions, or any
    exclusion is named and counted here.
+
+**Where it stands** (2026-11-02). Items 1 and 3 are done, and item 2 waits on the owner's pass of the sheets
+and composition families.
+
+- *Table.* 1,609 rows: 1,411 `fluent` (216 marked near, the general idea rather than the same picture), 88
+  `text`, 50 `mirror`, 46 `compose` in four battery families and two others, 4 `holes`, 3 `blank` and 7 `none`:
+  E4E8, E614, Wheel (EE94), TrafficLight (EF31), Ear (F270), HearingAid (F27F), NFCBadge (F39B). Fluent has no
+  counterpart for these.
+- *How rows were settled.* Codex reviewed every row on overlay sheets and named 97 changes, all taken
+  (`probe/v0_5/review_fixes.json`). Of 268 findings, the 176 that name no Fluent icon stand as limits, most of
+  them states Fluent cannot draw: print-layout diagrams, SIM and VPN marks, battery-saver levels.
+- *In Edge.* 168,504 widths at seven sizes and six styles are all within one layout unit, with no exclusion but
+  the two controls that cannot be laid out alone. Line boxes are equal at every size; 28 strings of text and icons
+  under a stack match in width and height; the stack draws Segoe's pixels at every point. All 1,388 glyphs compared
+  with their source SVG in Edge match, E7A5 aside: its Segoe box is a sliver, too small to compare. Synthetic bold
+  inks more than regular in all 2,005 inked glyphs.
+- *Code review.* Codex's quota ran out before it: a new Opus context reviewed the branch, FIX-FIRST on the
+  copyright string and six gate and record gaps, all fixed. No other vendor's model has read this code.
 
 **Out of scope.** WOFF2, npm and the stylesheet: v0.6. Linux and macOS rendering: 1.0. Matching stroke weights,
 colour icons and Segoe MDL2 Assets' widths. winui-svelte changing its stack, which is its own decision.
