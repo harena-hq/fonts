@@ -62,6 +62,9 @@ BADGE = {"add": "add_circle", "dismiss": "dismiss_circle", "checkmark": "checkma
          "charge": "flash"}
 
 
+BARS = {"E1E5": 0, "E1E6": 1, "E1E7": 2, "E1E8": 3, "E1E9": 4}  # ZeroBars to FourBars
+
+
 def ladder(point):
     """Battery ladders the pickers read as icons plus a badge; level follows the code point."""
     v = int(point, 16)
@@ -161,6 +164,10 @@ def main():
         if step:
             row.pop("stem", None)
             row.update(step, by="rule")
+        if point in BARS:  # Segoe's signal ladder, empty bars drawn
+            for gone in ("stem", "icon", "near", "style"):
+                row.pop(gone, None)
+            row.update(kind="bars", level=BARS[point], by="rule")
         if point in fixes["meaning"]:  # the second review: the meaning before the likeness
             answer = fixes["meaning"][point]
             for gone in ("stem", "icon", "near", "rotate", "style", "of", "base", "badge", "text", "weight", "with"):

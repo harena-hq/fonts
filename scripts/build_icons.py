@@ -92,6 +92,26 @@ def scaled(recording, k, dx=0, dy=0):
     return pen
 
 
+# Signal strength as Segoe draws its ladder: four rising bars on a 20-unit grid, the first `level`
+# filled and the rest outlined. Fluent's own bars leave the empty ones out.
+BAR_X, BAR_WIDTH, BAR_HEIGHTS, BAR_LINE = (2, 6.5, 11, 15.5), 3, (5, 9, 13, 17), 1
+
+
+def bars(level):
+    pen = RecordingPen()
+    def rect(x0, y0, x1, y1, clockwise):
+        corners = [(x0, y0), (x0, y1), (x1, y1), (x1, y0)]
+        pen.moveTo(corners[0])
+        for corner in (corners[1:] if clockwise else corners[:0:-1]):
+            pen.lineTo(corner)
+        pen.closePath()
+    for i, (x, h) in enumerate(zip(BAR_X, BAR_HEIGHTS)):
+        rect(x, 2, x + BAR_WIDTH, 2 + h, True)
+        if i >= level:
+            rect(x + BAR_LINE, 2 + BAR_LINE, x + BAR_WIDTH - BAR_LINE, 2 + h - BAR_LINE, False)
+    return pen
+
+
 def to_path(recording):
     path = pathops.Path()
     recording.replay(path.getPen())
@@ -209,6 +229,8 @@ def build(out=OUTPUT):
             pen = RecordingPen()
             raw(by_point[row["of"]]).replay(TransformPen(pen, Transform(-1, 0, 0, 1, 0, 0)))
             return pen
+        if kind == "bars":
+            return bars(row["level"])
         if kind == "none":
             return svg(PLACEHOLDER)[0]
         raise ValueError(f"unknown kind {kind}")
@@ -227,7 +249,7 @@ def build(out=OUTPUT):
             k = min((x1 - x0) / (b - a), (y1 - y0) / (d - c))
             glyph = glyph_of(scaled(outline, k, (x0 + x1) / 2 - k * (a + b) / 2, (y0 + y1) / 2 - k * (c + d) / 2))
         else:
-            glyph = glyph_of(fit(raw(row), box[first]), reverse=row["kind"] != "text")
+            glyph = glyph_of(fit(raw(row), box[first]), reverse=row["kind"] not in ("text", "bars"))
         order.append(name)
         glyphs[name] = glyph
         metrics[name] = (advance[first], 0)

@@ -58,7 +58,7 @@ def main():
     by_point = {r["points"][0]: r for r in table}
     def reference(r):
         out = {"point": r["points"][0], "kind": r["kind"]}
-        for key in ("icon", "rotate", "text", "weight"):
+        for key in ("icon", "rotate", "text", "weight", "level"):
             if key in r:
                 out[key] = r[key]
         if r["kind"] == "none":
@@ -92,7 +92,8 @@ def main():
     badged = kinds["compose"][0]
     undone = [{k: v for k, v in turned.items() if k != "rotate"}, 
               {"point": badged["point"], "kind": "fluent", "icon": badged["icon"]},
-              {"point": kinds["holes"][0]["point"], "kind": "fluent", "icon": kinds["holes"][0]["icon"]}]
+              {"point": kinds["holes"][0]["point"], "kind": "fluent", "icon": kinds["holes"][0]["icon"]},
+              {**kinds["bars"][0], "level": 4}]  # ZeroBars drawn full
     blind = [(r["point"], score) for r in swapped + undone for score in fidelity([r]).values() if score >= FIDELITY]
     # Some mirrors are symmetric, so one flipped drawing that differs is what shows the check can see a flip.
     unflipped = fidelity([{**r["of"], "point": r["point"]} for r in kinds["mirror"]])

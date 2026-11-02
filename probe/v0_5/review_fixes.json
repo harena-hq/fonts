@@ -76,29 +76,13 @@
 "badge": "arrow_sync_off",
 "base": "folder"
 },
-"E1E5": {
-"stem": "cellular_off",
-"style": "regular"
-},
-"E1E6": {
-"stem": "cellular_data_5",
-"style": "filled"
-},
-"E1E7": {
-"stem": "cellular_data_4",
-"style": "filled"
-},
-"E1E8": {
-"stem": "cellular_data_3",
-"style": "filled"
-},
-"E1E9": {
-"stem": "cellular_data_2",
-"style": "filled"
-},
 "E294": {
 "stem": "scan_dash",
 "style": "regular"
+},
+"E295": {
+"badge": "eye",
+"base": "document"
 },
 "E2F7": {
 "badge": "cube",

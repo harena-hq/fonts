@@ -22,6 +22,8 @@ def describe(r):
         return f"{r['icon']} + {r['badge']} badge"
     if r["kind"] == "text":
         return f"text {r['text']!r} {r['weight']}"
+    if r["kind"] == "bars":
+        return f"bars at level {r['level']}"
     if r["kind"] == "mirror":
         return f"mirror of {r['of']}"
     return r["kind"]

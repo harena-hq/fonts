@@ -104,12 +104,16 @@ of the 1,609 glyphs: its code points, Microsoft's name if published, and what dr
 | `mirror` | another row, flipped | Segoe's mirrored forms |
 | `text` | Harena UI J outlines of the row's weight, or Pretendard JP's where J has none of the symbols (4 rows) | letters, script legends and IME key legends |
 | `holes` | the cut-out subpaths of a filled Fluent SVG | symbols that stack on another glyph |
+| `bars` | four rising bars, `level` of them filled and the rest outlined | Segoe's signal ladder, ZeroBars to FourBars (added after review) |
 | `blank` | nothing | glyphs with no ink in Segoe |
 | `none` | one neutral placeholder | no counterpart, counted |
 
 *Rejected:* a name-matching script alone (201 of 1,573 exact). *Rejected:* one row per code point, which
 would let two points Segoe draws alike draw differently. *Rejected:* drawing new outlines, or adjusting
 a Fluent one toward Segoe: nothing here may be traced, and every outline is one upstream's, fitted whole.
+*Amended* (owner's review, 2026-11-02): `bars` is the one exception, five rows of plain rectangles on a
+20 grid, because no upstream draws a ladder with its empty bars. Its numbers are this file's own, chosen
+for four rising bars, not measured from or traced over Segoe's; nothing else may be drawn new.
 
 **Locked — Segoe's pictures are working input, never data.** Choosing needs Segoe's glyphs in view, as
 winui-svelte's 229 rows did. Rendered sheets stay in `.private/` and are input only: they go to the
@@ -201,9 +205,9 @@ OFL's text is not yet in the repository, and Harena UI J's string omits the rese
 **Where it stands** (2026-11-02). Items 1 and 3 are done, and item 2 waits on the owner's pass of the sheets
 and composition families.
 
-- *Table.* 1,609 rows: 1,343 `fluent` (174 marked near, the general idea rather than the same picture), 118
-  `compose`, 91 `text`, 44 `mirror`, 4 `holes`, 3 `blank` and 6 `none`: E4E8, E614, Wheel (EE94), TrafficLight
-  (EF31), Ear (F270), HearingAid (F27F). Fluent has no counterpart for these.
+- *Table.* 1,609 rows: 1,337 `fluent` (174 marked near, the general idea rather than the same picture), 119
+  `compose`, 91 `text`, 44 `mirror`, 5 `bars`, 4 `holes`, 3 `blank` and 6 `none`: E4E8, E614, Wheel (EE94),
+  TrafficLight (EF31), Ear (F270), HearingAid (F27F). Fluent has no counterpart for these.
 - *How rows were settled.* Codex reviewed every row on overlay sheets; of its 268 findings 217 said WRONG. The 97
   changes it named were taken (`probe/v0_5/review_fixes.json`), though the battery ladder overrides 11 of them.
 - *The second review, for meaning.* The owner saw stand-ins that could change what an icon means, so the rows were
@@ -216,7 +220,10 @@ and composition families.
   the rest to later work. All map and none is a placeholder. Codex judged them on their own sheets twice; 16 changed
   between the runs, as an object plus its state where Fluent has no single drawing. The second run still lists 25,
   mostly a missing mark (signal bars drawn without their empty bars, Trim as scissors); its calls differ between
-  runs on the same drawing, so these go to the owner rather than another round.
+  runs on the same drawing, so these go to the owner rather than another round. The owner's read: the four signal
+  levels must show their empty bars, as Segoe does, and Preview must not draw what Scan draws. Fluent draws
+  neither empty bars nor a page preview, so ZeroBars to FourBars are a fifth recipe, `bars`: four rising bars on a
+  20 grid, as many filled as the level and the rest outlined; Preview is a page with an eye badge.
 - *Later.* Outside `Symbol`, those 66 rows, and the 85 of the 325 for which nothing better was found, can still lose a state or
   read as something else: print-layout diagrams, staples, SIM and VPN marks, gestures. A later reader should not
   take the Edge results below as saying anything about meaning; only the owner's pass does.

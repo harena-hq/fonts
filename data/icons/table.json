@@ -463,17 +463,17 @@
 "E1E3", "E7C9"
 ], "stem": "tap_single"}, {"by": "seed", "icon": "grid_dots_16_regular", "kind": "fluent", "name": "GoToStart", "points": [
 "E1E4", "E8FC"
-], "stem": "grid_dots"}, {"by": "meaning", "icon": "cellular_off_20_regular", "kind": "fluent", "name": "ZeroBars", "points": [
+], "stem": "grid_dots"}, {"by": "rule", "kind": "bars", "level": 0, "name": "ZeroBars", "points": [
 "E1E5", "E904"
-], "stem": "cellular_off", "style": "regular"}, {"by": "meaning", "icon": "cellular_data_5_20_filled", "kind": "fluent", "name": "OneBar", "points": [
+]}, {"by": "rule", "kind": "bars", "level": 1, "name": "OneBar", "points": [
 "E1E6", "E905"
-], "stem": "cellular_data_5", "style": "filled"}, {"by": "meaning", "icon": "cellular_data_4_20_filled", "kind": "fluent", "name": "TwoBars", "points": [
+]}, {"by": "rule", "kind": "bars", "level": 2, "name": "TwoBars", "points": [
 "E1E7", "E906"
-], "stem": "cellular_data_4", "style": "filled"}, {"by": "meaning", "icon": "cellular_data_3_20_filled", "kind": "fluent", "name": "ThreeBars", "points": [
+]}, {"by": "rule", "kind": "bars", "level": 3, "name": "ThreeBars", "points": [
 "E1E8", "E907"
-], "stem": "cellular_data_3", "style": "filled"}, {"by": "meaning", "icon": "cellular_data_2_20_filled", "kind": "fluent", "name": "FourBars", "points": [
+]}, {"by": "rule", "kind": "bars", "level": 4, "name": "FourBars", "points": [
 "E1E9", "E908"
-], "stem": "cellular_data_2", "style": "filled"}, {"by": "code", "kind": "mirror", "name": "AllAppsMirrored", "of": "E179", "points": [
+]}, {"by": "code", "kind": "mirror", "name": "AllAppsMirrored", "of": "E179", "points": [
 "E1EC", "EA40"
 ]}, {"by": "code", "kind": "mirror", "name": "OpenWithMirrored", "of": "E17D", "points": [
 "E1ED", "EA5C"
@@ -527,9 +527,9 @@
 "E292", "E8FD"
 ], "stem": "text_bullet_list_ltr"}, {"by": "meaning", "icon": "scan_dash_16_regular", "kind": "fluent", "name": "Scan", "points": [
 "E294", "E8FE"
-], "stem": "scan_dash", "style": "regular"}, {"by": "seed", "icon": "scan_dash_16_regular", "kind": "fluent", "name": "Preview", "points": [
+], "stem": "scan_dash", "style": "regular"}, {"badge": "eye", "base": "document", "by": "meaning", "icon": "document_20_regular", "kind": "compose", "name": "Preview", "points": [
 "E295", "E8FF"
-], "stem": "scan_dash"}, {"by": "review", "icon": "text_indent_increase_ltr_16_regular", "kind": "fluent", "points": [
+]}, {"by": "review", "icon": "text_indent_increase_ltr_16_regular", "kind": "fluent", "points": [
 "E297"
 ], "stem": "text_indent_increase_ltr"}, {"by": "review", "icon": "text_indent_decrease_ltr_16_regular", "kind": "fluent", "points": [
 "E298"

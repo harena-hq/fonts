@@ -85,6 +85,15 @@ const SYMBOL = { light: 300, regular: 400, bold: 700 };
     b.font = `${SYMBOL[r.weight]} 420px "Ref-${r.weight}", "Ref-symbols"`;
     return b.measureText(r.text).width;
   };
+  // Bars drawn as rectangles, an empty one cleared inside: x, width, heights and line on the 20 grid.
+  const bars = (r) => {
+    const u = 420 / 20;
+    [2, 6.5, 11, 15.5].forEach((x, i) => {
+      const h = [5, 9, 13, 17][i];
+      b.fillRect(40 + x * u, 40 + (18 - h) * u, 3 * u, h * u);
+      if (i >= r.level) b.clearRect(40 + (x + 1) * u, 40 + (19 - h) * u, 1 * u, (h - 2) * u);
+    });
+  };
   const paint = (r) => {
     if (r.kind === 'mirror') {
       b.save();
@@ -93,6 +102,7 @@ const SYMBOL = { light: 300, regular: 400, bold: 700 };
       b.restore();
     } else if (r.kind === 'compose') compose(r);
     else if (r.kind === 'holes') holes(r);
+    else if (r.kind === 'bars') bars(r);
     else if (r.kind === 'text') text(r, 420 * Math.min(1, 620 / width(r)));
     else if (r.rotate) {  // a quarter turn counterclockwise, about the centre of the drawing's square
       b.save();

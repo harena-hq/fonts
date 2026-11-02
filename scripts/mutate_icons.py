@@ -105,6 +105,10 @@ def table_text(doc):
     next(r for r in doc["rows"] if r["kind"] == "text")["text"] = "Z"
 
 
+def table_bars(doc):
+    next(r for r in doc["rows"] if r["kind"] == "bars")["level"] += 1
+
+
 def table_mirror(doc):
     row = next(r for r in doc["rows"] if r["kind"] == "mirror")
     row["of"] = "E700"
@@ -119,6 +123,7 @@ TABLE_MUTATIONS = [
     (table_row, "I2 one row per glyph"), (table_blank, "I5 blank exactly where Segoe has no ink"),
     (table_holes, "I5 cut-out rows are the four, over their circle"), (table_turn, "I5 a turned row turns a quarter"),
     (table_text, "I8 every outline is reproduced from its row"), (table_mirror, "I8 every outline is reproduced from its row"),
+    (table_bars, "I8 every outline is reproduced from its row"),
     (table_compose, "I6 no composition removes 40% of its base"),
 ]
 

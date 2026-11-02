@@ -25,7 +25,7 @@ EXPECTED_NONE = 6  # PLAN.md lists them
 # Excluded from I7: these sit where Fluent put them in the circle, so they align with it, not Segoe's box.
 HOLES_WITH = "F136"
 HOLES = {"error_circle_16_filled", "dismiss_circle_16_filled", "checkmark_circle_16_filled", "info_16_filled"}
-KINDS = {"blank", "fluent", "compose", "mirror", "text", "holes", "none"}
+KINDS = {"blank", "fluent", "compose", "mirror", "text", "holes", "none", "bars"}
 FORBIDDEN = {"GSUB", "GPOS", "GDEF", "kern", "fpgm", "prep", "cvt ", "COLR", "CPAL", "SVG ", "CBDT", "sbix"}
 INK_TOLERANCE = 2  # font units: outlines round to whole units
 
