@@ -13,7 +13,7 @@ under Segoe comes out the same size under this font.
 
 | family | covers | shapes from | geometry target |
 |---|---|---|---|
-| **Harena UI** | Latin, Greek, Cyrillic, punctuation, symbols | Open Sans ([ADR 0002](docs/adr/0002-the-latin-source-is-open-sans.md)) | Segoe UI Variable as Edge draws it — advances, kerning, vertical metrics, per named instance ([ADR 0001](docs/adr/0001-the-target-is-segoe-as-the-browser-draws-it.md)) |
+| **Harena UI** | Latin, Greek, Cyrillic, Hebrew, punctuation, symbols | Open Sans ([ADR 0002](docs/adr/0002-the-latin-source-is-open-sans.md)) | Segoe UI Variable as Edge draws it — advances, kerning, vertical metrics, per named instance ([ADR 0001](docs/adr/0001-the-target-is-segoe-as-the-browser-draws-it.md)) |
 | **Harena UI J** | Harena UI, plus Hangul, Kana and Han | Latin as Harena UI; CJK from Pretendard JP ([ADR 0003](docs/adr/0003-the-cjk-source-stays-pretendard-jp.md)) | Latin as Harena UI; CJK at the browser's fallback widths (1 em) and Malgun Gothic / Yu Gothic bodies and stems |
 | **Harena UI Icons** | Segoe Fluent Icons' code points | Fluent UI System Icons | Segoe Fluent Icons' ink boxes |
 
@@ -52,6 +52,13 @@ a reserved name.
 
 Segoe is used only as measured numbers. No Segoe outline, file or table dump enters the
 repository (Liberation and Carlito precedent).
+
+**Locked — no Harena name is reserved** (v0.6). OFL 1.1 forbids a modified version to use a Reserved
+Font Name, and the OFL FAQ counts subsetting a web font as modifying it. A UI face is subset by the
+sites and tools that serve it, so a reserved "Harena UI" would make each of them rename it, and a stack
+naming "Harena UI Text" would stop finding their copy. `OFL.txt` therefore carries Harena's copyright
+with no reservation, and the upstream notices with Pretendard JP's. *Rejected:* reserving "Harena UI"
+as Harena Term reserves its name: a terminal font is installed whole, a UI web font is not.
 
 ## Roadmap
 

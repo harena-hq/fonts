@@ -40,8 +40,9 @@ from build import COPYRIGHT, DIST, FACES, LICENSE, ROOT, SOURCE_DATE, UPM, VENDO
 PJP = ROOT / "sources/pjp/public/variable/PretendardJPVariable.ttf"
 DATA = ROOT / "data/v0_4"
 WORK = ROOT / "build/j"
-VERSION = "0.4.0"
-COPYRIGHT_J = COPYRIGHT + "\nCopyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard)"
+VERSION = "0.6.0"
+COPYRIGHT_J = (COPYRIGHT + "\nCopyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard), "
+               "with Reserved Font Name Pretendard JP")
 PX = UPM / 1000
 # Measured language -> OpenType language system
 SYSTEMS = {"": None, "ko": "KOR ", "ja": "JAN ", "zh-Hans": "ZHS ", "zh-Hant": "ZHT "}

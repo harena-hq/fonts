@@ -39,6 +39,7 @@ NOTO_CJK=https://raw.githubusercontent.com/notofonts/noto-cjk/$NOTO_CJK_COMMIT/S
 PINS="\
 https://github.com/orioncactus/pretendard/releases/download/v1.3.9/PretendardJP-1.3.9.zip|8dab678c371a1530106ca643b76b2b80d47653d5ba670b01265b48e4c6615d63|sources/PretendardJP-1.3.9.zip
 $GF/opensans/OpenSans%5Bwdth,wght%5D.ttf|36643644f318a812aab2d2ed3bb98f8cf0872527f835fe9398d95fe6b9adb878|sources/opensans/OpenSans[wdth,wght].ttf
+$GF/opensans/OFL.txt|fbbbcfef55318de350562559b671360de6d597112ecc5c73881b05092db89602|sources/opensans/OFL.txt
 $GF/opensans/OpenSans-Italic%5Bwdth,wght%5D.ttf|fe269381e992f32e135801740998544d6235061e37c93ec067ad2be3edd5b17b|sources/opensans/OpenSans-Italic[wdth,wght].ttf
 $GF/notosans/NotoSans%5Bwdth,wght%5D.ttf|bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d|sources/notosans/NotoSans[wdth,wght].ttf
 $GF/notosans/NotoSans-Italic%5Bwdth,wght%5D.ttf|58e6e0ebd1931b29a365aa2d3e2ee9a9e831a3af7cf3ad1462d4e72154f0b291|sources/notosans/NotoSans-Italic[wdth,wght].ttf
