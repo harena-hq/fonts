@@ -70,14 +70,14 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.3** ✓ | Every OpenType feature and language a browser can request lays each face out at Segoe's widths: the features Segoe has are matched, the ones it lacks are removed. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 4,505,220 measurements are within 0.1% of Segoe, 742 Small-face DOM ones within one layout unit instead. Coverage is left out and counted: marks Open Sans lacks, including `i`, `j` and `ị` before CGJ |
 | **v0.4** ✓ | In all fifteen faces, Harena UI J lays out Hangul, kana and Han at the widths Edge gives them under a Segoe stack, for each language a page can set, with its Latin identical to Harena UI. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 10,940,956 measurements are within tolerance, 63,570 of them only by allowing the whole pixel Windows gives a character it emboldens in Semibold and Bold at 20 px and below. What cannot or need not match is left out and counted (the Locked notes); Japanese line boxes stay short until v0.6 |
 | **v0.5** ✓ | Harena UI Icons |
-| v0.6 | Delivery: a page that loads the package's stylesheet and names Harena UI after Segoe lays out as under Segoe, line boxes included, and fetches only the files its text uses |
+| **v0.6** ✓ | Delivery: a page that loads the package's stylesheet and names Harena UI after Segoe lays out as under Segoe, line boxes included, and fetches only the files its text uses. Closed 2026-11-03: gate and mutations pass from a fresh clone; in Edge on Windows 880,110 widths equal the TTFs', and 1,745,100 line boxes equal Windows' with no language beyond the counted characters |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.6's is below; the closed ones
-follow it.
+Each version's spec is written when the previous one closes. The next is written when the owner
+chooses it; the closed ones are kept below.
 
-## v0.6 — delivery: the web package (spec approved 2026-11-03)
+## v0.6 — delivery: the web package (closed 2026-11-03)
 
 **Goal.** A page that loads the package's stylesheet and names Harena UI after Segoe lays out as it
 does under Segoe, line boxes included, and fetches only the files its text uses.
