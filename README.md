@@ -3,8 +3,8 @@
 A UI typeface that stands in for Segoe UI Variable and Segoe Fluent Icons where they are not
 installed. Its shapes come from open fonts; its geometry — advance widths, kerning, vertical
 metrics and icon ink boxes — is measured from Segoe, so a layout sized under Segoe comes out the
-same size under Harena UI. Named after Segoe in a font stack, it changes nothing on Windows and
-keeps the layout everywhere else.
+same size under Harena UI. Named after Segoe in a font stack, it keeps the layout where Segoe is
+absent; where Segoe is installed it draws only what Segoe lacks, such as Hangul, kana and Han.
 
 | family | covers | shapes from |
 |---|---|---|
@@ -26,7 +26,11 @@ font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Harena UI Icons";
 ```
 
 A renderer takes each character from the first family that has it, so where Segoe is installed it
-draws everything Segoe covers, and Harena UI is not used.
+draws everything Segoe covers. Hangul, kana and Han, which Segoe lacks, then come from Harena UI J
+instead of Windows' own fallback faces: at Windows' widths, in Pretendard JP's shapes. Served from
+the package, each part of Harena UI J takes the line height of the face Windows draws most of it with
+when no language is set; under `lang="ko"` or `"ja"`, and for the few characters Windows draws from
+yet another face, a line holding them can be a few pixels taller or shorter than on Windows.
 
 ## Build
 
@@ -38,9 +42,13 @@ python scripts/build.py        # Harena UI, 15 faces
 python scripts/build_j.py      # Harena UI J, 15 faces
 python scripts/build_icons.py  # Harena UI Icons
 python scripts/verify.py && python scripts/verify_j.py && python scripts/verify_icons.py
+python scripts/build_web.py    # the web files, in dist/web
+python scripts/build_css.py    # the stylesheets, in npm/
+python scripts/verify_web.py && python scripts/package_npm.py   # build/npm-package
 ```
 
-The built files are in `dist/`, and `SHA256SUMS`, `SHA256SUMS-J` and `SHA256SUMS-Icons` pin them.
+The built files are in `dist/`, and `SHA256SUMS`, `SHA256SUMS-J`, `SHA256SUMS-Icons` and
+`SHA256SUMS-Web` pin them. The npm package is `@harena-hq/ui-font`; `npm/README.md` describes it.
 `PLAN.md` is the plan and the record of what was measured; `docs/adr/` holds the decisions.
 
 ## Licence
