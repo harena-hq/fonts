@@ -13,7 +13,7 @@ under Segoe comes out the same size under this font.
 
 | family | covers | shapes from | geometry target |
 |---|---|---|---|
-| **Harena UI** | Latin, Greek, Cyrillic, punctuation, symbols | Open Sans ([ADR 0002](docs/adr/0002-the-latin-source-is-open-sans.md)) | Segoe UI Variable as Edge draws it — advances, kerning, vertical metrics, per named instance ([ADR 0001](docs/adr/0001-the-target-is-segoe-as-the-browser-draws-it.md)) |
+| **Harena UI** | Latin, Greek, Cyrillic, Hebrew, punctuation, symbols | Open Sans ([ADR 0002](docs/adr/0002-the-latin-source-is-open-sans.md)) | Segoe UI Variable as Edge draws it — advances, kerning, vertical metrics, per named instance ([ADR 0001](docs/adr/0001-the-target-is-segoe-as-the-browser-draws-it.md)) |
 | **Harena UI J** | Harena UI, plus Hangul, Kana and Han | Latin as Harena UI; CJK from Pretendard JP ([ADR 0003](docs/adr/0003-the-cjk-source-stays-pretendard-jp.md)) | Latin as Harena UI; CJK at the browser's fallback widths (1 em) and Malgun Gothic / Yu Gothic bodies and stems |
 | **Harena UI Icons** | Segoe Fluent Icons' code points | Fluent UI System Icons | Segoe Fluent Icons' ink boxes |
 
@@ -53,6 +53,13 @@ a reserved name.
 Segoe is used only as measured numbers. No Segoe outline, file or table dump enters the
 repository (Liberation and Carlito precedent).
 
+**Locked — no Harena name is reserved** (v0.6). OFL 1.1 forbids a modified version to use a Reserved
+Font Name, and the OFL FAQ counts subsetting a web font as modifying it. A UI face is subset by the
+sites and tools that serve it, so a reserved "Harena UI" would make each of them rename it, and a stack
+naming "Harena UI Text" would stop finding their copy. `OFL.txt` therefore carries Harena's copyright
+with no reservation, and the upstream notices with Pretendard JP's. *Rejected:* reserving "Harena UI"
+as Harena Term reserves its name: a terminal font is installed whole, a UI web font is not.
+
 ## Roadmap
 
 | version | one goal |
@@ -63,12 +70,214 @@ repository (Liberation and Carlito precedent).
 | **v0.3** ✓ | Every OpenType feature and language a browser can request lays each face out at Segoe's widths: the features Segoe has are matched, the ones it lacks are removed. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 4,505,220 measurements are within 0.1% of Segoe, 742 Small-face DOM ones within one layout unit instead. Coverage is left out and counted: marks Open Sans lacks, including `i`, `j` and `ị` before CGJ |
 | **v0.4** ✓ | In all fifteen faces, Harena UI J lays out Hangul, kana and Han at the widths Edge gives them under a Segoe stack, for each language a page can set, with its Latin identical to Harena UI. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 10,940,956 measurements are within tolerance, 63,570 of them only by allowing the whole pixel Windows gives a character it emboldens in Semibold and Bold at 20 px and below. What cannot or need not match is left out and counted (the Locked notes); Japanese line boxes stay short until v0.6 |
 | **v0.5** ✓ | Harena UI Icons |
-| v0.6 | Delivery: WOFF2 split by `unicode-range`, npm package with a CSS entry |
+| **v0.6** ✓ | Delivery: a page that loads the package's stylesheet and names Harena UI after Segoe lays out as under Segoe, line boxes included, and fetches only the files its text uses. Closed 2026-11-03: gate and mutations pass from a fresh clone; in Edge on Windows 880,110 widths equal the TTFs', and 1,745,100 line boxes equal Windows' with no language beyond the counted characters |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.6's is written next; the closed ones
-are kept below.
+Each version's spec is written when the previous one closes. The next is written when the owner
+chooses it; the closed ones are kept below.
+
+## v0.6 — delivery: the web package (closed 2026-11-03)
+
+**Goal.** A page that loads the package's stylesheet and names Harena UI after Segoe lays out as it
+does under Segoe, line boxes included, and fetches only the files its text uses.
+*Amended 2026-11-03:* the spec first added "and on Windows draws what it drew without the package";
+the measurement below showed `local()` cannot do that, and the owner dropped it (the Locked note).
+
+**What the delivery starts from** (explored 2026-11-03 on the v0.5 build).
+
+- **Sizes.** As WOFF2, a Harena UI face is 49 KB, Harena UI Icons 156 KB, and a whole Harena UI J face
+  1.92 MB: fifteen J faces would be 29 MB, which is why J is split and the others are not.
+- **What a split may not cut.** A font file is shaped alone, so a layout rule whose glyphs fall in two
+  files stops applying. Joining every glyph that any GSUB or GPOS rule of J Text Regular reads together
+  gives three kinds of group: Harena UI's 1,010 code points, tied to nothing outside them; one group of
+  231 kana and full-width punctuation (the kana `kern`, `dist` and the contextual `halt`); and 19,383
+  code points tied to nothing, among them every Hangul syllable and every Han character.
+- **Standard sets slice the rest.** Of J's 19,390 code points outside Harena UI, 11,172 are Hangul,
+  2,350 of them in KS X 1001 (172 KB as one file, the rest 519 KB); 7,140 are Han, 2,965 in JIS X 0208
+  level 1 (448 KB) and 3,390 in level 2 (597 KB); 1,078 are kana and symbols. Python's own `euc_kr`
+  and `euc_jp` codecs give these sets, so no frequency list is needed.
+- **winui-svelte names the optical size in the family** (its ADR 0003): `"Segoe UI Variable Small"`,
+  `"Text"` or `"Display"` per ramp step, then `"Segoe UI"`, then its own `'winui-svelte text'` face.
+  The Harena UI names already follow it: typographic families `Harena UI Small`, `Text`, `Display`,
+  `Harena UI J Small` and so on, and `Harena UI Icons`.
+- **On Windows a stack falls back per character, in order.** Segoe covers all of Harena UI's and Harena
+  UI Icons' code points, so neither is fetched or drawn there. It covers no Hangul, kana or Han: a stack
+  naming Harena UI J draws those from J instead of from Windows' own fallback faces, at Windows'
+  widths (v0.4) in Pretendard JP's shapes.
+- **Which face Windows falls back to depends on the language** (measured in Edge on the guest with
+  DevTools' platform fonts, under a Segoe stack). Hangul is always Malgun Gothic. Kana is Yu Gothic with
+  no language and under `ja`, Malgun Gothic under `ko`. Han and CJK punctuation are Microsoft YaHei with
+  no language, Malgun Gothic (MS PGothic in Light) under `ko`, Yu Gothic under `ja`. Light and Semilight
+  take each family's light face, Semibold and Bold its bold one.
+- **Only Yu Gothic makes a line taller.** At 14 px a line of kana is 22 px where Latin's is 19; Malgun
+  Gothic and YaHei lines are Segoe's height, or 1 px more at 40 px and up. Edge takes the line metrics
+  as DirectWrite reports them: `win` ascent and descent, with the gap `hhea` adds beyond them, which is
+  why Yu Gothic Bold's lines differ from Regular's though `hhea` is the same. J declaring those numbers
+  by `ascent-override`, `descent-override` and `line-gap-override` gives Windows' line box at every
+  size from 9 to 96 px, for each face against the text Windows draws in it.
+
+**Locked — the CSS family names are the installed names.** A page names `"Harena UI Text"` whether the
+font is served or installed, and a stack is written once. *Rejected:* one web family with `opsz` picked
+by weight or descriptor, which no consumer's stack names.
+
+**Locked — Harena UI and Harena UI Icons ship one WOFF2 per face; Harena UI J ships its CJK in chunks
+and its Latin from Harena UI's files.** Each J face is declared as Harena UI's file for Harena UI's code
+points plus its chunks, each under its own `unicode-range`. The chunks are, per face: kana with CJK
+and full-width punctuation (the tied group is inside it); the other symbols; Hangul in KS X 1001, with
+the compatibility jamo; the rest of Hangul, in three parts; Han, with radicals and compatibility
+ideographs, in seven parts in code point order. Every chunk is under 256 KB: thirteen per face.
+*Amended while building:* the spec cut Han by JIS X 0208 level as Hangul by KS X 1001. Both sets are
+scattered in code point order, and J's Han is too (4,287 runs), so their exact `unicode-range`s made
+`j.css` 1.38 MB, 470 KB under gzip. A face draws only what its range and its file both have (CSS Fonts
+4, §4.5), and of faces whose ranges overlap the last declared is tried first. So each chunk is
+declared over the blocks its code points are in, and KS X 1001's chunk, declared last, over every
+syllable: a Korean page fetches it, and the chunk of a rare syllable only when one appears. Han has no
+such set that spans its range, and is cut in code point order instead: a Japanese page fetches the
+Han chunks its text touches, which is most of them, up to 2.0 MB per face used. A character J lacks
+inside a Han chunk's range costs that chunk's fetch before the next family draws it. *Trigger to
+revisit:* a Japanese consumer, for whom a JIS-sliced stylesheet could be added beside `j.css`.
+This serves v0.4's "Latin identical to Harena UI" as shared bytes, and a Korean page fetches its Latin
+face and one or two Hangul chunks, about 220 KB. *Rejected:* a whole J face (1.9 MB before any text);
+Google Fonts' frequency slicing, which needs a usage corpus this project does not have, and saves
+bytes only once evidence shows pages load more chunks than they use.
+
+**Locked — a group no rule may cut is checked, not assumed.** The gate joins glyphs as above for every
+face, resolves each code point to the file a browser draws it from, and fails if a group spans two.
+
+**Locked — weights by range, upright only.** Each face is declared for the CSS weights Edge gives its
+Segoe instance (`data/v0_2/matching.json`): 1–325 Light, 326–375 Semilight, 376–499 Regular, 500–649
+Semibold, 650–1000 Bold, the same in all three optical sizes. Every face is `font-style: normal`, so
+italic is synthesized as for Segoe (ADR 0004).
+
+**Locked — `font-display: block`.** A layout drawn first in another face and then moved is the thing this
+project exists to prevent. Latin faces are 49 KB. *Rejected:* `swap`, which draws one wrong layout per
+load.
+
+**Locked — CJK line boxes on the web are Windows'.** v0.4 kept Segoe's vertical metrics in the file, so
+a kana line is 3 px short at 14 px, and Hangul 1 px at 40 px. Each chunk declares, per weight, the line
+metrics of the face Windows draws most of its characters with when no language is set: Malgun Gothic
+for Hangul and the other symbols, Yu Gothic for kana, Microsoft YaHei for Han (Microsoft JhengHei UI for
+one Light part, as measured). The numbers are measured and kept in `data/v0_6/fallback.json`.
+winui-svelte's pages set `lang="en"`, which falls back as no language does. A `unicode-range` cannot
+depend on `lang`: under `ko` and `ja`, and where Windows draws a character from another face than its
+chunk's, the line box can differ, and item 7 counts each such character.
+*Rejected:* changing the file's metrics, as v0.4 rejected.
+
+**Locked — J draws CJK on Windows too** (owner, 2026-11-03). Harena UI J named after Segoe takes the
+characters Segoe lacks, on Windows as everywhere: at Windows' widths and, with the overrides, its line
+boxes, in Pretendard JP's shapes. The layout is the promise, not the faces.
+*Rejected:* naming Windows' fallback face first in each chunk, `src: local(…), url(…)`. It was the
+spec's first choice, measured before it was built: Windows' face depends on the language, which a
+chunk cannot, so under the most common case, no language, Han would draw from Yu Gothic where Windows
+draws YaHei and take Yu Gothic's widths and trimming, moving Windows' own layout. Only Hangul, always
+Malgun Gothic, could have kept Windows' faces exactly; that can be added later without changing
+anything else.
+
+**Locked — the package.** `@harena-hq/ui-font`, as Harena Term's `@harena-hq/term-font`, assembled by a
+script from tracked metadata in `npm/` and ignored build output, as Harena Term's `package_npm.py`.
+Entries: `ui.css` (Harena UI), `j.css` (Harena UI J, which declares Harena UI's files under its own
+names), `icons.css` (Harena UI Icons), and `index.css` importing `ui.css` and `icons.css`. A J page
+imports `j.css` and `icons.css`. The stylesheets are generated from data, and the tracked copies must
+equal what the generator writes. Licence `OFL-1.1 AND MIT AND Apache-2.0`: fonts, Fluent's outlines,
+the stylesheets and scripts. Fonts keep the version that last changed them (Harena UI 0.3.0, Icons 0.5.0;
+J becomes 0.6.0 with its copyright string), recorded in `harena.fontVersions`; the package is 0.6.0.
+
+**Items**
+
+1. **Licence.** `OFL.txt` (the text, with Harena's copyright lines), `THIRD_PARTY_NOTICES.md` (Open
+   Sans, Pretendard JP with its Reserved Font Name, Fluent UI System Icons' MIT notice), and Harena UI J's
+   copyright string with Pretendard JP's reservation, as Harena UI Icons' already carries. A `README.md`
+   for the repository and one for the package, with a winui-svelte-shaped stack.
+   *Done when:* the files exist, J's name table carries the wording, and `verify_j.py` checks it.
+2. **Measure the fallback faces.** `probe/v0_6/`: for each J face and chunk, the faces Edge draws its
+   characters with under a Segoe stack with no language and under `ko` and `ja`, by name with glyph
+   counts; and each such face's metrics, read from its file on the guest (`metrics.ps1`). Names, counts
+   and numbers only, into `data/v0_6/fallback.json`, with the chosen face per chunk and weight.
+   *Done when:* every chunk and weight has a face, and J Text with that face's overrides lays out a
+   line of the chunk's characters drawn by that face at Windows' height at 9–96 px.
+3. **WOFF2 and chunks.** `scripts/build_web.py` writes `dist/web/`, and `SHA256SUMS-Web` pins it. Brotli
+   is pinned in `requirements.txt`.
+   *Done when:* a second build writes the same bytes; each WOFF2 decompresses to a font whose glyphs,
+   advances and layout tables equal the TTF's for its code points.
+4. **Stylesheets.** `scripts/build_css.py` writes `npm/*.css` from the chunk table, the weight ranges
+   and `fallback.json`.
+   *Done when:* regenerating changes nothing, and every `unicode-range` is exactly its file's cmap.
+5. **Package.** `scripts/package_npm.py` assembles `build/npm-package/`; `npm pack` makes the tarball.
+   *Done when:* the tarball holds exactly the declared files, every WOFF2 matches `SHA256SUMS-Web`, every
+   `url()` in every stylesheet names a file in it, and each export resolves.
+6. **The gate.** `scripts/verify_web.py`, with mutations as `mutate_icons.py`:
+   - **W1 Partition.** Per family and face, the declared ranges cover the TTF's cmap exactly, without
+     overlap; J's Latin ranges are Harena UI's, and J's glyphs there equal Harena UI's.
+   - **W2 Groups.** No group of glyphs a layout rule ties spans two files.
+   - **W3 Shaping.** Every string of the v0.3 and v0.4 cases, split into runs by file as a browser
+     splits it and shaped with HarfBuzz under each language, gives the whole TTF's advances and offsets.
+   - **W4 Faces.** Weight ranges and styles are as locked; each chunk's overrides are its face's in
+     `fallback.json`, computed as DirectWrite reports them.
+   - **W5 Package.** Item 5's checks.
+   *Done when:* it passes from a fresh clone, prints one line per check, and each mutation fails it: a
+   code point moved to another chunk, a split kana group, a dropped range, an overlap, a weight range
+   off by one, an override changed, a WOFF2 byte flipped, a stylesheet edited by hand.
+7. **In Edge, to close.** On the measurement guest, the package's stylesheets served over HTTP from
+   `build/npm-package/` (`probe/v0_6/browser.py`):
+   - widths: every string of the v0.3 and v0.4 cases, in every Harena UI and J face, with no language
+     and under `ko` and `ja`, at 1000 px, lays out in the package's family exactly as with the face's
+     whole TTF. The TTFs against Segoe are v0.2–v0.4's batteries, already passed; this replaces
+     rerunning them against the stylesheets, which the spec first said, since what the package can change
+     is how a browser splits and finds the files, and that is what this compares;
+   - line boxes: every J code point outside Harena UI, after `A`, at 14 and 40 px, in each J face, with
+     no language and under `ko` and `ja`, against the Segoe stack's: equal with no language, the
+     characters item 2 found drawn by another face aside, which are counted, as are those that differ
+     under `ko` and `ja`;
+   - fetches, from each page's resource list: Latin and icon text after Segoe fetches nothing; Latin in
+     Harena UI alone fetches its face; Hangul after Segoe fetches KS X 1001's chunk, and a rare syllable
+     the one other chunk that has it.
+   *Done when:* all three hold, with the counts recorded here.
+
+**Result** (2026-11-03).
+
+- *Files.* 211 WOFF2, 31.6 MB in the package: fifteen Harena UI faces (49 KB each), the icons
+  (156 KB), and thirteen chunks per J face, the largest 218 KB. Two builds write the same bytes, once
+  each file keeps its TTF's timestamp. `j.css` is 81 KB, 2.4 KB under gzip.
+- *Item 2.* With no language, Windows draws 594 of J's 19,390 code points outside Harena UI from
+  another face than their chunk's (1,469 in Light, where Microsoft JhengHei UI and YaHei Light share
+  Han). For every chunk and weight, J Text with its face's overrides gives Windows' line box at every
+  size from 9 to 96 px for a line of up to 40 of the characters that face draws.
+- *Gate.* `verify_web.py` passes, 16 checks; `mutate_web.py` catches all sixteen mutations.
+- *In Edge* (Edge 151 on the guest, `probe/v0_6/browser.py`): 880,110 widths, every string of the
+  v0.3 and v0.4 cases in all thirty faces under three languages at 1000 px, equal to the whole TTFs';
+  1,745,100 line boxes, none different with no language beyond the characters item 2 counts (13,854
+  measurements over fifteen faces and both sizes), and, counted, 25,086 under `ko` at 14 px, 80,850 at 40 px, and 117,066 under
+  `ja` at each size, where Windows draws kana and Han from Malgun Gothic or Yu Gothic; and seven pages
+  fetching exactly what was expected. A rare syllable fetches KS X 1001's chunk and then the one that
+  has it, as CSS Fonts 4 resolves overlapping ranges.
+- *Code review.* Codex, FIX-FIRST: package output could delete any directory under the repository;
+  the gate crashed on an unknown weight range before W4 could report it; W3 shaped file runs alone
+  on both sides, so it could not see a boundary effect; two mutations were caught for other reasons
+  than their names, and the byte flip was missing; `index.css` was not checked; the measurement cache
+  was reused without a fingerprint; the README still said Windows was unchanged. All fixed: output only
+  under `build/`, W3 now shapes each script run whole against its pieces, the mutations split and
+  overlap files for real, `index.css` is generated, the cache needs `--reuse` and a matching
+  fingerprint. One mutation, a glyph shifted whole, was found to change nothing a renderer draws, since
+  it places a glyph by its side bearing; it scales the glyph instead. Codex again, FIX-FIRST: W3 split
+  hiragana from katakana, which Chromium shapes as one run, so a pair across them went unseen; the
+  cache's fingerprint left out the guest and the probe, and an old cache crashed it; the package README
+  promised Windows' line heights without the exceptions. All fixed: W3 itemizes by script extensions
+  as Chromium does, with a mutation adding such a pair; the fingerprint takes the provenance and the
+  probe's bytes. A third look found W3 still settled a run's script at its first character (`、あ`
+  as Bopomofo, then kana) and the fingerprint without the fonts' hashes: W3 now narrows each run's
+  scripts as its characters come, as Chromium does, with three such strings added since no case
+  opens that way and a mutation pairing them; the fingerprint takes every face file's hash, and a
+  cache of the wrong shape is ignored; the repository README states the line-height exceptions too.
+
+**Out of scope, and where it goes**
+
+- Publishing to npm and tagging a release: the owner's, after the close.
+- Linux and macOS rendering, and matching for installed (not served) fonts: 1.0.
+- Icons outside `Symbol`, Trim and Reshare: later, as v0.5 left them.
+- Slicing by frequency: when a page shows it fetches more than it uses.
+- Line boxes item 7 counts, under `ko` and `ja` or where Windows mixes faces: when a layout shows one.
+- Windows' own Hangul by `local("Malgun Gothic")`: when a Korean page on Windows asks for it.
 
 ## v0.5 — Harena UI Icons, at Segoe Fluent Icons' geometry (closed 2026-11-02)
 

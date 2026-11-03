@@ -4,3 +4,5 @@ fonttools==4.63.0
 uharfbuzz==0.57.0
 # Knocks a composition's base out around its badge (Harena UI Icons).
 skia-pathops==0.9.2
+# Compresses the web delivery (WOFF2).
+brotli==1.1.0

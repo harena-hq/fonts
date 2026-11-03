@@ -315,6 +315,9 @@ def check_coverage(r, j, base, cases):
     declared = {p for p, bit in pages.items() if os2.ulCodePageRange1 & (1 << bit)}
     family = name.getDebugName(16) or ""
     named = family.startswith("Harena UI J ") and (name.getDebugName(6) or "").startswith("HarenaUIJ")
+    # OFL 1.1 keeps each upstream notice, Pretendard JP's with its reservation
+    notice = name.getDebugName(0) or ""
+    named = named and "Open Sans Project Authors" in notice and "with Reserved Font Name Pretendard JP" in notice
     r.check("14 coverage", got == want and orphans == 0 and declared == {932, 949, 1361} and named,
             f"{len(got)} code points, {len(cases['covered'])} added; {len(got - want)} extra, "
             f"{len(want - got)} missing, {orphans} orphan glyphs; code pages {sorted(declared)}; family {family!r}")
