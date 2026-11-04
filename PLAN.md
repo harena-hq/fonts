@@ -72,14 +72,13 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.5** ✓ | Harena UI Icons |
 | **v0.6** ✓ | Delivery: a page that loads the package's stylesheet and names Harena UI after Segoe lays out as under Segoe, line boxes included, and fetches only the files its text uses. Closed 2026-11-03: gate and mutations pass from a fresh clone; in Edge on Windows 880,110 widths equal the TTFs', and 1,745,100 line boxes equal Windows' with no language beyond the counted characters |
 | **v0.6.1** ✓ | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them. Closed 2026-11-04: gate and seventeen mutations pass from a fresh clone; in Edge 880,380 widths equal the TTFs', and all 1,745,100 J line boxes are Segoe's |
-| v0.7 | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0001 amended for CJK) |
+| **v0.7** ✓ | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0005). Closed 2026-11-04: gate and eighteen J mutations pass from a fresh clone; in Edge 872,550 code point widths are WinUI 3's, 735 labels agree with WinUI 3 within 0.014 px, and under `ja` no pair is trimmed beyond 450 counted pairs no text writes |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.7's is below; the closed ones
-follow it.
+Each version's spec is written when the previous one closes; the closed ones follow, newest first.
 
-## v0.7 — Harena UI J at WinUI 3's CJK widths (spec, 2026-11-04)
+## v0.7 — Harena UI J at WinUI 3's CJK widths (closed 2026-11-04)
 
 **Goal.** In every face and language, Harena UI J lays out Hangul, kana and Han at the widths
 WinUI 3 gives them, not Edge's.
@@ -164,6 +163,35 @@ widths WinUI gives at the same weight.
 **Out of scope.** WinUI's own Latin line rounding (38 and 54 px at 28 and 40 px, against Edge's 37 and
 53): winui-svelte's. A Windows display language other than English, which may change WinUI's choice
 with no `Language`: recorded as measured on `en-US`. Chinese and vertical text, as before.
+
+**Result** (2026-11-04).
+
+- *WinUI 3* (the app on the second guest, Windows App SDK 2.5.4-experimental, 100% scale): 290,865
+  widths, 19,390 code points in three languages and five weights, every one of the Gallery's 96
+  rounded up as it gives them; 2,663,310 pair widths, 177,554 pairs per language and weight. `ko-KR`
+  lays out as no language throughout. Under `ja-JP`, 183 code points take other widths, and 1,702
+  pairs at Light and 2,682 at the other weights kern; with no language, two pairs differ, both a kana
+  and a sound mark.
+- *Files.* J 0.7.0, Icons 0.5.1 (two key labels set in J's new widths), package 0.7.0: 196 WOFF2,
+  31.9 MB.
+- *Gate.* `verify.py` passes; J's checks 15–17 hold 592,281 widths and pairs per face to `data/v0_7`
+  with `kern` off for single code points, and every glyph's ink where the rule puts it.
+  `mutate_j.py` catches all eighteen mutations, `mutate_web.py` its seventeen.
+- *In Edge* (Edge 151 on the guest, `probe/v0_7/browser.py`): 872,550 code point widths at 1000 px
+  are `data/v0_7`'s within rounding; 735 labels in WinUI 3 and in Edge agree within 0.014 px; 887,770
+  pairs under `ja` are their parts and kern, so Edge trims none. *Counted:* 450 of them, a Hangul
+  syllable then a sound mark, which the package keeps in different files, so that Edge draws the
+  cluster from Windows, as v0.6.1's mark after a Latin letter; the whole TTF lays them out at their
+  parts. No text writes one.
+- *Code review.* Codex, in three rounds, found ways a changed font passed the gate: Japanese widths
+  moved into `kern`, plainly or made a required feature; class pairs, whose class 0 is every glyph,
+  in `kern` or `mark`; ink moved by placement, in a default `kern`, in one script's `dist`, on a
+  sound mark, by many small adjustments, or behind a second `JAN` record; and item 3 still said to
+  drop `dist`. All fixed: widths are checked with `kern` off;
+  check 16 holds the systems to no required feature, every feature but `kern` and `dist` to Harena
+  UI's lookups, added ones to glyph pairs of advance alone and to one `dist` shared by every script,
+  and each script and system to one record; check 17 reads placement from the outlines and from
+  `dist`, one adjustment per glyph; each has its mutation.
 
 ## v0.6.1 — Japanese delivery, and WinUI's line height (closed 2026-11-04)
 
