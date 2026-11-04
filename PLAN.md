@@ -107,14 +107,16 @@ by UI Automation at 100 px, whole pixels):
 - Bold widens the kana a little (あ 84 under `ja-JP`) and nothing else sampled.
 - UI Automation gives whole pixels, and only for what is on screen.
 
-**Locked — WinUI's widths come from the faces it uses, identified by measurement.** Whole pixels at
-100 px are 1% of an em, too coarse to build from, but enough to tell faces apart. So the probe
-identifies, per language, weight and code point, the face WinUI draws with, among the faces its
-widths could come from; the exact advances are then read from those faces' files on the guest
-(numbers only, as for Segoe). Every code point is then checked: its predicted width at 100 px must be
-what WinUI lays out, within the half pixel of rounding.
-*Rejected:* building from the 100 px widths (a 1% error per character); measuring at 1000 px, which
-UI Automation cannot see whole on a screen.
+**Locked — WinUI's widths measured exactly, by a WinUI 3 app** (amended 2026-11-04, before the
+probe). `probe/v0_7/measure` is a WinUI 3 app, built against the Windows App SDK the Gallery ships
+(2.5.4-experimental), that lays each case out as a `TextBlock` in the default style
+(`XamlControlsResources`), unrounded, and writes its `ActualWidth`. That is the width WinUI lays out,
+exact (`ja-JP` あ is 81.591796875 px at 100 px, 1671/2048 em); the Gallery's whole pixels are the same
+widths rounded up by layout rounding, and the app gives every width the exploration measured, so
+rounded. The data is built from directly.
+*Rejected:* identifying the faces WinUI draws with from the Gallery's whole pixels and reading their
+advances from the files, as first specified: the app gives the widths themselves, needs no candidate
+list, and takes seconds where the Gallery's editor took minutes per few hundred characters.
 
 **Locked — per-language widths as v0.4 encodes them.** The `hmtx` advance is WinUI's with no
 language; single adjustments under `KOR` and `JAN` give the others, where they differ. A glyph whose
@@ -128,18 +130,16 @@ widths WinUI gives at the same weight.
 **Items**
 
 1. **Probe WinUI.** `probe/v0_7/`: per language (none, `ko-KR`, `ja-JP`) and weight, every J code
-   point outside Harena UI at 100 px, on a maximized Gallery window. Data in `data/v0_7/winui.json`:
-   widths in px, and the provenance.
-   *Done when:* every code point has a width in each language and weight.
-2. **Identify and read the faces.** Candidates are the faces Windows has for CJK (Malgun Gothic, Yu
-   Gothic UI, Yu Gothic, Microsoft YaHei UI, MS PGothic and so on, at each weight); `metrics.ps1`'s
-   reader extended to advances. A code point's face is the candidate whose advance, at 100 px, is what
-   WinUI measured; pairs are checked for kerning by measuring them against their parts.
-   *Done when:* every code point in every language and weight has one face, or is listed as
-   unexplained with its measured width; and kerning is either absent or recorded.
+   point outside Harena UI at 100 px, by the app. Data in `data/v0_7/winui.json`: widths in px, and
+   the provenance.
+   *Done when:* every code point has a width in each language and weight, and the app's widths, rounded
+   up, are the Gallery's for every case of the exploration.
+2. **Pairs.** Pairs of J code points, from the v0.4 sentences and each class's neighbours (kana, Han,
+   Hangul, punctuation), measured by the app against the sum of their parts in each language.
+   *Done when:* kerning or trimming between CJK characters is either absent or recorded.
 3. **Build.** `build_j.py` takes `data/v0_7` for CJK widths, drops `halt` and `dist`, and moves ink as
    locked. J becomes 0.7.0, the package 0.7.0.
-4. **Gate.** `verify_j.py`: every code point's advance under each language equals its face's in
+4. **Gate.** `verify_j.py`: every code point's advance under each language equals its width in
    `data/v0_7`, and no `halt`, `dist` or other width feature is left; mutations as before. `verify_web`
    unchanged.
 5. **In Edge and WinUI, to close.** Every J code point in each face and language, in Edge with the
