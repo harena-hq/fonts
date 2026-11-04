@@ -2,9 +2,9 @@
 // then, by mode:
 //  widths: { faces: [{ family, weight, ttf }], strings, langs, px } - each string's DOM width in the
 //          package's family against the same face loaded whole from its TTF; returns the differences.
-//  lines:  { faces: [{ family, stack, weight }], points, langs, sizes } - the line box of "A" and one
-//          code point under the Segoe stack, and with the package's family after it; returns, per
-//          face, language and size, the code points whose line box differs.
+//  lines:  { faces: [{ family, stack, weight }], points, langs, sizes } - the line box of "A" alone
+//          under the Segoe stack, against "A" and one code point with the package's family after it;
+//          returns, per face, language and size, the code points whose line box differs.
 //  fetch:  { texts: [{ key, stack, weight, lang, text }] } - the font files each text makes the page
 //          fetch, from the resource list, one text per page load.
 (async () => {
@@ -53,11 +53,14 @@
         for (const px of CONFIG.sizes) {
           const key = `${face.family}|${face.weight}|${lang}|${px}`;
           const bad = out.differs[key] = [];
+          div.textContent = 'A';
+          div.style.font = `${face.weight} ${px}px ${face.stack}`;
+          const windows = div.getBoundingClientRect().height;
+          div.style.font = `${face.weight} ${px}px ${face.stack}, "${face.family}"`;
           for (const c of CONFIG.points) {
-            div.textContent = 'A' + String.fromCodePoint(c);
-            div.style.font = `${face.weight} ${px}px ${face.stack}`;
-            const windows = div.getBoundingClientRect().height;
-            div.style.font = `${face.weight} ${px}px ${face.stack}, "${face.family}"`;
+            // A combining mark goes after a base it can combine with: after a Latin letter Edge cannot
+            // draw the cluster from one file and takes it from Windows instead
+            div.textContent = 'A' + (CONFIG.marks.includes(c) ? 'か' : '') + String.fromCodePoint(c);
             const ours = div.getBoundingClientRect().height;
             out.measured++;
             if (windows !== ours) bad.push(c);
