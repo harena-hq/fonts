@@ -14,7 +14,7 @@ under Segoe comes out the same size under this font.
 | family | covers | shapes from | geometry target |
 |---|---|---|---|
 | **Harena UI** | Latin, Greek, Cyrillic, Hebrew, punctuation, symbols | Open Sans ([ADR 0002](docs/adr/0002-the-latin-source-is-open-sans.md)) | Segoe UI Variable as Edge draws it — advances, kerning, vertical metrics, per named instance ([ADR 0001](docs/adr/0001-the-target-is-segoe-as-the-browser-draws-it.md)) |
-| **Harena UI J** | Harena UI, plus Hangul, Kana and Han | Latin as Harena UI; CJK from Pretendard JP ([ADR 0003](docs/adr/0003-the-cjk-source-stays-pretendard-jp.md)) | Latin as Harena UI; CJK at the browser's fallback widths (1 em) and Malgun Gothic / Yu Gothic bodies and stems |
+| **Harena UI J** | Harena UI, plus Hangul, Kana and Han | Latin as Harena UI; CJK from Pretendard JP ([ADR 0003](docs/adr/0003-the-cjk-source-stays-pretendard-jp.md)) | Latin as Harena UI; CJK at WinUI 3's widths in each language ([ADR 0005](docs/adr/0005-cjk-takes-winui-3s-widths.md)) and Malgun Gothic / Yu Gothic bodies and stems |
 | **Harena UI Icons** | Segoe Fluent Icons' code points | Fluent UI System Icons | Segoe Fluent Icons' ink boxes |
 
 **Locked — Harena UI and Harena UI J are separate families.** Segoe UI Variable has no Hangul or
@@ -74,9 +74,74 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.6.1** ✓ | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them. Closed 2026-11-04: gate and seventeen mutations pass from a fresh clone; in Edge 880,380 widths equal the TTFs', and all 1,745,100 J line boxes are Segoe's |
 | **v0.7** ✓ | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0005). Closed 2026-11-04: gate and eighteen J mutations pass from a fresh clone; in Edge 872,550 code point widths are WinUI 3's, 735 labels agree with WinUI 3 within 0.014 px, and under `ja` no pair is trimmed beyond 450 counted pairs no text writes |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
-| 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
+| 1.0 | In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with the package lays out as on Windows: widths, line boxes and fetches |
 
-Each version's spec is written when the previous one closes; the closed ones follow, newest first.
+Each version's spec is written when the previous one closes. 1.0's is below; the closed ones
+follow it, newest first.
+
+## 1.0 — the package on macOS and Linux, as on Windows (spec, 2026-11-04; approved 2026-11-09)
+
+**Goal.** In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with
+the package lays out as on Windows: widths, line boxes and fetches.
+
+**Why.** Every measurement so far was taken in Edge on Windows. Harena is a Tauri app, so it draws
+with the platform's web view: WebView2 on Windows (Edge's Blink, verified), WKWebView on macOS
+(WebKit, shaping through Core Text) and WebKitGTK on Linux (WebKit, shaping through HarfBuzz).
+winui-svelte also runs in ordinary browsers. None of these has Segoe, so each draws Latin from
+Harena UI and CJK from Harena UI J, and each may treat what the fonts encode differently: whether
+Core Text applies `dist` under Japanese, which vertical metrics an engine builds `line-height:
+normal` from, whether `unicode-range` splits a cluster as Blink does.
+
+**Locked — the engines** (owner, 2026-11-04). Required: WebKit on macOS (Safari, standing for
+WKWebView: the same WebKit and Core Text), WebKitGTK on Linux (the distribution's `webkit2gtk-4.1`,
+the library Tauri links, driven through its own browser), and Chrome and Firefox on both. Edge on
+Windows is the reference and was verified through v0.7.
+*Rejected:* Playwright's WebKit build on Linux, which is not the library Tauri loads. *Later:* a
+WKWebView harness inside a Tauri build, if Safari passes and the app is ever seen to differ; Chrome
+and Firefox on Windows.
+
+**Locked — where.** macOS: a macOS guest in UTM (Apple's virtualization) on the owner's Mac, signed
+in, reached over SSH on the tailnet, recorded by macOS and browser versions and device pixel ratio;
+layout is Core Text's on the CPU, whatever the guest's display. Linux: an Ubuntu 24.04 LTS guest with the desktop's default fonts (Noto CJK among
+them, so a missed fallback shows), the distribution's WebKitGTK, Firefox and Chrome. Neither has
+Segoe.
+
+**Locked — one probe, through WebDriver.** Each engine is driven by its W3C WebDriver
+(`safaridriver`, `WebKitWebDriver`, `chromedriver`, `geckodriver`), running the same measuring
+script in the same page from the repository's file server; Edge, the reference, runs the script
+over CDP as before. The script measures in layout units and returns numbers only.
+*Rejected:* a page that posts its results, which needs a person at each run.
+
+**Locked — the reference.** For a page that names Harena after the Segoe stack, the reference is
+what Edge on Windows lays out with Segoe installed: Latin from Segoe, CJK from Harena UI J. Widths
+are compared within v0.3's tolerance (0.1%, or one layout unit for a short string), CJK and labels
+against `data/v0_7` and WinUI 3 within v0.7's; line boxes are compared exactly, after each engine's
+own rounding is recorded.
+
+**Items**
+
+1. **Rig.** The Linux guest and the Mac reachable, each engine's driver running, versions recorded;
+   the file server reachable from both.
+   *Done when:* a one-line script returns the engine and version from each of the six.
+2. **Probe.** `probe/v1_0/`: one measuring script (widths, line boxes, fetches) and a driver for each
+   protocol; the reference taken in Edge with the same script.
+   *Done when:* Edge's run of it reproduces v0.6.1's and v0.7's Edge numbers.
+3. **Widths.** In each engine: the v0.3 and v0.4 strings in every Harena UI and Harena UI J face, in
+   no language, `ko` and `ja`; every J code point alone in each language; the v0.7 labels; Harena
+   UI Icons' code points. Against the reference.
+4. **Line boxes.** In each engine, v0.6.1's lines: `A` alone and `A` with each J code point, at 14
+   and 40 px, in each face and language, with the package after the Segoe stack. Against Segoe's on
+   Windows.
+5. **Fetches.** In each engine, v0.6's nine pages: each fetches exactly the files Edge fetches.
+6. **What differs is decided, then fixed or counted.** A difference found in 3–5 is reported with
+   its cause before anything changes. A fix to the fonts or stylesheets must leave Windows as it is,
+   proved by re-running the v0.7 gate and Edge probe; what is not fixed is counted, with its cause,
+   in this section.
+   *Done when:* 3–5 hold in every engine, with what does not counted here.
+
+**Out of scope.** The repository's layout at release, including joining Harena Term's font under
+one `harena-hq/fonts` repository: decided at release. Publishing to npm: after 1.0. Chinese and
+vertical text, as before.
 
 ## v0.7 — Harena UI J at WinUI 3's CJK widths (closed 2026-11-04)
 
