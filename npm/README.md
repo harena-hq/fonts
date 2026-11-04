@@ -36,7 +36,8 @@ font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Harena UI Icons";
 A renderer takes each character from the first family that has it. Where Segoe is installed, it
 draws what Segoe covers and fetches no Harena file for it; Hangul, kana and Han, which Segoe lacks,
 come from Harena UI J at the widths Windows gives them in Edge. A line holding them keeps Segoe's
-height in every language, as WinUI 3 draws it.
+height in every language, as WinUI 3 draws it (a kana voicing mark written straight after a Latin
+letter aside, which Edge draws from Windows).
 
 ## Licence
 

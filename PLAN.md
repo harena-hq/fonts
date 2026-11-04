@@ -71,15 +71,15 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.4** ✓ | In all fifteen faces, Harena UI J lays out Hangul, kana and Han at the widths Edge gives them under a Segoe stack, for each language a page can set, with its Latin identical to Harena UI. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 10,940,956 measurements are within tolerance, 63,570 of them only by allowing the whole pixel Windows gives a character it emboldens in Semibold and Bold at 20 px and below. What cannot or need not match is left out and counted (the Locked notes); Japanese line boxes stay short until v0.6 |
 | **v0.5** ✓ | Harena UI Icons |
 | **v0.6** ✓ | Delivery: a page that loads the package's stylesheet and names Harena UI after Segoe lays out as under Segoe, line boxes included, and fetches only the files its text uses. Closed 2026-11-03: gate and mutations pass from a fresh clone; in Edge on Windows 880,110 widths equal the TTFs', and 1,745,100 line boxes equal Windows' with no language beyond the counted characters |
-| v0.6.1 | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them |
+| **v0.6.1** ✓ | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them. Closed 2026-11-04: gate and seventeen mutations pass from a fresh clone; in Edge 880,380 widths equal the TTFs', and all 1,745,100 J line boxes are Segoe's |
 | v0.7 | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0001 amended for CJK) |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.6.1's is below; the closed ones
-follow it.
+Each version's spec is written when the previous one closes. v0.7's is written next; the closed
+ones are kept below.
 
-## v0.6.1 — Japanese delivery, and WinUI's line height (spec, 2026-11-04)
+## v0.6.1 — Japanese delivery, and WinUI's line height (closed 2026-11-04)
 
 **Goal.** A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's
 height in every language, as WinUI 3 draws them.
@@ -125,7 +125,30 @@ does on its own; nothing reads them now.
    under `ko` and `ja`, is the height of `A` alone; fetches as in v0.6, plus a Japanese page, which
    fetches kana and `han-1` only, and a rare kanji, which adds the one part holding it.
    *Done when:* all hold, with no exceptions.
+   *Amended while measuring:* the two combining voicing marks, U+3099 and U+309A, are measured after
+   `Aか`. Straight after a Latin letter, the mark and its base are in different files of the split
+   family, Edge cannot draw the cluster from one face, and takes it from Windows' fallback, which is
+   taller under `ja` (60 measurements over fifteen faces and two sizes, all these two marks). No text
+   writes a kana voicing mark after a Latin letter; after kana, its base, it is drawn from J.
 4. **WinUI's measurement** kept as a probe, `probe/v0_6_1/`, and the package version 0.6.1.
+
+**Result** (2026-11-04).
+
+- *Files.* 196 WOFF2, 31.9 MB in the package: twelve chunks per J face. JIS level 1 is 449 KB in Text
+  Regular (465 KB at most); every other chunk is under 256 KB. `j.css` is 59 KB, 2.2 KB under gzip,
+  with no override.
+- *Gate.* `verify_web.py` passes, 16 checks; `mutate_web.py` catches all seventeen mutations.
+- *In Edge* (Edge 151 on the guest): 880,380 widths equal the whole TTFs'; 1,745,100 line boxes,
+  every one the height of `A` alone, with the two voicing marks after `Aか`; nine pages fetch exactly
+  what was expected, among them a Japanese one (kana and JIS level 1) and one with `鬱` (and the one
+  part that has it).
+- *WinUI 3* (WinUI 3 Gallery 3.0.4 on a second guest of the same build, 100% scale): the table above,
+  168 bounds in `data/v0_6_1/winui-text.json`.
+- *Code review.* Codex, FIX-FIRST: W4 read only the declarations its pattern recognized, so
+  `Ascent-Override:120%` passed it; the voicing marks' base was changed without the spec saying so;
+  Hangul's common chunk was exempt from the size cap too, which the spec gave JIS level 1 alone. All
+  fixed: W4 reads every declaration as CSS does, with a mutation in that form; the amendment is in
+  item 3; only `han-1` is exempt.
 
 ## v0.6 — delivery: the web package (closed 2026-11-03)
 
