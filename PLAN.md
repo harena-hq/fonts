@@ -76,8 +76,81 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. v0.7's is written next; the closed
-ones are kept below.
+Each version's spec is written when the previous one closes. v0.7's is below; the closed ones
+follow it.
+
+## v0.7 — Harena UI J at WinUI 3's CJK widths (spec, 2026-11-04)
+
+**Goal.** In every face and language, Harena UI J lays out Hangul, kana and Han at the widths
+WinUI 3 gives them, not Edge's.
+
+**Why the target moves** (owner, 2026-11-04). ADR 0001 took Edge's CJK fallback widths, rejecting
+WinUI's because a page on Windows would then differ from the same page without the font. Since v0.6
+that page draws CJK from Harena UI J anyway, and since v0.6.1 its lines are WinUI's height: winui-svelte
+reproduces WinUI, and Edge's own fallback is no longer anything a page shows. ADR 0005 records the
+change; ADR 0001 stands for Latin.
+
+**What WinUI does** (explored 2026-11-04 in WinUI 3 Gallery's ScratchPad on the second guest, widths
+by UI Automation at 100 px, whole pixels):
+
+| at 100 px | no `Language` | `ko-KR` | `ja-JP` |
+|---|---|---|---|
+| あ, ア (Regular) | 100, 100 | 100, 100 | 82, 78 |
+| 「, 」 | 58 | 58 | 50 |
+| 、, 。 | 100 | 100 | 67 |
+| ー | 65 | 65 | 65 |
+| Han, Hangul, （）, Ａ | 100 | 100 | 100 |
+
+- With no `Language` WinUI draws as under `ko-KR` (the Gallery's language is `en-US`, as is the
+  guest's); under `ja-JP`, as Yu Gothic UI, whose kana are proportional and whose punctuation is half
+  or two-thirds width. Edge drew those at 1 em and trimmed pairs by `halt`, which WinUI does not.
+- Bold widens the kana a little (あ 84 under `ja-JP`) and nothing else sampled.
+- UI Automation gives whole pixels, and only for what is on screen.
+
+**Locked — WinUI's widths come from the faces it uses, identified by measurement.** Whole pixels at
+100 px are 1% of an em, too coarse to build from, but enough to tell faces apart. So the probe
+identifies, per language, weight and code point, the face WinUI draws with, among the faces its
+widths could come from; the exact advances are then read from those faces' files on the guest
+(numbers only, as for Segoe). Every code point is then checked: its predicted width at 100 px must be
+what WinUI lays out, within the half pixel of rounding.
+*Rejected:* building from the 100 px widths (a 1% error per character); measuring at 1000 px, which
+UI Automation cannot see whole on a screen.
+
+**Locked — per-language widths as v0.4 encodes them.** The `hmtx` advance is WinUI's with no
+language; single adjustments under `KOR` and `JAN` give the others, where they differ. A glyph whose
+advance narrows keeps its ink where WinUI's face has it: centred for kana and Han, at its side for
+punctuation (v0.4's rule for halved punctuation). v0.4's `halt` and `dist`, which reproduced Edge,
+are removed, so Edge has nothing to trim by (`text-spacing-trim`).
+
+**Locked — every weight measured.** WinUI picks a face per weight; J's five weights each take the
+widths WinUI gives at the same weight.
+
+**Items**
+
+1. **Probe WinUI.** `probe/v0_7/`: per language (none, `ko-KR`, `ja-JP`) and weight, every J code
+   point outside Harena UI at 100 px, on a maximized Gallery window. Data in `data/v0_7/winui.json`:
+   widths in px, and the provenance.
+   *Done when:* every code point has a width in each language and weight.
+2. **Identify and read the faces.** Candidates are the faces Windows has for CJK (Malgun Gothic, Yu
+   Gothic UI, Yu Gothic, Microsoft YaHei UI, MS PGothic and so on, at each weight); `metrics.ps1`'s
+   reader extended to advances. A code point's face is the candidate whose advance, at 100 px, is what
+   WinUI measured; pairs are checked for kerning by measuring them against their parts.
+   *Done when:* every code point in every language and weight has one face, or is listed as
+   unexplained with its measured width; and kerning is either absent or recorded.
+3. **Build.** `build_j.py` takes `data/v0_7` for CJK widths, drops `halt` and `dist`, and moves ink as
+   locked. J becomes 0.7.0, the package 0.7.0.
+4. **Gate.** `verify_j.py`: every code point's advance under each language equals its face's in
+   `data/v0_7`, and no `halt`, `dist` or other width feature is left; mutations as before. `verify_web`
+   unchanged.
+5. **In Edge and WinUI, to close.** Every J code point in each face and language, in Edge with the
+   package, at 1000 px, equals its `data/v0_7` width; a set of labels (kana, Han, punctuation and
+   mixes, the v0.4 sentences) measured in WinUI at 100 px and in Edge at 100 px are equal within one
+   pixel; and under `ja` Edge trims no pair.
+   *Done when:* all three hold, with what does not counted here.
+
+**Out of scope.** WinUI's own Latin line rounding (38 and 54 px at 28 and 40 px, against Edge's 37 and
+53): winui-svelte's. A Windows display language other than English, which may change WinUI's choice
+with no `Language`: recorded as measured on `en-US`. Chinese and vertical text, as before.
 
 ## v0.6.1 — Japanese delivery, and WinUI's line height (closed 2026-11-04)
 
