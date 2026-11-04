@@ -26,9 +26,18 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 from build import SIZES, WEIGHTS, face_path  # noqa: E402
 from build_j import face_path_j  # noqa: E402
-from build_web import chunks, overrides  # noqa: E402
+from build_web import chunks  # noqa: E402
 
 LANGS = ("", "ko", "ja")
+
+
+def overrides(face):
+    """A fallback face's line metrics as Edge takes them on Windows, from DirectWrite: win ascent and
+    descent, and the gap hhea adds beyond them; as CSS percentages of the em."""
+    upem, (ascent, descent, gap), (win_ascent, win_descent) = face["upem"], face["hhea"], face["win"]
+    extra = max(0, ascent - descent + gap - win_ascent - win_descent)
+    return {"ascent-override": 100 * win_ascent / upem, "descent-override": 100 * win_descent / upem,
+            "line-gap-override": 100 * extra / upem}
 LINE_SIZES = list(range(9, 97))
 SAMPLE = 40  # characters per line in the line box check
 WORK = ROOT / "build/v0_6"

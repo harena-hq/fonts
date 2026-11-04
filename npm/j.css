@@ -11,86 +11,47 @@
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallLight-han-2a.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 25.43945312%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallLight-han-2b.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallLight-han-2c.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallLight-han-2d.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallLight-han-2e.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-f.woff2") format("woff2");
-  font-weight: 1 325;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallLight-han-g.woff2") format("woff2");
-  font-weight: 1 325;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -99,9 +60,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.92578125%;
-  descent-override: 29.78515625%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -111,9 +69,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -123,9 +78,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -135,9 +87,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -147,9 +96,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -159,10 +105,16 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Small";
+  src: url("./fonts/HarenaUIJ-SmallLight-han-1.woff2") format("woff2");
+  font-weight: 1 325;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -176,86 +128,47 @@
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemilight-han-2a.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemilight-han-2b.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemilight-han-2c.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemilight-han-2d.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemilight-han-2e.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-f.woff2") format("woff2");
-  font-weight: 326 375;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemilight-han-g.woff2") format("woff2");
-  font-weight: 326 375;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -264,9 +177,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.92578125%;
-  descent-override: 29.78515625%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -276,9 +186,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -288,9 +195,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -300,9 +204,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -312,9 +213,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -324,10 +222,16 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Small";
+  src: url("./fonts/HarenaUIJ-SmallSemilight-han-1.woff2") format("woff2");
+  font-weight: 326 375;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -341,86 +245,47 @@
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallRegular-han-2a.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallRegular-han-2b.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallRegular-han-2c.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallRegular-han-2d.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallRegular-han-2e.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-f.woff2") format("woff2");
-  font-weight: 376 499;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallRegular-han-g.woff2") format("woff2");
-  font-weight: 376 499;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -429,9 +294,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.48632812%;
-  descent-override: 30.22460938%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -441,9 +303,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -453,9 +312,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -465,9 +321,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -477,9 +330,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -489,10 +339,16 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Small";
+  src: url("./fonts/HarenaUIJ-SmallRegular-han-1.woff2") format("woff2");
+  font-weight: 376 499;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -506,86 +362,47 @@
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemibold-han-2a.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemibold-han-2b.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemibold-han-2c.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemibold-han-2d.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallSemibold-han-2e.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-f.woff2") format("woff2");
-  font-weight: 500 649;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallSemibold-han-g.woff2") format("woff2");
-  font-weight: 500 649;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -594,9 +411,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.828125%;
-  descent-override: 29.8828125%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -606,9 +420,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -618,9 +429,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -630,9 +438,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -642,9 +447,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -654,10 +456,16 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Small";
+  src: url("./fonts/HarenaUIJ-SmallSemibold-han-1.woff2") format("woff2");
+  font-weight: 500 649;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -671,86 +479,47 @@
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallBold-han-2a.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallBold-han-2b.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallBold-han-2c.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallBold-han-2d.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-SmallBold-han-2e.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-f.woff2") format("woff2");
-  font-weight: 650 1000;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Small";
-  src: url("./fonts/HarenaUIJ-SmallBold-han-g.woff2") format("woff2");
-  font-weight: 650 1000;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -759,9 +528,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.828125%;
-  descent-override: 29.8828125%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -771,9 +537,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -783,9 +546,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -795,9 +555,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -807,9 +564,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -819,10 +573,16 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Small";
+  src: url("./fonts/HarenaUIJ-SmallBold-han-1.woff2") format("woff2");
+  font-weight: 650 1000;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -836,86 +596,47 @@
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextLight-han-2a.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 25.43945312%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextLight-han-2b.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextLight-han-2c.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextLight-han-2d.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextLight-han-2e.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-f.woff2") format("woff2");
-  font-weight: 1 325;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextLight-han-g.woff2") format("woff2");
-  font-weight: 1 325;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -924,9 +645,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.92578125%;
-  descent-override: 29.78515625%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -936,9 +654,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -948,9 +663,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -960,9 +672,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -972,9 +681,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -984,10 +690,16 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Text";
+  src: url("./fonts/HarenaUIJ-TextLight-han-1.woff2") format("woff2");
+  font-weight: 1 325;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1001,86 +713,47 @@
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemilight-han-2a.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemilight-han-2b.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemilight-han-2c.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemilight-han-2d.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemilight-han-2e.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-f.woff2") format("woff2");
-  font-weight: 326 375;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemilight-han-g.woff2") format("woff2");
-  font-weight: 326 375;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -1089,9 +762,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.92578125%;
-  descent-override: 29.78515625%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -1101,9 +771,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -1113,9 +780,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -1125,9 +789,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -1137,9 +798,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -1149,10 +807,16 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Text";
+  src: url("./fonts/HarenaUIJ-TextSemilight-han-1.woff2") format("woff2");
+  font-weight: 326 375;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1166,86 +830,47 @@
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextRegular-han-2a.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextRegular-han-2b.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextRegular-han-2c.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextRegular-han-2d.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextRegular-han-2e.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-f.woff2") format("woff2");
-  font-weight: 376 499;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextRegular-han-g.woff2") format("woff2");
-  font-weight: 376 499;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -1254,9 +879,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.48632812%;
-  descent-override: 30.22460938%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -1266,9 +888,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -1278,9 +897,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -1290,9 +906,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -1302,9 +915,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -1314,10 +924,16 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Text";
+  src: url("./fonts/HarenaUIJ-TextRegular-han-1.woff2") format("woff2");
+  font-weight: 376 499;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1331,86 +947,47 @@
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemibold-han-2a.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemibold-han-2b.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemibold-han-2c.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemibold-han-2d.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextSemibold-han-2e.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-f.woff2") format("woff2");
-  font-weight: 500 649;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextSemibold-han-g.woff2") format("woff2");
-  font-weight: 500 649;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -1419,9 +996,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.828125%;
-  descent-override: 29.8828125%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -1431,9 +1005,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -1443,9 +1014,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -1455,9 +1023,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -1467,9 +1032,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -1479,10 +1041,16 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Text";
+  src: url("./fonts/HarenaUIJ-TextSemibold-han-1.woff2") format("woff2");
+  font-weight: 500 649;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1496,86 +1064,47 @@
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextBold-han-2a.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextBold-han-2b.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextBold-han-2c.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextBold-han-2d.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-TextBold-han-2e.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-f.woff2") format("woff2");
-  font-weight: 650 1000;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Text";
-  src: url("./fonts/HarenaUIJ-TextBold-han-g.woff2") format("woff2");
-  font-weight: 650 1000;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -1584,9 +1113,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.828125%;
-  descent-override: 29.8828125%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -1596,9 +1122,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -1608,9 +1131,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -1620,9 +1140,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -1632,9 +1149,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -1644,10 +1158,16 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Text";
+  src: url("./fonts/HarenaUIJ-TextBold-han-1.woff2") format("woff2");
+  font-weight: 650 1000;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1661,86 +1181,47 @@
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayLight-han-2a.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 25.43945312%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayLight-han-2b.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayLight-han-2c.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayLight-han-2d.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayLight-han-2e.woff2") format("woff2");
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-f.woff2") format("woff2");
-  font-weight: 1 325;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayLight-han-g.woff2") format("woff2");
-  font-weight: 1 325;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 101.5625%;
-  descent-override: 26.171875%;
-  line-gap-override: 5.2734375%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -1749,9 +1230,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.92578125%;
-  descent-override: 29.78515625%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -1761,9 +1239,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -1773,9 +1248,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -1785,9 +1257,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -1797,9 +1266,6 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -1809,10 +1275,16 @@
   font-weight: 1 325;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Display";
+  src: url("./fonts/HarenaUIJ-DisplayLight-han-1.woff2") format("woff2");
+  font-weight: 1 325;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1826,86 +1298,47 @@
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-2a.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-2b.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-2c.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-2d.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-2e.woff2") format("woff2");
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-f.woff2") format("woff2");
-  font-weight: 326 375;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-g.woff2") format("woff2");
-  font-weight: 326 375;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -1914,9 +1347,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.92578125%;
-  descent-override: 29.78515625%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -1926,9 +1356,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -1938,9 +1365,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -1950,9 +1374,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -1962,9 +1383,6 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -1974,10 +1392,16 @@
   font-weight: 326 375;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Display";
+  src: url("./fonts/HarenaUIJ-DisplaySemilight-han-1.woff2") format("woff2");
+  font-weight: 326 375;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -1991,86 +1415,47 @@
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayRegular-han-2a.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayRegular-han-2b.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayRegular-han-2c.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayRegular-han-2d.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayRegular-han-2e.woff2") format("woff2");
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-f.woff2") format("woff2");
-  font-weight: 376 499;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayRegular-han-g.woff2") format("woff2");
-  font-weight: 376 499;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -2079,9 +1464,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.48632812%;
-  descent-override: 30.22460938%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -2091,9 +1473,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -2103,9 +1482,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -2115,9 +1491,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -2127,9 +1500,6 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -2139,10 +1509,16 @@
   font-weight: 376 499;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Display";
+  src: url("./fonts/HarenaUIJ-DisplayRegular-han-1.woff2") format("woff2");
+  font-weight: 376 499;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -2156,86 +1532,47 @@
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-2a.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-2b.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-2c.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-2d.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-2e.woff2") format("woff2");
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-f.woff2") format("woff2");
-  font-weight: 500 649;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-g.woff2") format("woff2");
-  font-weight: 500 649;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -2244,9 +1581,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.828125%;
-  descent-override: 29.8828125%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -2256,9 +1590,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -2268,9 +1599,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -2280,9 +1608,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -2292,9 +1617,6 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -2304,10 +1626,16 @@
   font-weight: 500 649;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Display";
+  src: url("./fonts/HarenaUIJ-DisplaySemibold-han-1.woff2") format("woff2");
+  font-weight: 500 649;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }
 
 @font-face {
@@ -2321,86 +1649,47 @@
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-a.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayBold-han-2a.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E00-565B;
+  unicode-range: U+2E8E-2EF2, U+2F00-2FD5, U+3D4E, U+4E10-5CD9;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-b.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayBold-han-2b.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+5664-6208;
+  unicode-range: U+5CE9-6DD2;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-c.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayBold-han-2c.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6209-6CEA;
+  unicode-range: U+6DD5-7F45;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-d.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayBold-han-2d.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+6CEB-79B1;
+  unicode-range: U+7F47-924E;
 }
 
 @font-face {
   font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-e.woff2") format("woff2");
+  src: url("./fonts/HarenaUIJ-DisplayBold-han-2e.woff2") format("woff2");
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+79B3-8616;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-f.woff2") format("woff2");
-  font-weight: 650 1000;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+8617-9414;
-}
-
-@font-face {
-  font-family: "Harena UI J Display";
-  src: url("./fonts/HarenaUIJ-DisplayBold-han-g.woff2") format("woff2");
-  font-weight: 650 1000;
-  font-style: normal;
-  font-display: block;
-  ascent-override: 105.8105469%;
-  descent-override: 26.171875%;
-  line-gap-override: 0%;
-  unicode-range: U+9418-9FA0, U+F900-FA6A, U+20B9F;
+  unicode-range: U+9250-9FA0, U+F900-FA6A, U+20B9F;
 }
 
 @font-face {
@@ -2409,9 +1698,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 98.828125%;
-  descent-override: 29.8828125%;
-  line-gap-override: 31.49414062%;
   unicode-range: U+3000-303B, U+3041-309E, U+30A1-30FE, U+FF01-FFE6;
 }
 
@@ -2421,9 +1707,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+321C, U+3380-33DD;
 }
 
@@ -2433,9 +1716,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+AC02-BAC6;
 }
 
@@ -2445,9 +1725,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+BAC7-C984;
 }
 
@@ -2457,9 +1734,6 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+C985-D7A3;
 }
 
@@ -2469,8 +1743,14 @@
   font-weight: 650 1000;
   font-style: normal;
   font-display: block;
-  ascent-override: 108.8378906%;
-  descent-override: 24.16992188%;
-  line-gap-override: 0%;
   unicode-range: U+3131-318D, U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "Harena UI J Display";
+  src: url("./fonts/HarenaUIJ-DisplayBold-han-1.woff2") format("woff2");
+  font-weight: 650 1000;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-9FFF;
 }

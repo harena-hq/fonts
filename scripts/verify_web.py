@@ -9,8 +9,8 @@ W1 resolving each family as a browser does, every code point of its TTF draws fr
 W2 no group of glyphs that a GSUB or GPOS rule of a J face ties together spans two files.
 W3 every string of the v0.3 and v0.4 cases, itemized into script runs, each run shaped with HarfBuzz
    under each language by the whole TTF, positions as its pieces shaped by the files that draw them.
-W4 every face is declared as locked: family, weight range, upright, block, and a chunk's line
-   metrics those of its fallback face in data/v0_6/fallback.json.
+W4 every face is declared as locked: family, weight range, upright, block, and nothing else, so no
+   face overrides its line metrics (v0.6.1).
 W5 the stylesheets are what build_css.py writes, SHA256SUMS-Web lists exactly dist/web, and the
    package assembles, packs exactly its declared files and resolves every export.
 
@@ -35,18 +35,28 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_css  # noqa: E402
 from build import ROOT, SIZES, WEIGHTS, face_path  # noqa: E402
 from build_j import face_path_j  # noqa: E402
-from build_web import ICONS, WEB, chunks, j_file, overrides, ui_file  # noqa: E402
+from build_web import ICONS, WEB, chunks, j_file, ui_file  # noqa: E402
 
 NPM = ROOT / "npm"
 LANGS = ("", "ko", "ja")
 FACE = re.compile(r"@font-face \{(.*?)\}", re.S)
-PROPERTY = re.compile(r"^\s*([a-z-]+): (.*);$", re.M)
+def declarations(body):
+    """Every declaration in a rule, names folded to lower case as CSS reads them; text that is no
+    declaration is kept under "?" so that W4 fails on it."""
+    props = {}
+    for part in body.split(";"):
+        if not part.strip():
+            continue
+        name, colon, value = part.partition(":")
+        key = name.strip().lower() if colon and name.strip() else "?"
+        props[key] = value.strip() if colon else part.strip()
+    return props
 
 
 def parse(css):
     faces = []
     for body in FACE.findall(css):
-        props = dict(PROPERTY.findall(body))
+        props = declarations(body)
         spans = []
         for part in props.pop("unicode-range").split(", "):
             a, _, b = part[2:].partition("-")
@@ -348,7 +358,7 @@ def checks(web=WEB, npm=NPM):
 
     # W4
     ranges_want = {"{} {}".format(*v) for v in build_css.weight_ranges().values()}
-    fallback = json.loads((ROOT / "data/v0_6/fallback.json").read_text())
+    known = {"font-family", "font-weight", "font-style", "font-display", "points", "file", "sheet"}
     wrong = []
     for f in every:
         family, weight = f["font-family"], f["font-weight"]
@@ -358,15 +368,7 @@ def checks(web=WEB, npm=NPM):
         else:
             ok &= weight in ranges_want and re.fullmatch(r"Harena UI (J )?(Small|Text|Display)", family) is not None
             ok &= f["sheet"] == ("j.css" if family.startswith("Harena UI J ") else "ui.css")
-        chunk = re.fullmatch(r"HarenaUIJ-\w+?(Light|Semilight|Regular|Semibold|Bold)-(.+)\.woff2", f["file"])
-        got = {k: float(f[k].rstrip("%")) for k in ("ascent-override", "descent-override", "line-gap-override") if k in f}
-        if chunk:
-            w = next(k for k, v in WEIGHTS.items() if v == chunk.group(1))
-            entry = fallback["chunks"].get(chunk.group(2))
-            want = overrides(fallback["faces"][entry[str(w)]["face"]]) if entry else None
-            ok &= want is not None and set(got) == set(want) and all(abs(got[k] - want[k]) < 1e-6 for k in want)
-        else:
-            ok &= not got
+        ok &= set(f) <= known
         if not ok:
             wrong.append(f"{family} {weight} {f['file']}")
     yield "W4 faces are declared as locked", not wrong, f"{len(every)} faces; " + "; ".join(wrong[:4])

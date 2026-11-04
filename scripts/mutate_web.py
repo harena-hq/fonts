@@ -99,7 +99,11 @@ def weight_off(web, npm):
 
 
 def override(web, npm):
-    edit(npm, J, lambda css: re.sub(r"ascent-override: [\d.]+%", "ascent-override: 100%", css, count=1))
+    edit(npm, J, lambda css: chunk_range(css, "kana", lambda r: r + ";\n  ascent-override: 120%"))
+
+
+def override_tight(web, npm):
+    edit(npm, J, lambda css: chunk_range(css, "kana", lambda r: r + ";Ascent-Override:120%"))
 
 
 def display(web, npm):
@@ -178,6 +182,7 @@ MUTATIONS = [
     (two_files, "W1 no code point is in two files"),
     (weight_off, "W4 faces are declared as locked"),
     (override, "W4 faces are declared as locked"),
+    (override_tight, "W4 faces are declared as locked"),
     (display, "W4 faces are declared as locked"),
     (hand_edit, "W5 stylesheets are build_css.py's"),
     (stray_file, "W5 SHA256SUMS-Web lists exactly dist/web"),

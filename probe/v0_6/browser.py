@@ -5,18 +5,18 @@
    language and under ko and ja, at 1000 px: DOM width in the package's family equals the width with
    the face's whole TTF. The TTFs' widths against Segoe's are v0.2-v0.4's batteries.
 2. Line boxes: every J code point outside Harena UI after "A", at 14 and 40 px, in each J face and
-   language, under the Segoe stack alone and with the package's family after it. With no language a
-   difference is allowed only where Windows draws the character from another face than its chunk's
-   (data/v0_6/fallback.json); under ko and ja the differences are counted.
+   language, with the package's family after the Segoe stack (a combining mark after "Aか"), is the
+   height of "A" alone: a line is
+   Segoe's height whatever it holds, as WinUI 3 draws it (v0.6.1).
 3. Fetches: what a page fetches for a text, from its resource list.
 
-Exits non-zero on a width difference, an unexpected line box or an unexpected fetch.
+Exits non-zero on a width difference, a line box not Segoe's or an unexpected fetch.
 Usage: python probe/v0_6/browser.py <cdp-http-base> <repo-root-url>  (after scripts/package_npm.py)
 """
 import json
+import unicodedata
 import subprocess
 import sys
-from collections import Counter
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 from build import SIZES, WEIGHTS, face_path  # noqa: E402
 from build_j import face_path_j  # noqa: E402
+from build_web import chunks  # noqa: E402
 from verify_web import strings  # noqa: E402
 
 LANGS = ["", "ko", "ja"]
@@ -63,30 +64,26 @@ def main():
     print(f"1. widths: {measured} measured, {len(differs)} differ", differs[:6])
     failed |= bool(differs)
 
-    fallback = json.loads((ROOT / "data/v0_6/fallback.json").read_text())
     points = sorted(set(TTFont(face_path_j("Text", 400), lazy=True).getBestCmap())
                     - set(TTFont(face_path("Text", 400), lazy=True).getBestCmap()))
-    lines, unexpected, counted = 0, [], Counter()
+    marks = [c for c in points if unicodedata.category(chr(c)).startswith("M")]
+    lines, differ = 0, []
     for size in SIZES:
         for w in WEIGHTS:
             out = run(cdp, base, {"sheets": sheets, "mode": "lines", "points": points, "langs": LANGS, "sizes": [14, 40],
+                                  "marks": marks,
                                   "faces": [{"family": f"Harena UI J {size}", "stack": segoe(size), "weight": w}]})
             lines += out["measured"]
-            others = fallback["others"][str(w)]
-            for key, bad in out["differs"].items():
-                _, _, lang, px = key.split("|")
-                if lang == "":
-                    surprise = [c for c in bad if f"{c:04X}" not in others]
-                    unexpected += [(size, w, px, f"U+{c:04X}") for c in surprise]
-                    counted["no language, drawn by another face"] += len(bad) - len(surprise)
-                else:
-                    counted[f"{lang} at {px} px"] += len(bad)
-            print("lines", size, w, lines, len(unexpected), flush=True)
-    print(f"2. line boxes: {lines} measured, {len(unexpected)} unexpected", unexpected[:8])
-    print("   counted, over 15 faces:", dict(counted))
-    failed |= bool(unexpected)
+            differ += [(key, f"U+{c:04X}") for key, bad in out["differs"].items() for c in bad]
+            print("lines", size, w, lines, len(differ), flush=True)
+    print(f"2. line boxes: {lines} measured, {len(differ)} not Segoe's", differ[:8])
+    failed |= bool(differ)
 
     harena_j, harena = '"Harena UI J Text"', '"Harena UI Text"'
+    # 鬱 is JIS X 0208 level 2: it lives in one of the other Han parts
+    rare = next(n for n, p in chunks(TTFont(face_path_j("Text", 400), lazy=True).getBestCmap(),
+                                     TTFont(face_path("Text", 400), lazy=True).getBestCmap()).items() if 0x9B31 in p)
+    RARE = f"HarenaUIJ-TextRegular-{rare}.woff2"
     cases = [
         ("Latin, Harena UI alone", harena, "", "Settings", {"HarenaUI-TextRegular.woff2"}),
         ("Latin, after Segoe", f"{segoe('Text')}, {harena_j}", "", "Settings", set()),
@@ -97,6 +94,10 @@ def main():
          {"HarenaUIJ-TextRegular-hangul-1.woff2", "HarenaUIJ-TextRegular-hangul-2a.woff2"}),
         ("Hangul, J alone", harena_j, "ko", "한국어 설정",
          {"HarenaUI-TextRegular.woff2", "HarenaUIJ-TextRegular-hangul-1.woff2"}),
+        ("Japanese, after Segoe", f"{segoe('Text')}, {harena_j}", "ja", "設定を保存する",
+         {"HarenaUIJ-TextRegular-kana.woff2", "HarenaUIJ-TextRegular-han-1.woff2"}),
+        ("Japanese with a rare kanji", f"{segoe('Text')}, {harena_j}", "ja", "設定を保存する 鬱",
+         {"HarenaUIJ-TextRegular-kana.woff2", "HarenaUIJ-TextRegular-han-1.woff2", RARE}),
     ]
     wrong = []
     for name, stack, lang, text, want in cases:
