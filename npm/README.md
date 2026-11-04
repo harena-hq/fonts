@@ -16,7 +16,8 @@ from Segoe, so a layout sized under Segoe comes out the same size.
 Every face has five weights (Light, Semilight, Regular, Semibold, Bold), declared for the same CSS
 weight ranges Segoe UI Variable answers to; italic is synthesized, as it is for Segoe. Each face is
 split by `unicode-range`, so a page fetches only the files its text uses. Harena UI J reuses Harena
-UI's Latin files and adds its CJK in chunks.
+UI's Latin files and adds its CJK in chunks; a Korean page fetches its common Hangul in one file,
+a Japanese page its common kanji in one.
 
 ## Use
 
@@ -34,10 +35,8 @@ font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Harena UI Icons";
 
 A renderer takes each character from the first family that has it. Where Segoe is installed, it
 draws what Segoe covers and fetches no Harena file for it; Hangul, kana and Han, which Segoe lacks,
-come from Harena UI J at the widths Windows gives them. Each chunk takes the line height of the face
-Windows draws most of it with when no language is set. Under `lang="ko"` or `"ja"`, and for the few
-characters Windows draws from yet another face, a line holding them can be up to a few pixels taller
-or shorter than on Windows.
+come from Harena UI J at the widths Windows gives them in Edge. A line holding them keeps Segoe's
+height in every language, as WinUI 3 draws it.
 
 ## Licence
 

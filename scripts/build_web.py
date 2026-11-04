@@ -6,9 +6,9 @@ and Harena UI J's code points outside Harena UI in chunks, each a subset of its 
 
 A J face is served as Harena UI's file for Harena UI's code points plus its chunks (PLAN, v0.6), so
 no J file repeats the Latin. The chunks are the same code points in every face: kana with CJK and
-full-width punctuation; Hangul in KS X 1001, with its jamo, and the rest; Han, with radicals and
-compatibility ideographs; and the other symbols. A set too large for one file is cut in code point
-order into PARTS equal parts.
+full-width punctuation; Hangul in KS X 1001, with its jamo, and the rest; Han in JIS X 0208 level 1,
+and the rest, with radicals and compatibility ideographs; and the other symbols. A set too large for
+one file is cut in code point order into PARTS equal parts; JIS level 1 stays whole (v0.6.1).
 
 Writes dist/web/*.woff2 and SHA256SUMS-Web.
 
@@ -28,18 +28,28 @@ from build_j import face_path_j  # noqa: E402
 
 WEB = DIST / "web"
 ICONS = DIST / "HarenaUIIcons-Regular.ttf"
-LIMIT = 256_000  # bytes a chunk may weigh
-PARTS = {"hangul-2": 3, "han": 7}
+LIMIT = 256_000  # bytes a chunk may weigh, but JIS level 1, whole whatever it weighs
+WHOLE = ("han-1",)
+PARTS = {"hangul-2": 3, "han-2": 5}
 KANA = ("Hiragana", "Katakana", "Katakana Phonetic Extensions", "CJK Symbols and Punctuation",
         "Halfwidth and Fullwidth Forms")
 HAN = ("CJK Compatibility Ideographs", "Kangxi Radicals", "CJK Radicals Supplement")
 SYLLABLES = (0xAC00, 0xD7A3)
+IDEOGRAPHS = (0x4E00, 0x9FFF)
 # Last declared is checked first (CSS Fonts 4, 4.5): the common chunks go last.
-ORDER = ("han", "kana", "symbols", "hangul-2", "hangul-1")
+ORDER = ("han-2", "kana", "symbols", "hangul-2", "hangul-1", "han-1")
 
 
 def _ksx1001(c):
     return len(chr(c).encode("euc_kr", "ignore")) == 2
+
+
+def _jis_level_1(c):
+    try:
+        code = chr(c).encode("euc_jp")
+    except UnicodeEncodeError:
+        return False
+    return len(code) == 2 and 16 <= code[0] - 0xA0 <= 47
 
 
 def chunks(j_cmap, ui_cmap):
@@ -52,7 +62,7 @@ def chunks(j_cmap, ui_cmap):
         elif block == "Hangul Compatibility Jamo":
             sets["hangul-1"].append(c)
         elif block.startswith("CJK Unified Ideographs") or block in HAN:
-            sets["han"].append(c)
+            sets["han-1" if _jis_level_1(c) else "han-2"].append(c)
         elif block in KANA:
             sets["kana"].append(c)
         else:
@@ -70,24 +80,17 @@ def chunks(j_cmap, ui_cmap):
 def declared(name, points):
     """The code points a chunk is declared for, wider than it holds: a face draws only what its file
     has (CSS Fonts 4: the unicode-range meets the font's cmap), so a range may span the gaps between
-    its points within a block, which keeps it short. KS X 1001's chunk, checked first, spans every
-    syllable; one it lacks falls to the chunk that has it."""
+    its points within a block, which keeps it short. The common sets' chunks, checked first, span
+    every syllable and every unified ideograph; a character one lacks falls to the chunk that has it."""
     spans = {}
     for c in points:
         lo, hi = spans.setdefault(unicodedata.block(chr(c)), [c, c])
         spans[unicodedata.block(chr(c))] = [min(lo, c), max(hi, c)]
     if name == "hangul-1":
         spans["Hangul Syllables"] = list(SYLLABLES)
+    if name == "han-1":
+        spans["CJK Unified Ideographs"] = list(IDEOGRAPHS)
     return sorted({c for lo, hi in spans.values() for c in range(lo, hi + 1)})
-
-
-def overrides(face):
-    """A fallback face's line metrics as Edge takes them on Windows, from DirectWrite: win ascent and
-    descent, and the gap hhea adds beyond them; as CSS percentages of the em."""
-    upem, (ascent, descent, gap), (win_ascent, win_descent) = face["upem"], face["hhea"], face["win"]
-    extra = max(0, ascent - descent + gap - win_ascent - win_descent)
-    return {"ascent-override": 100 * win_ascent / upem, "descent-override": 100 * win_descent / upem,
-            "line-gap-override": 100 * extra / upem}
 
 
 def ui_file(size, w):
@@ -142,7 +145,7 @@ def main():
     sums, heavy = [], []
     for name, path, points in plan():
         data = woff2(TTFont(path) if points is None else subset_of(path, points))
-        if points is not None and len(data) > LIMIT:
+        if points is not None and len(data) > LIMIT and not name.endswith(tuple(f"-{w}.woff2" for w in WHOLE)):
             heavy.append(f"{name} {len(data)}")
         (WEB / name).write_bytes(data)
         sums.append(f"{hashlib.sha256(data).hexdigest()}  dist/web/{name}\n")
