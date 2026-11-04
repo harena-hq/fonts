@@ -71,11 +71,61 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.4** ✓ | In all fifteen faces, Harena UI J lays out Hangul, kana and Han at the widths Edge gives them under a Segoe stack, for each language a page can set, with its Latin identical to Harena UI. Closed 2026-10-31: gate passes from a fresh clone, and in Edge on Windows 10,940,956 measurements are within tolerance, 63,570 of them only by allowing the whole pixel Windows gives a character it emboldens in Semibold and Bold at 20 px and below. What cannot or need not match is left out and counted (the Locked notes); Japanese line boxes stay short until v0.6 |
 | **v0.5** ✓ | Harena UI Icons |
 | **v0.6** ✓ | Delivery: a page that loads the package's stylesheet and names Harena UI after Segoe lays out as under Segoe, line boxes included, and fetches only the files its text uses. Closed 2026-11-03: gate and mutations pass from a fresh clone; in Edge on Windows 880,110 widths equal the TTFs', and 1,745,100 line boxes equal Windows' with no language beyond the counted characters |
+| v0.6.1 | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them |
+| v0.7 | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0001 amended for CJK) |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
 
-Each version's spec is written when the previous one closes. The next is written when the owner
-chooses it; the closed ones are kept below.
+Each version's spec is written when the previous one closes. v0.6.1's is below; the closed ones
+follow it.
+
+## v0.6.1 — Japanese delivery, and WinUI's line height (spec, 2026-11-04)
+
+**Goal.** A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's
+height in every language, as WinUI 3 draws them.
+
+**What changed the plan** (owner, 2026-11-04). Its consumers, winui-svelte and the Harena app built on
+it, ship Korean, Japanese and English; v0.6 assumed no Japanese consumer, and cut Han in code point
+order, so a Japanese page fetched most of seven Han chunks. And WinUI 3, measured on a guest (WinUI 3
+Gallery 3.0.4's ScratchPad, sizes by UI Automation), does not let a fallback
+face change a line:
+
+| TextBlock, `Language` none, `en-US`, `ko-KR` or `ja-JP` | 14 px | 20 px | 28 px | 40 px |
+|---|---|---|---|---|
+| `Settings`, `설정`, `設定`, `設定する`, `カタカナ`, `Save 保存`, `「設定」` | 19 | 27 | 38 | 54 |
+
+Button and CheckBox are 32 px with each of those labels in each language. Edge, by contrast, takes a
+fallback face's line metrics, which v0.6 reproduced per chunk; winui-svelte's reference is WinUI.
+WinUI's 38 and 54 against Edge's 37 and 53 for Segoe itself, at 28 and 40 px, is how each rounds a
+line, not a font's; it is winui-svelte's to handle. WinUI also gives some CJK other widths than Edge
+(`カタカナ` 120 px at 40 px under `ja-JP` against 160): v0.7.
+
+**Locked — JIS X 0208 level 1 is one chunk, tried first for Han.** 2,965 characters, nearly every
+kanji in common use, about 450 KB per face, declared over the whole CJK Unified Ideographs block and
+last, as KS X 1001's chunk is over Hangul. The rest of Han stays in parts in code point order. A
+Japanese page then fetches its Latin face, kana (24 KB) and this chunk: about 520 KB per face, where
+v0.6 fetched about 1.3 MB. The 256 KB cap was a choice, not a measurement, and gives way here: the
+common set in one file is the point. *Supersedes* v0.6's amendment that cut all Han in code point order.
+
+**Locked — no line metrics overrides.** Every J chunk keeps the file's metrics, Segoe's (v0.4), so a
+line holding CJK is Segoe's height in every language, as in WinUI. *Supersedes* v0.6's "CJK line boxes
+on the web are Windows'". `data/v0_6/fallback.json` and its probe stay as the record of what Edge
+does on its own; nothing reads them now.
+
+**Items**
+
+1. **Chunks and stylesheets.** `build_web.py` cuts `han-1` (JIS level 1) and the rest of Han in parts;
+   `build_css.py` declares no overrides.
+   *Done when:* every chunk but `han-1` is under 256 KB, and `j.css` stays short.
+2. **The gate.** W4: no face declares an override. Its mutations follow: an override added to a chunk
+   fails W4.
+   *Done when:* `verify_web.py` and `mutate_web.py` pass from a fresh clone.
+3. **In Edge.** `probe/v0_6/browser.py`: widths as in v0.6; line boxes: with J after the Segoe stack,
+   every J code point outside Harena UI after `A`, at 14 and 40 px, in each face, with no language and
+   under `ko` and `ja`, is the height of `A` alone; fetches as in v0.6, plus a Japanese page, which
+   fetches kana and `han-1` only, and a rare kanji, which adds the one part holding it.
+   *Done when:* all hold, with no exceptions.
+4. **WinUI's measurement** kept as a probe, `probe/v0_6_1/`, and the package version 0.6.1.
 
 ## v0.6 — delivery: the web package (closed 2026-11-03)
 
