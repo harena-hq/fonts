@@ -1,6 +1,6 @@
 # 0001 — The target is Segoe as the browser on Windows draws it
 
-Status: **locked**, 2026-10-30.
+Status: **locked**, 2026-10-30. For CJK, superseded by 0005 (2026-11-04).
 
 ## Context
 

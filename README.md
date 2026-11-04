@@ -27,8 +27,8 @@ font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Harena UI Icons";
 
 A renderer takes each character from the first family that has it, so where Segoe is installed it
 draws everything Segoe covers. Hangul, kana and Han, which Segoe lacks, then come from Harena UI J
-instead of Windows' own fallback faces: at the widths Edge gives them on Windows, in Pretendard JP's
-shapes, and with Segoe's line height in every language, as WinUI 3 keeps it.
+instead of Windows' own fallback faces: at the widths WinUI 3 lays them out at in each language, in
+Pretendard JP's shapes, and with Segoe's line height in every language, as WinUI 3 keeps it.
 
 ## Build
 
