@@ -119,10 +119,19 @@ advances from the files, as first specified: the app gives the widths themselves
 list, and takes seconds where the Gallery's editor took minutes per few hundred characters.
 
 **Locked — per-language widths as v0.4 encodes them.** The `hmtx` advance is WinUI's with no
-language; single adjustments under `KOR` and `JAN` give the others, where they differ. A glyph whose
-advance narrows keeps its ink where WinUI's face has it: centred for kana and Han, at its side for
-punctuation (v0.4's rule for halved punctuation). v0.4's `halt` and `dist`, which reproduced Edge,
-are removed, so Edge has nothing to trim by (`text-spacing-trim`).
+language; single adjustments under `JAN`, in `dist`, give `ja-JP`'s where they differ, and each
+language's pairs WinUI lays out apart from their parts are its `kern` (amended 2026-11-04, after the
+probe: `ko-KR` lays out as no language in every case, so it needs no `KOR`, and `dist` is the one
+width feature kept, as a page cannot turn it off). A glyph whose advance narrows keeps its ink where
+WinUI's face has it: centred for kana and Han, at its side for punctuation (v0.4's rule for halved
+punctuation). v0.4's `halt` and its per-script run widths, which reproduced Edge, are removed, as are
+`KOR`, `ZHS` and `ZHT`; Edge has nothing to trim by (`text-spacing-trim`).
+
+**Locked — a composing kana and mark is the composed letter.** HarfBuzz composes a kana and
+U+3099 or U+309A into the letter Unicode composes them to, when the font has it, as Chromium does; no
+font can stop it. WinUI lays five such pairs out apart with no language (`ゔ` as `う` and the mark,
+100 px against 76.7) and three under `ja-JP` differently. The gate takes the composed letter's width
+for them; text is normally precomposed.
 
 **Locked — every weight measured.** WinUI picks a face per weight; J's five weights each take the
 widths WinUI gives at the same weight.
@@ -137,11 +146,15 @@ widths WinUI gives at the same weight.
 2. **Pairs.** Pairs of J code points, from the v0.4 sentences and each class's neighbours (kana, Han,
    Hangul, punctuation), measured by the app against the sum of their parts in each language.
    *Done when:* kerning or trimming between CJK characters is either absent or recorded.
-3. **Build.** `build_j.py` takes `data/v0_7` for CJK widths, drops `halt` and `dist`, and moves ink as
-   locked. J becomes 0.7.0, the package 0.7.0.
-4. **Gate.** `verify_j.py`: every code point's advance under each language equals its width in
-   `data/v0_7`, and no `halt`, `dist` or other width feature is left; mutations as before. `verify_web`
-   unchanged.
+3. **Build.** `build_j.py` takes `data/v0_7` for CJK widths, drops `halt`, `KOR`, `ZHS` and `ZHT`,
+   gives `JAN` its widths in `dist`, and moves ink as locked. J becomes 0.7.0, the package 0.7.0.
+4. **Gate.** `verify_j.py`: every code point's advance under each language, with `kern` off, and
+   every measured pair's, equals its width in `data/v0_7`; every script has only no language's
+   system and `JAN`, with Harena UI's features and no required feature, `dist` only under `JAN` and
+   the same in every script, and no other width feature; only `kern` and `dist` gain lookups, glyph
+   pairs of advance alone and single adjustments, touching only CJK; each glyph's ink sits where the
+   locked rule puts it, by default and under `JAN`. `scripts/mutate_j.py` proves the three
+   checks catch what they claim. `verify_web` unchanged.
 5. **In Edge and WinUI, to close.** Every J code point in each face and language, in Edge with the
    package, at 1000 px, equals its `data/v0_7` width; a set of labels (kana, Han, punctuation and
    mixes, the v0.4 sentences) measured in WinUI at 100 px and in Edge at 100 px are equal within one

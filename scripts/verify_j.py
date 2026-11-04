@@ -1,17 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2026 Jeeyong Um
-"""The gate's checks over Harena UI J, v0.4: 13 Latin identity, 14 coverage, 15 CJK widths,
+"""The gate's checks over Harena UI J, v0.7: 13 Latin identity, 14 coverage, 15 CJK widths,
 16 features and 17 shapes, per face; 18 reproducible, once. Run by scripts/verify.py after
 Harena UI's checks.
 
-Like verify.py, this takes no expectation from the build. It reads the fonts, what Windows
-measured (data/v0_4), and data/v0_4/build.json, whose claims it checks. It instances Pretendard
-JP itself for check 17.
+Like verify.py, this takes no expectation from the build. It reads the fonts, what WinUI 3 lays
+out (data/v0_7), and data/v0_4/build.json, whose claims it checks. It instances Pretendard JP
+itself for check 17.
 
-HarfBuzz does not do what Edge's text-spacing-trim does, or split text into runs: run_width()
-below splits text the way Chromium's ScriptRunIterator does, and a pair Windows trims is checked
-against `halt` on either of its characters. The browser check (probe/v0_4/browser.py) is what
-shows Edge does the rest.
+HarfBuzz does not split text into runs: run_width() below splits it the way Chromium's
+ScriptRunIterator does. The check in Edge (PLAN.md, v0.7 item 5) is what shows a browser does too.
 
 Usage: python scripts/verify_j.py [Size-Weight ...]
 """
@@ -21,7 +19,8 @@ import json
 import statistics as st
 import subprocess
 import sys
-from collections import Counter
+import unicodedata
+from functools import lru_cache
 from pathlib import Path
 
 import uharfbuzz as hb
@@ -35,6 +34,7 @@ from fontTools.varLib.instancer import instantiateVariableFont
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/v0_4"
+WINUI = ROOT / "data/v0_7"
 PJP = ROOT / "sources/pjp/public/variable/PretendardJPVariable.ttf"
 SIZES = ("Small", "Text", "Display")
 WEIGHTS = {300: "Light", 350: "Semilight", 400: "Regular", 600: "Semibold", 700: "Bold"}
@@ -43,9 +43,9 @@ UPM = 2048
 PX = UPM / 1000
 SYSTEMS = {"": None, "ko": "KOR ", "ja": "JAN ", "zh-Hans": "ZHS ", "zh-Hant": "ZHT "}
 HB_LANG = {"": "en", "ko": "ko", "ja": "ja", "zh-Hans": "zh-Hans", "zh-Hant": "zh-Hant"}
+# WinUI's languages, as HarfBuzz is told them
+WINUI_LANGS = {"none": "", "ko-KR": "ko", "ja-JP": "ja"}
 TOLERANCE = 0.5 + 1e-6  # font units
-MARKS = (0x3099, 0x309A)
-ALONE_ODD = (0xFF5F, 0xFF60)
 HANGUL_STEM = "ㅣ"
 HAN_STEM = "十"
 STEM_ROW_PX = 650
@@ -53,6 +53,9 @@ STEM_TOLERANCE = 0.03
 BODY_TOLERANCE = 0.02
 # Rounded in the build after scaling and moving, and instanced here unrounded
 OUTLINE_TOLERANCE = 1.5
+MARKS = (0x3099, 0x309A)
+# Their ink is at the trailing edge, as a closing bracket's (PLAN.md, v0.4)
+TRAILING_DOTS = (0x3001, 0x3002, 0xFF0C, 0xFF0E)
 # Unicode's paired brackets, which is what Chromium's iterator reads
 OPEN = "([{〈《「『【〔〖〘〚（［｛｟"
 CLOSE = ")]}〉》」』】〕〗〙〛）］｝｠"
@@ -64,14 +67,6 @@ def face_path(size, w):
 
 def j_path(size, w):
     return ROOT / "dist" / f"HarenaUIJ-{size}{WEIGHTS[w]}.ttf"
-
-
-def expand(runs):
-    return {c: v for first, last, v in runs for c in range(first, last + 1)}
-
-
-def windows(size, w):
-    return json.loads((DATA / "windows" / f"{size}-{WEIGHTS[w]}.json").read_text())["langs"]
 
 
 class Face:
@@ -323,266 +318,134 @@ def check_coverage(r, j, base, cases):
             f"{len(want - got)} missing, {orphans} orphan glyphs; code pages {sorted(declared)}; family {family!r}")
 
 
-def _near(units, px):
-    return abs(units - px * PX) <= TOLERANCE
+@lru_cache(maxsize=None)
+def winui():
+    """What WinUI 3 lays out (data/v0_7), and the pairs it was measured on, with probe/v0_7's
+    rule for which those are."""
+    sys.path.insert(0, str(ROOT / "probe/v0_7"))
+    from run import pair_points
+    data = json.loads((WINUI / "winui.json").read_text())
+    pairs = json.loads((WINUI / "pairs.json").read_text())
+    measured = pair_points()
+    assert len(measured) == pairs["pairs"], "the pairs are not the ones measured"
+    return data, pairs, measured
 
 
-def check_widths(r, size, w, data, text_data, cases, face):
-    covered, symbols, punctuation, kana = cases["covered"], set(cases["symbols"]), cases["punctuation"], cases["kana"]
-    bad, tried, left_out = [], 0, {}
-    # `en` stands for the languages with no CJK of their own: it must be no language
-    bad += [("en", key) for key in ("alone", "sentences", "sequences") if data["en"][key] != data[""][key]]
-
-    def out(reason):
-        left_out[reason] = left_out.get(reason, 0) + 1
-
-    for lang in SYSTEMS:
-        d = data[lang]
-        alone = expand(d["alone"])
-        for c in covered:
-            if c in MARKS:
-                out("marks alone")
-                continue
-            if lang == "" and c in ALONE_ODD or (lang != "" and c in ALONE_ODD and alone[c] < 600):
-                out("U+FF5F, U+FF60 alone")
-                continue
+def check_widths(r, w, cases, face):
+    """Every covered code point, alone and with `kern` off, in each language WinUI was measured in,
+    at WinUI's width; under its own script and, for punctuation and symbols, in a run of each CJK
+    script. Every measured pair, split into runs as Chromium splits it, at the sum of its parts and what WinUI
+    lays the pair out apart from them. A kana and a combining sound mark that Unicode composes are
+    the composed letter, as HarfBuzz composes them (PLAN.md, v0.7)."""
+    data, pairs, measured = winui()
+    scale = UPM / data["size"]
+    bad, tried = [], 0
+    for lang, hb_lang in WINUI_LANGS.items():
+        widths = {int(k, 16): px for k, px in data["widths"][lang][str(w)].items()}
+        differ = pairs["differ"].get(lang, {}).get(str(w), {})
+        for c in cases["covered"]:
+            for script in [own_script(c)] + (["Hang", "Hani", "Kana"] if own_script(c) == "Zyyy" else []):
+                # with `kern` off, as a page may set it: a width only `kern` gave would be lost
+                got = face.width(chr(c), hb_lang, script, {"kern": False})
+                tried += 1
+                if abs(got - widths[c] * scale) > TOLERANCE:
+                    bad.append((lang, script, chr(c), got / scale, widths[c]))
+        for a, b in measured:
+            composed = unicodedata.normalize("NFC", chr(a) + chr(b))
+            if len(composed) == 1 and ord(composed) in widths:
+                want = widths[ord(composed)] * scale
+            else:
+                want = (widths[a] + widths[b] + differ.get(f"{a:04X}+{b:04X}", 0)) * scale
+            got = face.run_width(chr(a) + chr(b), hb_lang)
             tried += 1
-            got = face.width(chr(c), lang, own_script(c))
-            if not _near(got, alone[c]):
-                bad.append(("alone", lang, chr(c), got / PX, alone[c]))
-        for name, script in (("hangul", "Hang"), ("han", "Hani")):
-            base = cases["bases"][name][0]
-            beside = d["beside"][name]
-            for s in cases["symbols"]:
-                if s in MARKS:
-                    out("marks after a letter of no kana")
-                    continue
-                for text, key in ((base + chr(s), "after"), (chr(s) + base, "before")):
-                    want = alone[ord(base)] + alone[s] + beside[key].get(str(s), 0)
-                    got = face.width(text, lang, script)
-                    tried += 1
-                    if not _near(got, want):
-                        if key == "before" and beside["after"].get(str(s), 0) != beside["before"].get(str(s), 0):
-                            out("a symbol's font draws the letter after it")
-                        else:
-                            bad.append((name, key, lang, text, got / PX, want))
-        pairs = d["kern"]
-        for a in kana:
-            for b in kana:
-                text = chr(a) + chr(b)
-                tried += 1
-                got = face.run_width(text, lang)
-                want = alone[a] + alone[b] + pairs.get(text, 0)
-                if a in MARKS or b in MARKS:
-                    continue
-                if not _near(got, want):
-                    bad.append(("kana", lang, text, got / PX, want))
-        if size == "Text":
-            run_shift = {s: Counter(round(pairs.get(chr(a) + chr(s), 0), 3) for a in kana).most_common(1)[0][0]
-                         for s in cases["symbols"] if s not in MARKS}
-            for a in kana:
-                for s in cases["symbols"]:
-                    if s in MARKS:
-                        continue
-                    for text in (chr(a) + chr(s), chr(s) + chr(a)):
-                        tried += 1
-                        got = face.width(text, lang, "Kana")
-                        want = alone[a] + alone[s] + pairs.get(text, 0)
-                        if not _near(got, want):
-                            # Wider than the symbol is in a kana run: PLAN.md's Locked note
-                            if pairs.get(text, 0) > run_shift[s] + 0.02:
-                                out("a kana's font draws the symbol beside it")
-                            else:
-                                bad.append(("kana symbol", lang, text, got / PX, want))
-        halted = {c: face.width(chr(c), lang, "Zyyy", {"halt": True}) - face.width(chr(c), lang, "Zyyy")
-                  for c in punctuation}
-        dot = "\u30FB"
-        for group in ("pairs", "spaced"):
-            for a in punctuation:
-                for b in punctuation:
-                    text = chr(a) + chr(b)
-                    want = alone[a] + alone[b] + d[group].get(text, 0)
-                    got = face.width(text, lang, "Zyyy")
-                    tried += 1
-                    if _near(got, want):
-                        continue
-                    if a in ALONE_ODD or b in ALONE_ODD:
-                        out("U+FF5F, U+FF60 in a pair")
-                        continue
-                    if group == "pairs" and (_near(got + halted[a], want) or _near(got + halted[b], want)):
-                        continue
-                    if dot in text and lang != "ja":
-                        out("U+30FB beside punctuation outside Japanese")
-                        continue
-                    # Neither nothing nor half an em: the first character's font draws the second
-                    if abs(d[group].get(text, 0)) > 0.02 and abs(d[group].get(text, 0) + 500) > 0.02:
-                        out("a symbol's font draws the symbol after it")
-                        continue
-                    bad.append((group, lang, text, got / PX, want))
-        trims = {t for t, v in d["pairs"].items() if abs(v + 500) < 0.02}
-        for key, group in (("sentences", cases["sentences"]), ("sequences", cases["sequences"])):
-            for text, want in zip(group, d[key]):
-                if key == "sentences" and any(ord(c) not in face.mapped for c in text):
-                    out("text Pretendard JP lacks")
-                    continue
-                # Chinese text in Semibold and Bold: a font without U+309A gives it a whole em
-                if lang.startswith("zh") and "\u309A" in text and alone[0x309A] > 0:
-                    out("marks alone")
-                    continue
-                got = face.run_width(text, lang)
-                got -= sum(1024 for a, b in zip(text, text[1:]) if a + b in trims)
-                tried += 1
-                if abs(got - want * PX) > 2:
-                    bad.append((key, lang, text, got / PX, want))
-    # `halt` under kana's default system: after kana, up to two punctuation marks on (PLAN.md)
-    for text, want in (("ア）", -500), ("）、", 0), ("ア）、", -1000), ("ア「」、", -1500), ("ア「」、」", -1500),
-                       ("か\u309A）、", -1000)):
-        got = face.width(text, "", "Kana", {"halt": True}) - face.width(text, "", "Kana")
-        tried += 1
-        if not _near(got, want):
-            bad.append(("halt", "", text, got / PX, want))
-    # Runs as Chromium's iterator makes them, for what the sentences above rely on
-    for text, want in (("「가A」", ["Hang", "Latn", "Hang"]), ("ア（F）、", ["Kana", "Latn", "Kana"]),
-                       ("가「A」", ["Hang", "Latn", "Hang"]), ("F）、", ["Latn", "Zyyy"]),
-                       ("「OK」 저장", ["Zyyy", "Latn", "Zyyy", "Hang"])):
-        tried += 1
-        if [s for _, s in runs_of(text)] != want:
-            bad.append(("runs", "", text, runs_of(text), want))
+            # each of the three rounded to a unit in the build
+            if abs(got - want) > 3 * TOLERANCE:
+                bad.append((lang, chr(a) + chr(b), got / scale, want / scale))
     r.check("15 CJK widths", not bad,
-            f"{tried} widths within half a unit of Windows', {len(bad)} not {bad[:4]}; left out as PLAN.md's: "
-            + ", ".join(f"{k} {v}" for k, v in sorted(left_out.items())))
+            f"{tried} widths and pairs within rounding of WinUI's, {len(bad)} not {bad[:4]}")
 
 
-def check_features(r, j, base, data, text_data, cases):
+def check_features(r, j, base, cases):
+    """GSUB is Harena UI's. Every script has no language's system and JAN's, each with Harena UI's
+    features for that script and no required feature; `dist` only under JAN, one and the same in
+    every script, and nothing else that changes widths (`halt`, `palt` and their kin). Only `kern`
+    and `dist` have lookups Harena UI's lack, of the kinds the build adds, touching only CJK."""
     gsub_same = sorted(x.FeatureTag for x in j["GSUB"].table.FeatureList.FeatureRecord) == \
         sorted(x.FeatureTag for x in base["GSUB"].table.FeatureList.FeatureRecord)
-    gpos = j["GPOS"].table
+    gpos, base_gpos = j["GPOS"].table, base["GPOS"].table
     tags = {x.FeatureTag for x in gpos.FeatureList.FeatureRecord}
-    names = j.getBestCmap()
-    by_name = {}
-    for c, g in names.items():
-        by_name.setdefault(g, c)
-    base_kern = {x.FeatureTag: set(x.Feature.LookupListIndex) for x in base["GPOS"].table.FeatureList.FeatureRecord}["kern"]
+    base_tags = {x.FeatureTag for x in base_gpos.FeatureList.FeatureRecord}
     harena = set(base.getGlyphOrder())
-    dists = {}
+    base_scripts = {x.ScriptTag: x.Script for x in base_gpos.ScriptList.ScriptRecord}
     problems = []
-    for script in gpos.ScriptList.ScriptRecord:
-        systems = {None: script.Script.DefaultLangSys}
-        systems.update({x.LangSysTag: x.LangSys for x in script.Script.LangSysRecord})
-        lang_of = {tag: lang for lang, tag in SYSTEMS.items()}
-        if set(systems) != set(lang_of):
-            problems.append((script.ScriptTag, "systems", sorted(str(k) for k in systems)))
-        for tag, ls in systems.items():
-            lang = lang_of[tag]
-            halve = tag == "JAN " or (script.ScriptTag == "kana" and tag is None)
-            halt_want = {int(k): v for k, v in data["ja"]["halt"].items()} if halve else {}
-            halt_got = {}
-            kern_extra, dist_lookups = set(), set()
-            for i in ls.FeatureIndex:
-                record = gpos.FeatureList.FeatureRecord[i]
-                if record.FeatureTag == "halt":
-                    for li in record.Feature.LookupListIndex:
-                        lookup = gpos.LookupList.Lookup[li]
-                        if script.ScriptTag == "kana" and tag is None:
-                            # kana's default system: `halt` only after kana (PLAN.md)
-                            if lookup.LookupType != 8 or len(lookup.SubTable) != 3 or lookup.LookupFlag != 8:
-                                problems.append(("kana", tag, "halt without its context"))
-                                continue
-                            for between, st_ in enumerate(lookup.SubTable):
-                                back = [{by_name[g] for g in c.glyphs} for c in st_.BacktrackCoverage]
-                                if (back != [set(cases["punctuation"])] * between + [set(cases["kana"])]
-                                        or {by_name[g] for g in st_.InputCoverage[0].glyphs} != set(halt_want)
-                                        or st_.LookAheadCoverage
-                                        or [(x.SequenceIndex, x.LookupListIndex) for x in st_.PosLookupRecord]
-                                        != [(0, lookup.SubTable[0].PosLookupRecord[0].LookupListIndex)]):
-                                    problems.append(("kana", tag, "halt's context is not kana's", between))
-                            lookup = gpos.LookupList.Lookup[lookup.SubTable[0].PosLookupRecord[0].LookupListIndex]
-                        for st_ in lookup.SubTable:
-                            for g, v in _single_values(st_):
-                                halt_got[by_name[g]] = halt_got.get(by_name[g], 0) + v.XAdvance
-                elif record.FeatureTag == "kern":
-                    kern_extra |= set(record.Feature.LookupListIndex) - base_kern
-                elif record.FeatureTag == "dist":
-                    dist_lookups |= set(record.Feature.LookupListIndex)
-            touched = {g for li in dist_lookups for st_ in gpos.LookupList.Lookup[li].SubTable
-                       for g, _ in _single_values(st_)}
-            if touched & harena:
-                problems.append((script.ScriptTag, tag, "dist on Harena UI's glyphs", sorted(touched & harena)[:3]))
-            dists[script.ScriptTag, tag] = dist_lookups
-            if set(halt_got) != set(halt_want) or any(v != -UPM // 2 for v in halt_got.values()):
-                problems.append((script.ScriptTag, tag, "halt", len(halt_got), len(halt_want)))
-            # kana with symbols are measured on Text, for each size
-            want_kern = kana_kern(text_data[lang], cases) if script.ScriptTag == "kana" else {}
-            got_kern = {}
-            for li in kern_extra:
-                for st_ in gpos.LookupList.Lookup[li].SubTable:
-                    for (a, b), v in _pair_values(st_).items():
-                        got_kern[chr(by_name[a]) + chr(by_name[b])] = got_kern.get(chr(by_name[a]) + chr(by_name[b]), 0) + v
-            if got_kern != want_kern:
-                problems.append((script.ScriptTag, tag, "kana kern", len(got_kern), len(want_kern)))
-    # Every system keeps its script's own features, or DFLT's, in Harena UI's lookups
-    def own(table):
+
+    def features(gpos_, ls):
         out = {}
-        for script in table.ScriptList.ScriptRecord:
-            features = [table.FeatureList.FeatureRecord[i] for i in script.Script.DefaultLangSys.FeatureIndex]
-            out[script.ScriptTag] = {x.FeatureTag: set(x.Feature.LookupListIndex) for x in features}
+        for i in ls.FeatureIndex:
+            record = gpos_.FeatureList.FeatureRecord[i]
+            out.setdefault(record.FeatureTag, set()).update(record.Feature.LookupListIndex)
         return out
 
-    inherited = own(base["GPOS"].table)
-    harena_lookups = set(range(len(base["GPOS"].table.LookupList.Lookup)))
-    for script in gpos.ScriptList.ScriptRecord:
-        systems = [(None, script.Script.DefaultLangSys)] + [(x.LangSysTag, x.LangSys) for x in script.Script.LangSysRecord]
-        want = inherited.get(script.ScriptTag, inherited["DFLT"])
-        for tag, ls in systems:
-            have = {}
-            for i in ls.FeatureIndex:
-                record = gpos.FeatureList.FeatureRecord[i]
-                have.setdefault(record.FeatureTag, set()).update(record.Feature.LookupListIndex)
-            for feature, lookups in want.items():
-                if have.get(feature, set()) & harena_lookups != lookups:
-                    problems.append((script.ScriptTag, tag, f"{feature} is not Harena UI's"))
-    # A script of Harena UI's own takes what a run of no script takes
-    for (script, tag), lookups in dists.items():
-        if script not in ("hang", "hani", "kana") and lookups != dists["DFLT", tag]:
-            problems.append((script, tag, "dist differs from DFLT's"))
-    want_tags = {"kern", "mark", "mkmk", "dist", "halt"}
-    r.check("16 features", gsub_same and tags == want_tags and not problems,
-            f"GSUB as Harena UI's: {gsub_same}; GPOS {sorted(tags)}; {len(problems)} problems {problems[:4]}")
+    def glyphs(lookup, tag):
+        """Every glyph a lookup added to `kern` or `dist` adjusts; None for one that is not what the
+        build adds there: glyph pairs that change the first glyph's advance alone, under `kern`, and
+        single adjustments of advance and placement, under `dist`. (A class pair's class 0 is every
+        glyph the classes leave out, so it is never read as CJK only.)"""
+        out = set()
+        for st_ in lookup.SubTable:
+            st_ = st_.ExtSubTable if st_.__class__.__name__ == "ExtensionPos" else st_
+            kind = st_.__class__.__name__
+            if tag == "kern" and not (kind == "PairPos" and st_.Format == 1 and st_.ValueFormat1 == 4
+                                      and st_.ValueFormat2 == 0):
+                return None
+            if tag == "dist" and not (kind == "SinglePos" and st_.ValueFormat & ~5 == 0):
+                return None
+            out.update(st_.Coverage.glyphs)
+            for pair_set in getattr(st_, "PairSet", []):
+                out.update(rec.SecondGlyph for rec in pair_set.PairValueRecord)
+        return out
 
-
-def kana_kern(d, cases):
-    """What in a language's kana pairs is kerning, not a symbol's width in the run: a symbol's most
-    usual change after kana is the run's."""
-    kana, symbols = cases["kana"], [s for s in cases["symbols"] if s not in MARKS]
-    shift = {s: Counter(round(d["kern"].get(chr(a) + chr(s), 0), 3) for a in kana).most_common(1)[0][0]
-             for s in symbols}
-    out = {}
-    for text, v in d["kern"].items():
-        a, b = map(ord, text)
-        if a in MARKS or b in MARKS:
-            continue
-        rest = otRound((v - shift.get(a if a in shift else b, 0)) * PX)
-        if rest < 0:
-            out[text] = rest
-    return out
-
-
-def _pair_values(subtable):
-    if subtable.__class__.__name__ == "ExtensionPos":
-        subtable = subtable.ExtSubTable
-    out = {}
-    for first, pair_set in zip(subtable.Coverage.glyphs, subtable.PairSet):
-        for record in pair_set.PairValueRecord:
-            out[first, record.SecondGlyph] = record.Value1.XAdvance
-    return out
-
-
-def _single_values(subtable):
-    if subtable.__class__.__name__ == "ExtensionPos":
-        subtable = subtable.ExtSubTable
-    if subtable.Format == 1:
-        return [(g, subtable.Value) for g in subtable.Coverage.glyphs]
-    return list(zip(subtable.Coverage.glyphs, subtable.Value))
+    scripts = {x.ScriptTag: x.Script for x in gpos.ScriptList.ScriptRecord}
+    if len(scripts) != len(gpos.ScriptList.ScriptRecord):
+        problems.append(("a script twice",))
+    jan_dist = set()
+    if set(scripts) != set(base_scripts) | {"hang", "hani", "kana"}:
+        problems.append(("scripts", sorted(scripts)))
+    for tag, script in scripts.items():
+        systems = {None: script.DefaultLangSys}
+        systems.update({x.LangSysTag: x.LangSys for x in script.LangSysRecord})
+        # a renderer takes one of a tag's records, and this reads another
+        if len(systems) != len(script.LangSysRecord) + 1:
+            problems.append((tag, "a system twice"))
+        if set(systems) != {None, "JAN "}:
+            problems.append((tag, "systems", sorted(str(k) for k in systems)))
+        want = features(base_gpos, base_scripts.get(tag, base_scripts["DFLT"]).DefaultLangSys)
+        for system, ls in systems.items():
+            got = features(gpos, ls)
+            # a required feature applies whatever a page turns off
+            if ls.ReqFeatureIndex != 0xFFFF:
+                problems.append((tag, system, "a required feature"))
+            if set(got) - set(want) - ({"dist"} if system == "JAN " else set()):
+                problems.append((tag, system, "features", sorted(set(got) - set(want))))
+            for t, lookups in want.items():
+                if not lookups <= got.get(t, set()):
+                    problems.append((tag, system, t, "lacks Harena UI's lookups"))
+                elif t != "kern" and got[t] != lookups:
+                    problems.append((tag, system, t, "has lookups Harena UI's lacks"))
+            for t in ("kern", "dist"):
+                for li in got.get(t, set()) - want.get(t, set()):
+                    touched = glyphs(gpos.LookupList.Lookup[li], t)
+                    if touched is None:
+                        problems.append((tag, system, t, "not what the build adds"))
+                    elif touched & harena:
+                        problems.append((tag, system, t, "touches Harena UI's glyphs"))
+            if system == "JAN ":
+                jan_dist.add(frozenset(got.get("dist", set())))
+    # Japanese's widths are one `dist`, the same in every script's JAN
+    if len(jan_dist) != 1 or not next(iter(jan_dist)):
+        problems.append(("JAN", "dist", "not one and the same in every script"))
+    r.check("16 features", gsub_same and tags <= base_tags | {"dist"} and not problems,
+            f"GSUB {gsub_same}; GPOS {sorted(tags)}; {len(problems)} problems {problems[:4]}")
 
 
 _instances = {}
@@ -599,6 +462,18 @@ def _instance(wght):
         instantiateVariableFont(font, {"wght": wght}, inplace=True)
         _instances[wght] = font
     return _instances[wght]
+
+
+def placed(c, advance, source_advance):
+    """How far right of its source position the locked rule puts a glyph's ink in an advance:
+    opening punctuation keeps its trailing bearing, closing punctuation its leading one, and
+    everything else its source's balance, centred (PLAN.md, v0.4 and v0.7)."""
+    kind = unicodedata.category(chr(c))
+    if kind in ("Ps", "Pi"):
+        return advance - source_advance
+    if kind in ("Pe", "Pf") or c in TRAILING_DOTS:
+        return 0
+    return (advance - source_advance) / 2
 
 
 def check_shapes(r, size, w, j, chosen, shapes, cases):
@@ -640,26 +515,60 @@ def check_shapes(r, size, w, j, chosen, shapes, cases):
         if not have:
             continue
         dx = sum(a[0] - b[0] for a, b in zip(have, want)) / len(have)
+        source_advance = source["hmtx"][source.getBestCmap()[c]][0] * s
+        advance = j["hmtx"][cmap[c]][0]
+        if c in MARKS:
+            # they hang back over the letter before, whose middle moved back by half what it grew
+            want_dx = -(UPM - source["hmtx"][source.getBestCmap()[0x3042]][0]) / 2
+        else:
+            want_dx = placed(c, advance, source_advance)
+        if abs(dx - want_dx) > OUTLINE_TOLERANCE:
+            moved.append((chr(c), "placed", round(dx - want_dx)))
+            continue
         if any(abs(a[0] - b[0] - dx) > OUTLINE_TOLERANCE or abs(a[1] - b[1]) > OUTLINE_TOLERANCE
                for a, b in zip(have, want)):
             moved.append((chr(c), "points"))
+    # Under JAN, the ink goes where the rule puts it in Japanese's advance: check 16 holds every
+    # script's JAN to one `dist` of single adjustments, read here whole
+    gpos = j["GPOS"].table
+    glyph_c = {g: c for c, g in cmap.items()}
+    adjusted = set()  # once each, so that the record read is all the glyph gets
+    for record in gpos.FeatureList.FeatureRecord:
+        if record.FeatureTag != "dist":
+            continue
+        for li in record.Feature.LookupListIndex:
+            for sub in gpos.LookupList.Lookup[li].SubTable:
+                sub = sub.ExtSubTable if sub.__class__.__name__ == "ExtensionPos" else sub
+                values = sub.Value if sub.Format == 2 else [sub.Value] * len(sub.Coverage.glyphs)
+                for g, v in zip(sub.Coverage.glyphs, values):
+                    c = glyph_c.get(g)
+                    if c is None or c in MARKS or g in adjusted:
+                        moved.append((g, "adjusted under JAN", "again" if g in adjusted else ""))
+                        continue
+                    adjusted.add(g)
+                    is_h = hangul(c)
+                    source = src[is_h]
+                    source_advance = source["hmtx"][source.getBestCmap()[c]][0] * (scale if is_h else 1.0)
+                    advance, d = j["hmtx"][g][0], getattr(v, "XAdvance", 0) or 0
+                    want = placed(c, advance + d, source_advance) - placed(c, advance, source_advance)
+                    if abs((getattr(v, "XPlacement", 0) or 0) - want) > 1:
+                        moved.append((chr(c), "placed under JAN", getattr(v, "XPlacement", 0)))
     r.check("17 shapes", stems_ok and body_ok and not moved,
             f"stems {stem_h:.1f}/{malgun:.1f} and {stem_y:.1f}/{yu:.1f}; Hangul body {body_h:.1f}/{want_h:.1f}; "
-            f"{len(cases['covered'])} outlines, {len(moved)} not Pretendard JP's {moved[:4]}")
+            f"{len(cases['covered'])} outlines, {len(moved)} not Pretendard JP's or not placed as locked {moved[:4]}")
 
 
 def face_j(size, w):
     r = Report(f"J-{size}-{WEIGHTS[w]}")
     cases = json.loads((DATA / "cases.json").read_text())
-    data, text_data = windows(size, w), windows("Text", w)
     j, base = TTFont(j_path(size, w)), TTFont(face_path(size, w))
     face = Face(j_path(size, w))
     face.mapped = set(j.getBestCmap())
     harena = Face(face_path(size, w))
     r.guarded("13 Latin identity", lambda: check_latin(r, j, base, face, harena))
     r.guarded("14 coverage", lambda: check_coverage(r, j, base, cases))
-    r.guarded("15 CJK widths", lambda: check_widths(r, size, w, data, text_data, cases, face))
-    r.guarded("16 features", lambda: check_features(r, j, base, data, text_data, cases))
+    r.guarded("15 CJK widths", lambda: check_widths(r, w, cases, face))
+    r.guarded("16 features", lambda: check_features(r, j, base, cases))
     build = json.loads((DATA / "build.json").read_text())[str(w)]
     shapes = json.loads((DATA / "shapes.json").read_text())
     r.guarded("17 shapes", lambda: check_shapes(r, size, w, j, build, shapes, cases))

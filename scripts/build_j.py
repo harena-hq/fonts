@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2026 Jeeyong Um
 """Build Harena UI J: each built Harena UI face plus Pretendard JP's CJK, at the widths
-Edge gives CJK under a Segoe stack (PLAN.md, v0.4).
+WinUI 3 lays CJK out at, in each language (PLAN.md, v0.7); shapes chosen as in v0.4.
 
 Harena UI's glyphs, advances, kerning and vertical metrics are not rebuilt: the face is
 loaded from dist/ and CJK is added to it. So scripts/build.py must have run first.
@@ -16,7 +16,6 @@ import json
 import statistics as st
 import sys
 import unicodedata
-from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
@@ -39,23 +38,21 @@ from build import COPYRIGHT, DIST, FACES, LICENSE, ROOT, SOURCE_DATE, UPM, VENDO
 
 PJP = ROOT / "sources/pjp/public/variable/PretendardJPVariable.ttf"
 DATA = ROOT / "data/v0_4"
+WINUI = ROOT / "data/v0_7"
 WORK = ROOT / "build/j"
-VERSION = "0.6.0"
+VERSION = "0.7.0"
 COPYRIGHT_J = (COPYRIGHT + "\nCopyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard), "
                "with Reserved Font Name Pretendard JP")
 PX = UPM / 1000
-# Measured language -> OpenType language system
-SYSTEMS = {"": None, "ko": "KOR ", "ja": "JAN ", "zh-Hans": "ZHS ", "zh-Hant": "ZHT "}
+# WinUI's language -> OpenType language system. ko-KR lays out as no language (checked below), so
+# it needs none of its own.
+SYSTEMS = {"none": None, "ja-JP": "JAN "}
 # The scripts a run of CJK or of its neighbours shapes under. Harena UI's have its own
 # systems; the others take DFLT's features.
-CJK_SCRIPTS = {"hang": "hangul", "hani": "han", "kana": None}
+CJK_SCRIPTS = ("hang", "hani", "kana")
 MARKS = (0x3099, 0x309A)
-# Half a width alone and 1 em beside anything, with no `lang`: what they are beside
-# anything is what they get (PLAN.md).
-ALONE_ODD = (0xFF5F, 0xFF60)
-# Halved at the leading edge, by `halt` and by a narrower width: their ink is at the trailing
-# edge. Others of a width change keep their ink at the leading edge (closing, `、。，．`) or
-# centred.
+# Halved at the leading edge, by a narrower width: their ink is at the trailing edge. Others of a
+# width change keep their ink at the leading edge (closing, `、。，．`) or centred.
 TRAILING_DOTS = (0x3001, 0x3002, 0xFF0C, 0xFF0E)
 
 
@@ -63,100 +60,37 @@ def category(c):
     return unicodedata.category(chr(c))
 
 
-def units(px):
-    return otRound(px * PX)
-
-
-def expand(runs):
-    return {c: w for first, last, w in runs for c in range(first, last + 1)}
-
-
 def is_hangul(c):
     return fu.script(chr(c)) == "Hang"
 
 
-def in_script(c, script):
-    """Whether a code point can be in a run of that script: its own letters and the symbols
-    that join any run."""
-    return fu.script(chr(c)) in {"hang": ("Hang", "Zyyy", "Zinh"), "hani": ("Hani", "Zyyy", "Zinh"),
-                                 "kana": ("Hira", "Kana", "Zyyy", "Zinh")}[script]
-
-
-def windows(size, w):
-    return json.loads((DATA / "windows" / f"{size}-{WEIGHTS[w]}.json").read_text())["langs"]
-
-
 class Targets:
-    """What a face's CJK measures, in font units, from what Windows measured."""
+    """What a weight's CJK measures, in font units, from what WinUI 3 lays out (data/v0_7): every
+    optical size takes its weight's, as WinUI draws CJK from the same faces in each."""
 
-    def __init__(self, size, w, cases):
-        data, text = windows(size, w), windows("Text", w)
-        self.covered, self.symbols = cases["covered"], set(cases["symbols"])
-        kana = self.kana = set(cases["kana"])
-        self.punctuation = set(cases["punctuation"])
-        self.alone = {lang: expand(data[lang]["alone"]) for lang in SYSTEMS}
-        # A symbol's width beside Han is its default; everything else's is its width alone.
-        self.default = {c: units(self.in_run(data, "", "han", c)) for c in self.covered}
-        self.dist, self.kern = {}, {}
+    def __init__(self, w, covered):
+        winui = json.loads((WINUI / "winui.json").read_text())
+        pairs = json.loads((WINUI / "pairs.json").read_text())
+
+        def units(px):
+            return otRound(px * UPM / winui["size"])
+
+        widths = {lang: {int(k, 16): px for k, px in by_w[str(w)].items()} for lang, by_w in winui["widths"].items()}
+        differ = {lang: {tuple(int(x, 16) for x in k.split("+")): d for k, d in by_w.get(str(w), {}).items()}
+                  for lang, by_w in pairs["differ"].items()}
+        assert set(widths["none"]) == set(covered), "data/v0_7 measures other code points than J covers"
+        assert widths["ko-KR"] == widths["none"] and differ.get("ko-KR") == differ.get("none"), \
+            "ko-KR lays out unlike no language: it needs a KOR system"
+        self.covered = covered
+        self.default = {c: units(widths["none"][c]) for c in covered}
+        assert all(self.default[c] == 0 for c in MARKS), "a combining mark with a width"
+        # Per language system: single adjustments from the default, and pairs.
+        self.adjust, self.kern = {}, {}
         for lang, tag in SYSTEMS.items():
-            pairs = text[lang]["kern"]
-            run_shift = self._kana_run_shift(pairs, kana)
-            for script, name in CJK_SCRIPTS.items():
-                table = {}
-                for c in self.covered:
-                    if c in MARKS or not in_script(c, script):
-                        continue
-                    if name:
-                        px = self.in_run(data, lang, name, c)
-                    else:
-                        px = self.alone[lang][c] + run_shift.get(c, 0) if c in self.symbols else self.alone[lang][c]
-                        if c in ALONE_ODD:
-                            px = self.in_run(data, lang, "han", c)
-                    if units(px) != self.default[c]:
-                        table[c] = units(px) - self.default[c]
-                self.dist[script, tag] = table
-            table = {}
-            for c in self.covered:
-                if c in MARKS:
-                    continue
-                px = self.in_run(data, lang, "han", c) if c in ALONE_ODD else self.alone[lang][c]
-                if units(px) != self.default[c]:
-                    table[c] = units(px) - self.default[c]
-            self.dist["DFLT", tag] = table
-            kern = {}
-            for text_pair, d in pairs.items():
-                a, b = map(ord, text_pair)
-                if a in MARKS or b in MARKS:
-                    continue
-                shift = run_shift.get(a if a in self.symbols else b, 0)
-                # Kerning narrows. A wider pair is a kana the language's font lacks, whose font
-                # draws the symbol beside it, which no pair can stand for: `ゔ｟ゔ` would count twice.
-                if units(d - shift) < 0:
-                    kern[a, b] = units(d - shift)
-            self.kern[tag] = kern
-        # Yu Gothic's half widths, which Edge's text-spacing-trim reads: under Japanese, and in a
-        # kana run with no language, which Yu Gothic draws as well.
-        self.halt = {int(k): v for k, v in data["ja"]["halt"].items()}
-
-    @staticmethod
-    def _after(data, lang, name, c):
-        return data[lang]["beside"][name]["after"].get(str(c), 0)
-
-    def in_run(self, data, lang, name, c):
-        """A code point's width in a run of that script. A symbol that follows a letter takes
-        the run's font; letters of other scripts are themselves in any run."""
-        px = self.alone[lang][c]
-        return px + self._after(data, lang, name, c) if c in self.symbols else px
-
-    def _kana_run_shift(self, pairs, kana):
-        """The most usual change a symbol shows after kana is its width in a kana run; what
-        differs from that in a pair is kerning."""
-        shift = {}
-        for s in self.symbols - set(MARKS):
-            seen = Counter(round(pairs.get(chr(a) + chr(s), 0), 3) for a in kana)
-            if seen.most_common(1)[0][0]:
-                shift[s] = seen.most_common(1)[0][0]
-        return shift
+            self.adjust[tag] = {c: units(widths[lang][c]) - self.default[c] for c in covered
+                                if units(widths[lang][c]) != self.default[c]}
+            self.kern[tag] = {pair: units(d) for pair, d in differ.get(lang, {}).items() if units(d)}
+        assert not self.adjust[None], "the default is no language's"
 
 
 def source_subset(covered):
@@ -324,41 +258,6 @@ class Gpos:
         return [self.lookup(key, lambda: otl.buildSinglePos(
             {names[c]: value(c, d) for c, d in sorted(table.items())}, self.glyph_map))]
 
-    def halve(self, table, names):
-        if not table:
-            return []
-        key = ("halt", tuple(sorted(table)))
-        return [self.lookup(key, lambda: otl.buildSinglePos(
-            {names[c]: value(c, units(d)) for c, d in sorted(table.items())}, self.glyph_map))]
-
-    def halve_after_kana(self, table, names, kana, punctuation):
-        """`halt` that needs kana before the glyph, with up to two punctuation marks between, past
-        any combining mark. A kana
-        run can start at punctuation (`ア（F）、`: Chromium gives the closing bracket its opening
-        bracket's script), and there Windows' fallback takes a font that does not trim."""
-        inner = self.halve(table, names)[0]
-
-        def cover(codes):
-            return otl.buildCoverage([names[c] for c in codes], self.glyph_map)
-
-        def subtable(between):
-            st = ot.ChainContextPos()
-            st.Format = 3
-            st.BacktrackCoverage = [cover(punctuation) for _ in range(between)] + [cover(kana)]
-            st.BacktrackGlyphCount = len(st.BacktrackCoverage)
-            st.InputCoverage = [cover(table)]
-            st.InputGlyphCount = 1
-            st.LookAheadCoverage = []
-            st.LookAheadGlyphCount = 0
-            record = ot.PosLookupRecord()
-            record.SequenceIndex, record.LookupListIndex = 0, inner
-            st.PosLookupRecord = [record]
-            st.PosCount = 1
-            return st
-
-        return [self.lookup(("halt after kana", tuple(sorted(table))), lambda: [subtable(n) for n in range(3)],
-                            flags=otl.LOOKUP_FLAG_IGNORE_MARKS)]
-
     def pairs(self, table, names):
         if not table:
             return []
@@ -369,6 +268,8 @@ class Gpos:
 
 
 def rebuild_systems(font, targets, names):
+    """Every script's systems: no language, and JAN with WinUI's Japanese widths under `dist`, which
+    a page cannot turn off as it can `kern`; each with its language's pairs under `kern`."""
     gpos = Gpos(font)
     table = gpos.table
     existing = {r.ScriptTag: r.Script for r in table.ScriptList.ScriptRecord}
@@ -377,24 +278,16 @@ def rebuild_systems(font, targets, names):
                            for i in script.DefaultLangSys.FeatureIndex] for tag, script in existing.items()}
     systems = {}
     for script in sorted(set(existing) | set(CJK_SCRIPTS)):
-        for lang, tag in SYSTEMS.items():
+        for tag in SYSTEMS.values():
             base = base_features.get(script, base_features["DFLT"])
             features = [(t, list(lookups)) for t, lookups in base]
-            own = script if script in CJK_SCRIPTS else "DFLT"
-            extra = gpos.single(targets.dist[own, tag], names)
-            if extra:
-                features.append(("dist", extra))
-            if tag == "JAN ":
-                halved = gpos.halve(targets.halt, names)
-            elif script == "kana" and tag is None:
-                halved = gpos.halve_after_kana(targets.halt, names, targets.kana, targets.punctuation)
-            else:
-                halved = []
-            if halved:
-                features.append(("halt", halved))
-            if script == "kana":
-                more = gpos.pairs(targets.kern[tag], names)
-                features = [(t, lookups + more if t == "kern" else lookups) for t, lookups in features]
+            widths = gpos.single(targets.adjust[tag], names)
+            if widths:
+                features.append(("dist", widths))
+            more = gpos.pairs(targets.kern[tag], names)
+            if more and not any(t == "kern" for t, _ in features):
+                features.append(("kern", []))
+            features = [(t, lookups + more if t == "kern" else lookups) for t, lookups in features]
             systems[script, tag] = features
     # one FeatureRecord per distinct (tag, lookups), in tag order
     distinct = sorted({(t, tuple(lookups)) for features in systems.values() for t, lookups in features})
@@ -480,7 +373,7 @@ def finish(font, size, w):
 def build_face(args):
     size, w, chosen, cases = args
     font = TTFont(face_path(size, w))
-    targets = Targets(size, w, cases)
+    targets = Targets(w, cases["covered"])
     names = add_cjk(font, targets, chosen)
     set_cmap(font, names)
     mark_class(font, names)
