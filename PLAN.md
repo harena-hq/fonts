@@ -133,24 +133,27 @@ own rounding is recorded.
 2. **Probe.** `probe/v1_0/`: one measuring script (widths, line boxes, fetches) and a driver for each
    protocol; the reference taken in Edge with the same script.
    *Done when:* Edge's run of it reproduces v0.6.1's and v0.7's Edge numbers.
-   *State* 2026-11-09: `probe/v1_0/collect.py` measures every part in one engine into one file, through
-   CDP or WebDriver; `probe/v1_0/check_edge.py` runs v0.6.1's and v0.7's checks on Edge's. WinUI 3's
-   widths for v0.7's labels, lost with the guest that measured them, are measured again and kept as
-   `data/v1_0/labels.json`. In Edge 151 (6 minutes) line boxes (1,745,190, now with `A` in J's Latin),
-   fetches, code points (872,550) and pairs (887,770, 450 counted) reproduce exactly. Two checks
-   do not, both from outside the probe, and are reported before anything changes (item 6):
-   - *Conjoining jamo in Semibold.* 27 of 880,380 widths: `가`, `각` and `한글` written as conjoining
-     jamo are 1000 per syllable in the package but 1020 in the whole TTF, in every Semibold face and
-     language. HarfBuzz composes them into the syllable, which v0.7 made 2% wider in Semibold; the
-     package keeps the jamo in another file, where Edge draws them uncomposed. v0.6.1's check passed
-     because Semibold Hangul was 1000 then. WinUI 3 composes neither: each jamo is a full em (`가` in
-     jamo is 200 px at 100 px, 204 in Semibold).
-   - *WinUI 3's own default.* On a fresh guest from the same image and build (26200.8875, `en-US` the
-     only language), WinUI 3 with no `Language` lays CJK out as under `ja-JP` (`あ` 81.6 px at 100 px),
-     not as under `ko-KR` as v0.7 measured (`あ` 100 px) and `hmtx` encodes. Edge, which draws J's
-     default, still gives v0.7's; so 95 of the 735 labels, all with no language, are now more than
-     1 px from WinUI 3. What decides WinUI's choice is not yet known.
+   *Done* 2026-11-09: `probe/v1_0/collect.py` measures every part in one engine into one file, through
+   CDP or WebDriver, from `probe/v1_0/serve.py` (the probe's files only, never cached);
+   `probe/v1_0/check_edge.py` runs v0.6.1's and v0.7's checks on Edge's. In Edge 151 (6 minutes):
+   of 880,380 widths, 880,353 are the whole TTFs' and 27 are counted (below); 1,745,190 line boxes
+   are Segoe's (now with `A` in J's Latin),
+   the nine pages fetch as before, 872,550 code points are WinUI 3's, 735 labels agree with WinUI 3
+   within 0.014 px, and 887,770 pairs are trimmed by nothing beyond the 450 counted. Two things the
+   first run found are settled (item 6):
+   - *WinUI 3's no-language default* (ADR 0005, amended). Re-measured with v0.7's app and cases on a
+     fresh guest, and checked on winui-svelte's reference guest, WinUI 3 with no `Language` lays CJK
+     out as under `ja-JP` (`あ` 81.6 px at 100 px), not as under `ko-KR` as v0.7's guest did (100).
+     `data/v1_0` holds the new widths and pairs; J 0.8.0 takes its default from them and adds `KOR`
+     with `ko-KR`'s under `dist`. This changes Edge on Windows, deliberately: a page with no `lang`
+     now lays Japanese out as WinUI 3 does. The labels' WinUI 3 widths are `data/v1_0/labels.json`.
+   - *Counted: conjoining jamo.* `가`, `각` and `한글` written as conjoining jamo are 27 of the widths:
+     J maps no conjoining jamo, so the package leaves them to the system's fonts, while the whole TTF
+     composes them into the syllable J has (1020 per syllable in Semibold against 1000). The same
+     class as v0.7's counted pairs; WinUI 3 composes neither, drawing each jamo a full em.
    Resource Timing lists no font files in WebKitGTK, so item 5 observes fetches at the server.
+   *Lesson:* an engine keeps fonts it fetched in an earlier run: before the cache was off, Edge laid
+   out J 0.7's files under J 0.8's names.
 3. **Widths.** In each engine: the v0.3 and v0.4 strings in every Harena UI and Harena UI J face, in
    no language, `ko` and `ja`; every J code point alone in each language; the v0.7 labels; Harena
    UI Icons' code points. Against the reference.

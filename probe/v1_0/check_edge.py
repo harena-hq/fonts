@@ -2,12 +2,15 @@
 """1.0 item 2: Edge's file from probe/v1_0/collect.py gives v0.6.1's and v0.7's Edge results.
 
 From v0.6 and v0.6.1 (probe/v0_6/browser.py):
-1. widths: each string in the package's family is its width in the face's whole TTF, exactly;
+1. widths: each string in the package's family is its width in the face's whole TTF, exactly; a string
+   of conjoining jamo in Semibold is counted apart, and must differ: J maps no jamo, so the package
+   leaves them to the system's fonts, while the whole TTF composes them into a syllable J has, 2%
+   wider in Semibold;
 2. line boxes: "A", and "A" and each J code point, with J after the Segoe stack, is the height of "A"
    alone;
 3. fetches: each of the nine pages fetches exactly the files it did.
 From v0.7 (probe/v0_7/browser.py):
-4. code points: each is its data/v0_7 width for its language and weight, within half a font unit and
+4. code points: each is its data/v1_0 width for its language and weight, within half a font unit and
    a layout unit;
 5. labels: within 1 px of WinUI 3's (data/v1_0/labels.json, probe/v0_7/measure);
 6. pairs under ja: each is the sum of its parts and its kern, within one and a half font units and a
@@ -17,7 +20,10 @@ Usage: python probe/v1_0/check_edge.py <edge.json>; exits non-zero on a differen
 """
 import json
 import sys
+import unicodedata
 from pathlib import Path
+
+from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "probe/v0_7"), str(ROOT / "probe/v1_0")]
@@ -25,6 +31,15 @@ from browser import composed, hangul_mark, label_cases  # noqa: E402
 from collect import artifacts, complete, digest, fetch_cases, inputs  # noqa: E402
 
 UPM = 2048
+JAMO = [(0x1100, 0x11FF), (0xA960, 0xA97F), (0xD7B0, 0xD7FF)]
+
+
+def jamo(s, mapped):
+    """Conjoining jamo, which J does not map, composing into syllables it does."""
+    has = any(lo <= ord(c) <= hi for c in s for lo, hi in JAMO)
+    unmapped = {ord(c) for c in s} - mapped
+    composed = {ord(c) for c in unicodedata.normalize("NFC", s)}
+    return has and all(any(lo <= c <= hi for lo, hi in JAMO) for c in unmapped) and composed <= mapped
 LAYOUT = 1 / 64
 WINUI_LANG = {"none": "none", "ko": "ko-KR", "ja": "ja-JP"}
 
@@ -39,14 +54,27 @@ def main():
         sys.exit(f"incomplete: {len(missing)} keys missing or malformed, {missing[:6]}")
     failed = False
 
-    differ, measured = [], 0
+    j = set(TTFont(ROOT / "dist/HarenaUIJ-TextRegular.ttf", lazy=True).getBestCmap())
+    differ, measured, system, expected = [], 0, 0, 0
     for key, ours in r["widths"].items():
         if key.endswith("|alone"):
             whole = r["widths"][key[: -len("alone")] + "ttf"]
             measured += len(ours)
-            differ += [(key, s, a, b) for s, a, b in zip(inp["strings"], ours, whole) if a != b]
-    print(f"1. widths: {measured} measured, {len(differ)} differ", differ[:6])
-    failed |= bool(differ)
+            # only in Semibold do the syllables J has differ from the system's jamo (v0.7 made them 2%
+            # wider there, as WinUI 3 draws Malgun Gothic, which has no Semibold)
+            counted = key.startswith("Harena UI J|") and key.split("|")[2] == "600"
+            for s, a, b in zip(inp["strings"], ours, whole):
+                expected += counted and jamo(s, j)
+                if a == b:
+                    continue
+                if counted and jamo(s, j):
+                    system += 1
+                else:
+                    differ.append((key, s, a, b))
+    print(f"1. widths: {measured} measured, {len(differ)} differ; {system} of {expected} expected of conjoining jamo"
+          " in Semibold",
+          differ[:6])
+    failed |= bool(differ) or system != expected
 
     differ, measured = [], 0
     for key, ours in r["lines"].items():
@@ -64,7 +92,7 @@ def main():
     print(f"3. fetches: {len(r['fetches'])} pages, {len(wrong)} unexpected", wrong)
     failed |= bool(wrong) or len(r["fetches"]) != 9
 
-    data = json.loads((ROOT / "data/v0_7/winui.json").read_text())["widths"]
+    data = json.loads((ROOT / "data/v1_0/winui.json").read_text())["widths"]
     off, measured = [], 0
     for key, widths in r["points"].items():
         size, w, lang = key.split("|")
@@ -92,7 +120,7 @@ def main():
     print(f"5. labels: {measured} measured, {len(apart)} apart by more than 1 px (most {worst:.3f} px)", apart[:6])
     failed |= bool(apart) or measured != len(inp["labels"]) * 15
 
-    differs = json.loads((ROOT / "data/v0_7/pairs.json").read_text())["differ"]
+    differs = json.loads((ROOT / "data/v1_0/pairs.json").read_text())["differ"]
     trimmed, worst, counted, measured = [], 0, 0, 0
     for w, widths in r["pairs"].items():
         parts, kern = data["ja-JP"][w], differs.get("ja-JP", {}).get(w, {})
