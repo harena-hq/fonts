@@ -38,15 +38,15 @@ from build import COPYRIGHT, DIST, FACES, LICENSE, ROOT, SOURCE_DATE, UPM, VENDO
 
 PJP = ROOT / "sources/pjp/public/variable/PretendardJPVariable.ttf"
 DATA = ROOT / "data/v0_4"
-WINUI = ROOT / "data/v0_7"
+WINUI = ROOT / "data/v1_0"
 WORK = ROOT / "build/j"
-VERSION = "0.7.0"
+VERSION = "0.8.0"
 COPYRIGHT_J = (COPYRIGHT + "\nCopyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard), "
                "with Reserved Font Name Pretendard JP")
 PX = UPM / 1000
-# WinUI's language -> OpenType language system. ko-KR lays out as no language (checked below), so
-# it needs none of its own.
-SYSTEMS = {"none": None, "ja-JP": "JAN "}
+# WinUI's language -> OpenType language system: no language is the default, and each language the
+# widths WinUI gives it apart from that (ADR 0005).
+SYSTEMS = {"none": None, "ja-JP": "JAN ", "ko-KR": "KOR "}
 # The scripts a run of CJK or of its neighbours shapes under. Harena UI's have its own
 # systems; the others take DFLT's features.
 CJK_SCRIPTS = ("hang", "hani", "kana")
@@ -65,7 +65,7 @@ def is_hangul(c):
 
 
 class Targets:
-    """What a weight's CJK measures, in font units, from what WinUI 3 lays out (data/v0_7): every
+    """What a weight's CJK measures, in font units, from what WinUI 3 lays out (data/v1_0): every
     optical size takes its weight's, as WinUI draws CJK from the same faces in each."""
 
     def __init__(self, w, covered):
@@ -78,9 +78,7 @@ class Targets:
         widths = {lang: {int(k, 16): px for k, px in by_w[str(w)].items()} for lang, by_w in winui["widths"].items()}
         differ = {lang: {tuple(int(x, 16) for x in k.split("+")): d for k, d in by_w.get(str(w), {}).items()}
                   for lang, by_w in pairs["differ"].items()}
-        assert set(widths["none"]) == set(covered), "data/v0_7 measures other code points than J covers"
-        assert widths["ko-KR"] == widths["none"] and differ.get("ko-KR") == differ.get("none"), \
-            "ko-KR lays out unlike no language: it needs a KOR system"
+        assert set(widths["none"]) == set(covered), "data/v1_0 measures other code points than J covers"
         self.covered = covered
         self.default = {c: units(widths["none"][c]) for c in covered}
         assert all(self.default[c] == 0 for c in MARKS), "a combining mark with a width"
@@ -268,8 +266,9 @@ class Gpos:
 
 
 def rebuild_systems(font, targets, names):
-    """Every script's systems: no language, and JAN with WinUI's Japanese widths under `dist`, which
-    a page cannot turn off as it can `kern`; each with its language's pairs under `kern`."""
+    """Every script's systems: no language, and JAN and KOR with WinUI's Japanese and Korean widths
+    under `dist`, which a page cannot turn off as it can `kern`; each with its language's pairs under
+    `kern`."""
     gpos = Gpos(font)
     table = gpos.table
     existing = {r.ScriptTag: r.Script for r in table.ScriptList.ScriptRecord}
