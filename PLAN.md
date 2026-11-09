@@ -123,6 +123,13 @@ own rounding is recorded.
 1. **Rig.** The Linux guest and the Mac reachable, each engine's driver running, versions recorded;
    the file server reachable from both.
    *Done when:* a one-line script returns the engine and version from each of the six.
+   *Done* 2026-11-09: each of the six opened a WebDriver session and loaded `probe/page.html` from
+   the host's file server. macOS 27.2 (arm64, English only, device pixel ratio 2): Safari 27.2 with
+   its `safaridriver`, Chrome 157.0.8103.39 with chromedriver 157.0.8103.38, Firefox 159.0.1 with
+   geckodriver 0.37.1. Ubuntu 24.04.5 (GNOME on Wayland, `en_US.UTF-8`, `fonts-noto-cjk`, device
+   pixel ratio 1): `libwebkit2gtk-4.1-0` 2.52.6 through its MiniBrowser and `WebKitWebDriver`, Chrome
+   157.0.8103.38 with its chromedriver, Firefox 159.0.1 (the snap) with its geckodriver. Chrome and
+   Firefox update themselves, so each run records its versions.
 2. **Probe.** `probe/v1_0/`: one measuring script (widths, line boxes, fetches) and a driver for each
    protocol; the reference taken in Edge with the same script.
    *Done when:* Edge's run of it reproduces v0.6.1's and v0.7's Edge numbers.
