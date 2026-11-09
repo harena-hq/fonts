@@ -32,6 +32,9 @@ const event = (name) => new Promise(function wait(ok) {
 let res;
 try {
   await send('Page.enable');
+  // a page lays out the files it fetches now, never ones an earlier run left in the cache
+  await send('Network.enable');
+  await send('Network.setCacheDisabled', { cacheDisabled: true });
   const loaded = event('Page.loadEventFired');
   await send('Page.navigate', { url: pageUrl });
   await loaded;
