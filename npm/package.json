@@ -1,12 +1,12 @@
 {
   "name": "@harena-hq/ui-font",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Harena UI, a UI typeface with Segoe UI Variable's and Segoe Fluent Icons' geometry: a layout sized under Segoe comes out the same size.",
   "license": "OFL-1.1 AND MIT AND Apache-2.0",
   "harena": {
     "fontVersions": {
       "Harena UI": "0.3.0",
-      "Harena UI J": "0.7.0",
+      "Harena UI J": "0.8.0",
       "Harena UI Icons": "0.5.1"
     }
   },
