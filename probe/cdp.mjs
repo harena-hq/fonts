@@ -2,10 +2,11 @@
 // Open a page on a remote browser over CDP, evaluate one expression in it, and
 // print the value as JSON. Exits on its own: CDP clients otherwise hang on exit.
 //
-// Usage: node probe/cdp.mjs <cdp-http-base> <page-url> <expression-file> [timeout-seconds]
+// Usage: node probe/cdp.mjs <cdp-http-base> <page-url> <expression-file> [timeout-seconds] [device-scale-factor]
+// A device scale factor lays the page out as on a display at that scale (Windows' 200%: 2).
 import { readFileSync } from 'node:fs';
 
-const [base, pageUrl, exprFile, seconds = '600'] = process.argv.slice(2);
+const [base, pageUrl, exprFile, seconds = '600', scale] = process.argv.slice(2);
 const expression = readFileSync(exprFile, 'utf8');
 const target = await (await fetch(`${base}/json/new?${encodeURIComponent('about:blank')}`, { method: 'PUT' })).json();
 const close = () => fetch(`${base}/json/close/${target.id}`).catch(() => {});
@@ -35,6 +36,9 @@ try {
   // a page lays out the files it fetches now, never ones an earlier run left in the cache
   await send('Network.enable');
   await send('Network.setCacheDisabled', { cacheDisabled: true });
+  if (scale) {
+    await send('Emulation.setDeviceMetricsOverride', { width: 0, height: 0, deviceScaleFactor: +scale, mobile: false });
+  }
   const loaded = event('Page.loadEventFired');
   await send('Page.navigate', { url: pageUrl });
   await loaded;

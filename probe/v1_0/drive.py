@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """Run probe/v1_0/measure.js in a page of one engine, through the protocol that engine speaks.
 
-- CDP (Edge on Windows, the reference): probe/cdp.mjs, as through v0.7.
+- CDP (Edge on Windows, the reference): probe/cdp.mjs, as through v0.7; its one capability,
+  `deviceScaleFactor`, lays pages out as on a display at that scale.
 - W3C WebDriver (safaridriver, WebKitWebDriver, chromedriver, geckodriver): one session per engine,
   each run on a freshly loaded page.
 
@@ -19,18 +20,23 @@ WORK = ROOT / "build/v1_0"
 
 
 class Cdp:
-    def __init__(self, base):
+    def __init__(self, base, capabilities):
+        unknown = set(capabilities) - {"deviceScaleFactor"}
+        if unknown:
+            raise ValueError(f"cdp takes deviceScaleFactor only, not {sorted(unknown)}")
         self.base = base
+        self.scale = capabilities.get("deviceScaleFactor")
 
     def identity(self):
         v = json.loads(urllib.request.urlopen(f"{self.base}/json/version", timeout=30).read())
-        return {"protocol": "cdp", "browser": v["Browser"]}
+        return {"protocol": "cdp", "browser": v["Browser"]} | ({"deviceScaleFactor": self.scale} if self.scale else {})
 
     def run(self, page, config, seconds):
         WORK.mkdir(parents=True, exist_ok=True)
         expr = WORK / "expr.js"
         expr.write_text(f"const CONFIG = {json.dumps(config, ensure_ascii=False)};\n" + SCRIPT)
-        res = subprocess.run(["node", str(ROOT / "probe/cdp.mjs"), self.base, page, str(expr), str(seconds)],
+        res = subprocess.run(["node", str(ROOT / "probe/cdp.mjs"), self.base, page, str(expr), str(seconds)]
+                             + ([str(self.scale)] if self.scale else []),
                              capture_output=True, text=True, timeout=seconds + 60)
         if res.returncode:
             raise RuntimeError(f"cdp: {res.stderr.strip()[:2000]}")
@@ -83,7 +89,7 @@ class WebDriver:
 def connect(spec, capabilities=None):
     kind, _, base = spec.partition("=")
     if kind == "cdp":
-        return Cdp(base)
+        return Cdp(base, capabilities or {})
     if kind == "webdriver":
         return WebDriver(base, capabilities or {})
     raise ValueError(f"engine spec {spec!r}: expected cdp=<url> or webdriver=<url>")
