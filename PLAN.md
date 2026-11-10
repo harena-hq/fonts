@@ -157,15 +157,70 @@ own rounding is recorded.
 3. **Widths.** In each engine: the v0.3 and v0.4 strings in every Harena UI and Harena UI J face, in
    no language, `ko` and `ja`; every J code point alone in each language; the v0.7 labels; Harena
    UI Icons' code points. Against the reference.
+   *Done* 2026-11-10, on package 0.9.0: `probe/v1_0/check_engines.py` passes for all six (below).
 4. **Line boxes.** In each engine, v0.6.1's lines: `A` alone and `A` with each J code point, at 14
    and 40 px, in each face and language, with the package after the Segoe stack. Against Segoe's on
    Windows.
+   *Amended while measuring* (owner, 2026-11-10): a line at `line-height: normal` is the ascent and
+   descent each rounded by the engine's own rule, and Blink's rounds to the device pixel, so the
+   reference is Edge at the engine's display scale: Segoe's 14 px line is 19 px at 100% and 18.5 px
+   at 200% (Edge started with `--force-device-scale-factor=2`; CDP's emulated scale does not round
+   so). Each engine's rule is recorded in `check_engines.py` and checked to give its every line.
+   *Done* 2026-11-10: Chrome's lines are Segoe's at both scales, WebKit's at 1x; the rest counted.
 5. **Fetches.** In each engine, v0.6's nine pages: each fetches exactly the files Edge fetches.
+   *Amended while measuring* (2026-11-10): where a page names Segoe first, an engine without it also
+   fetches the package's file that stands in for Segoe; "exactly" holds for every other file.
+   *Done* 2026-11-10: observed at the server (`serve.py --log`, `fetches.py`, a session per page:
+   Firefox otherwise keeps a font an earlier page fetched), judged by `check_fetches.py`. Edge's are
+   v0.6's at the server and in Resource Timing alike; each engine's are Edge's, and where a page
+   names Segoe first, the package's file standing in for it, fetched even for text with no Latin,
+   since the line's height comes from the family's first available font.
 6. **What differs is decided, then fixed or counted.** A difference found in 3–5 is reported with
    its cause before anything changes. A fix to the fonts or stylesheets must leave Windows as it is,
    proved by re-running the v0.7 gate and Edge probe; what is not fixed is counted, with its cause,
    in this section.
    *Done when:* 3–5 hold in every engine, with what does not counted here.
+   *Done* 2026-11-10. Measured: Safari 27.2 (macOS 27.2, 2x), Chrome 157.0.8103.39 (macOS, 2x),
+   Firefox 159.0.1 (macOS, 2x); WebKitGTK 2.52.6, Chrome 157.0.8103.38, Firefox 159.0.1 (Ubuntu
+   24.04.5, 1x); against Edge 151 at 1x and 2x. Edge's widths at 2x are its 1x's within two layout
+   units.
+   - *Fixed: Firefox's `font-kerning: auto`* drops kerning for CJK, and under `ko` and `ja` for
+     pairs of accented capitals (`ÀÇ`). Package 0.9.0 declares `font-feature-settings: "kern" 1`
+     in every text face (`scripts/build_css.py`, required by `verify_web.py` W4, broken by
+     `mutate_web.py`'s `unkerned`); Firefox then kerns as Edge does. Windows is unchanged:
+     `check_edge.py` passes on 0.9.0 as on 0.8.0.
+   - *Counted*, each a kind in `check_engines.py` that holds only at the width its cause predicts or
+     within the bound it sets, as each says (a counted difference outside it is a fault); only
+     `fallback`, and `ignorable` in WebKit, where the system's fonts draw, are unbounded. Widths are
+     compared within 0.1% or one of the engine's layout units, as locked. What a page can do is
+     measured in each engine by `remedies.py`:
+     - `break` (WebKit): WebKit measures text in pieces at each line-break opportunity, so a kern
+       pair across one (between CJK characters, before U+00B4) is lost: 11,055 pairs, 255 widths
+       and 42 labels in each WebKit (labels at most 2.1% wide). Each lies between Edge's width and
+       its glyphs' advances, and measured again in the engine with `word-break: keep-all` is Edge's.
+     - `coretext` (Safari): no automatic fraction at U+2044 (a fraction alone, measured again with
+       `font-variant-numeric: diagonal-fractions`, is Edge's; among other figures, which that would
+       turn too, it is bounded by its glyphs' advances); a combining sound mark that composes with
+       nothing before it is exactly as wide as its ink left of the origin where it is alone or first
+       before a letter, and otherwise wider by no more than the marks' ink, a bound, not a
+       prediction (Core Text places it by rules the probe does not model): 9,222 widths, 90 code
+       points, 6,019 pairs.
+     - `rounding` (WebKit, Gecko): Safari rounds to the CSS pixel (19 at 14 px, where Edge at 2x
+       gives 18.5); Firefox rounds up to the device pixel (20 and 55 at 1x, 19.5 and 54 at 2x,
+       against 19 and 53). Every line is its engine's rule's. A `line-height` in px is that height in
+       every engine (20 px for 14 px text, 52 px for 40 px, every J code point, each size and language).
+     - `fallback`: a character no face of the family maps is drawn by the system's fonts, which
+       differ by system; unbounded, since no font of ours sets the width.
+     - `ignorable`: an unmapped default ignorable is left to the engine. Blink and Gecko keep the run
+       whole and give Edge's package; WebKit splits the run there and draws what follows from the
+       system's fonts, unbounded as `fallback` is. U+3164, which J maps, is nothing wide alone in
+       Safari and Firefox, a default ignorable to them.
+     - `segoe`: 60 widths in which Edge's package is off Segoe in Edge itself (bare combining
+       marks, a letter before CGJ); Chrome, Firefox and WebKitGTK give Edge's package there, and
+       Safari, whose bare marks are `coretext`, gives the rest.
+   What a page can do about each is `docs/engines.md`, for the package's consumers.
+   *Lesson:* a macOS guest whose screen saver runs is a locked session to Safari, which then lays
+   out a hidden page and runs its timers at a crawl: a measurement took minutes, not seconds.
 
 **Out of scope.** The repository's layout at release, including joining Harena Term's font under
 one `harena-hq/fonts` repository: decided at release. Publishing to npm: after 1.0. Chinese and
