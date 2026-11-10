@@ -11,6 +11,11 @@ code points, then its chunks, each declared over the blocks its code points are 
 (build_web.declared). The most common chunks are declared last, to be checked first. No face
 overrides its line metrics: a line is Segoe's height whatever it holds, as in WinUI (v0.6.1).
 
+A text face asks for kerning in its own descriptor (`font-feature-settings: "kern" 1`): Firefox's
+`font-kerning: auto` otherwise drops it for CJK and under `ko` and `ja`, which Edge does not (1.0
+item 6). Kerning is what Blink applies under `auto` already, and a page's `font-kerning: none` still
+overrides a descriptor (CSS Fonts 4, 7.2).
+
 Usage: python scripts/build_css.py [--check]
 """
 import json
@@ -51,12 +56,14 @@ def unicode_range(points):
     return ", ".join(f"U+{a:X}" if a == b else f"U+{a:X}-{b:X}" for a, b in spans)
 
 
-def face(family, file, weight, points):
+def face(family, file, weight, points, kern=True):
     lines = [f'  font-family: "{family}";',
              f'  src: url("./fonts/{file}") format("woff2");',
              f"  font-weight: {weight};",
              "  font-style: normal;",
              "  font-display: block;"]
+    if kern:
+        lines.append('  font-feature-settings: "kern" 1;')
     lines.append(f"  unicode-range: {unicode_range(points)};")
     return "@font-face {\n" + "\n".join(lines) + "\n}\n"
 
@@ -75,7 +82,7 @@ def stylesheets():
                 j.append(face(f"Harena UI J {size}", j_file(size, w, name), span, declared(name, points)))
     # One face, as Segoe Fluent Icons has: a bolder request is synthesized for both alike.
     icons = [HEADER, face("Harena UI Icons", "HarenaUIIcons-Regular.woff2", "400",
-                          TTFont(ICONS, lazy=True).getBestCmap())]
+                          TTFont(ICONS, lazy=True).getBestCmap(), kern=False)]
     index = HEADER + '@import "./ui.css";\n@import "./icons.css";\n'
     return {"index.css": index, "ui.css": "\n".join(ui), "j.css": "\n".join(j), "icons.css": "\n".join(icons)}
 
