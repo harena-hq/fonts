@@ -358,14 +358,16 @@ def checks(web=WEB, npm=NPM):
 
     # W4
     ranges_want = {"{} {}".format(*v) for v in build_css.weight_ranges().values()}
-    known = {"font-family", "font-weight", "font-style", "font-display", "points", "file", "sheet"}
+    known = {"font-family", "font-weight", "font-style", "font-display", "font-feature-settings", "points", "file",
+             "sheet"}
     wrong = []
     for f in every:
         family, weight = f["font-family"], f["font-weight"]
         ok = f.get("font-style") == "normal" and f.get("font-display") == "block"
         if family == "Harena UI Icons":
-            ok &= weight == "400" and f["sheet"] == "icons.css"
+            ok &= weight == "400" and f["sheet"] == "icons.css" and "font-feature-settings" not in f
         else:
+            ok &= f.get("font-feature-settings") == '"kern" 1'
             ok &= weight in ranges_want and re.fullmatch(r"Harena UI (J )?(Small|Text|Display)", family) is not None
             ok &= f["sheet"] == ("j.css" if family.startswith("Harena UI J ") else "ui.css")
         ok &= set(f) <= known

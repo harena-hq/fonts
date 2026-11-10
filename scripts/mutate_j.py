@@ -79,12 +79,20 @@ def jan_dropped(font):
 
 
 def pair_dropped(font):
-    # The first pair of the last lookup kern has: JAN's pairs, built after no language's
+    # The first pair of the largest lookup the build added under kern: no language's and JAN's
     gpos = font["GPOS"].table
-    kern = [r for r in gpos.FeatureList.FeatureRecord if r.FeatureTag == "kern"]
-    last = max(i for r in kern for i in r.Feature.LookupListIndex)
-    st = gpos.LookupList.Lookup[last].SubTable[0]
-    st = st.ExtSubTable if st.__class__.__name__ == "ExtensionPos" else st
+    own = TTFont(verify_j.face_path(SIZE, W))["GPOS"].table.LookupList.LookupCount
+    kern = {i for r in gpos.FeatureList.FeatureRecord if r.FeatureTag == "kern" for i in r.Feature.LookupListIndex
+            if i >= own}
+
+    def first(i):
+        st = gpos.LookupList.Lookup[i].SubTable[0]
+        return st.ExtSubTable if st.__class__.__name__ == "ExtensionPos" else st
+
+    def size(i):
+        st = first(i)
+        return sum(len(p.PairValueRecord) for p in st.PairSet) if st.Format == 1 else 0
+    st = first(max(kern, key=size))
     st.PairSet[0].PairValueRecord.pop(0)
     st.PairSet[0].PairValueCount = len(st.PairSet[0].PairValueRecord)
 
@@ -93,14 +101,26 @@ def halt_added(font):
     add_feature(font, "halt", single(font, "「」", -100), lambda system: system == "JAN ")
 
 
-def kor_system(font):
+def zhs_system(font):
     for script, _, ls in list(systems(font)):
         if ls is script.DefaultLangSys:
             record = ot.LangSysRecord()
-            record.LangSysTag, record.LangSys = "KOR ", ls
+            record.LangSysTag, record.LangSys = "ZHS ", ls
             script.LangSysRecord.append(record)
             script.LangSysRecord.sort(key=lambda r: r.LangSysTag)
             script.LangSysCount = len(script.LangSysRecord)
+
+
+def kor_dropped(font):
+    for script, tag, ls in list(systems(font)):
+        if tag == "KOR ":
+            script.LangSysRecord = [r for r in script.LangSysRecord if r.LangSysTag != "KOR "]
+            script.LangSysCount = len(script.LangSysRecord)
+
+
+def kor_two_dists(font):
+    # a second `dist` record under KOR, whose lookups a renderer may take for the first's
+    add_feature(font, "dist", single(font, "㎏", -100), lambda system: system == "KOR ")
 
 
 def dist_default(font):
@@ -252,7 +272,9 @@ MUTATIONS = [
     (jan_dropped, "15 CJK widths"),
     (pair_dropped, "15 CJK widths"),
     (halt_added, "16 features"),
-    (kor_system, "16 features"),
+    (zhs_system, "16 features"),
+    (kor_dropped, "15 CJK widths"),
+    (kor_two_dists, "16 features"),
     (dist_default, "16 features"),
     (latin_kerned, "16 features"),
     (dist_as_kern, "15 CJK widths"),

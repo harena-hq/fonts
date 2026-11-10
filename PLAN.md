@@ -14,7 +14,7 @@ under Segoe comes out the same size under this font.
 | family | covers | shapes from | geometry target |
 |---|---|---|---|
 | **Harena UI** | Latin, Greek, Cyrillic, Hebrew, punctuation, symbols | Open Sans ([ADR 0002](docs/adr/0002-the-latin-source-is-open-sans.md)) | Segoe UI Variable as Edge draws it — advances, kerning, vertical metrics, per named instance ([ADR 0001](docs/adr/0001-the-target-is-segoe-as-the-browser-draws-it.md)) |
-| **Harena UI J** | Harena UI, plus Hangul, Kana and Han | Latin as Harena UI; CJK from Pretendard JP ([ADR 0003](docs/adr/0003-the-cjk-source-stays-pretendard-jp.md)) | Latin as Harena UI; CJK at the browser's fallback widths (1 em) and Malgun Gothic / Yu Gothic bodies and stems |
+| **Harena UI J** | Harena UI, plus Hangul, Kana and Han | Latin as Harena UI; CJK from Pretendard JP ([ADR 0003](docs/adr/0003-the-cjk-source-stays-pretendard-jp.md)) | Latin as Harena UI; CJK at WinUI 3's widths in each language ([ADR 0005](docs/adr/0005-cjk-takes-winui-3s-widths.md)) and Malgun Gothic / Yu Gothic bodies and stems |
 | **Harena UI Icons** | Segoe Fluent Icons' code points | Fluent UI System Icons | Segoe Fluent Icons' ink boxes |
 
 **Locked — Harena UI and Harena UI J are separate families.** Segoe UI Variable has no Hangul or
@@ -74,9 +74,157 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.6.1** ✓ | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them. Closed 2026-11-04: gate and seventeen mutations pass from a fresh clone; in Edge 880,380 widths equal the TTFs', and all 1,745,100 J line boxes are Segoe's |
 | **v0.7** ✓ | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0005). Closed 2026-11-04: gate and eighteen J mutations pass from a fresh clone; in Edge 872,550 code point widths are WinUI 3's, 735 labels agree with WinUI 3 within 0.014 px, and under `ja` no pair is trimmed beyond 450 counted pairs no text writes |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
-| 1.0 | Verified on Windows, macOS and Linux against Segoe layouts |
+| 1.0 | In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with the package lays out as on Windows: widths, line boxes and fetches |
 
-Each version's spec is written when the previous one closes; the closed ones follow, newest first.
+Each version's spec is written when the previous one closes. 1.0's is below; the closed ones
+follow it, newest first.
+
+## 1.0 — the package on macOS and Linux, as on Windows (spec, 2026-11-04; approved 2026-11-09)
+
+**Goal.** In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with
+the package lays out as on Windows: widths, line boxes and fetches.
+
+**Why.** Every measurement so far was taken in Edge on Windows. Harena is a Tauri app, so it draws
+with the platform's web view: WebView2 on Windows (Edge's Blink, verified), WKWebView on macOS
+(WebKit, shaping through Core Text) and WebKitGTK on Linux (WebKit, shaping through HarfBuzz).
+winui-svelte also runs in ordinary browsers. None of these has Segoe, so each draws Latin from
+Harena UI and CJK from Harena UI J, and each may treat what the fonts encode differently: whether
+Core Text applies `dist` under Japanese, which vertical metrics an engine builds `line-height:
+normal` from, whether `unicode-range` splits a cluster as Blink does.
+
+**Locked — the engines** (owner, 2026-11-04). Required: WebKit on macOS (Safari, standing for
+WKWebView: the same WebKit and Core Text), WebKitGTK on Linux (the distribution's `webkit2gtk-4.1`,
+the library Tauri links, driven through its own browser), and Chrome and Firefox on both. Edge on
+Windows is the reference and was verified through v0.7.
+*Rejected:* Playwright's WebKit build on Linux, which is not the library Tauri loads. *Later:* a
+WKWebView harness inside a Tauri build, if Safari passes and the app is ever seen to differ; Chrome
+and Firefox on Windows.
+
+**Locked — where.** macOS: a macOS guest in UTM (Apple's virtualization) on the owner's Mac, signed
+in, reached over SSH on the tailnet, recorded by macOS and browser versions and device pixel ratio;
+layout is Core Text's on the CPU, whatever the guest's display. Linux: an Ubuntu 24.04 LTS guest with the desktop's default fonts (Noto CJK among
+them, so a missed fallback shows), the distribution's WebKitGTK, Firefox and Chrome. Neither has
+Segoe.
+
+**Locked — one probe, through WebDriver.** Each engine is driven by its W3C WebDriver
+(`safaridriver`, `WebKitWebDriver`, `chromedriver`, `geckodriver`), running the same measuring
+script in the same page from the repository's file server; Edge, the reference, runs the script
+over CDP as before. The script measures in layout units and returns numbers only.
+*Rejected:* a page that posts its results, which needs a person at each run.
+
+**Locked — the reference.** For a page that names Harena after the Segoe stack, the reference is
+what Edge on Windows lays out with Segoe installed: Latin from Segoe, CJK from Harena UI J. Widths
+are compared within v0.3's tolerance (0.1%, or one layout unit for a short string), CJK and labels
+against `data/v0_7` and WinUI 3 within v0.7's; line boxes are compared exactly, after each engine's
+own rounding is recorded.
+
+**Items**
+
+1. **Rig.** The Linux guest and the Mac reachable, each engine's driver running, versions recorded;
+   the file server reachable from both.
+   *Done when:* a one-line script returns the engine and version from each of the six.
+   *Done* 2026-11-09: each of the six opened a WebDriver session and loaded `probe/page.html` from
+   the host's file server. macOS 27.2 (arm64, English only, device pixel ratio 2): Safari 27.2 with
+   its `safaridriver`, Chrome 157.0.8103.39 with chromedriver 157.0.8103.38, Firefox 159.0.1 with
+   geckodriver 0.37.1. Ubuntu 24.04.5 (GNOME on Wayland, `en_US.UTF-8`, `fonts-noto-cjk`, device
+   pixel ratio 1): `libwebkit2gtk-4.1-0` 2.52.6 through its MiniBrowser and `WebKitWebDriver`, Chrome
+   157.0.8103.38 with its chromedriver, Firefox 159.0.1 (the snap) with its geckodriver. Chrome and
+   Firefox update themselves, so each run records its versions.
+2. **Probe.** `probe/v1_0/`: one measuring script (widths, line boxes, fetches) and a driver for each
+   protocol; the reference taken in Edge with the same script.
+   *Done when:* Edge's run of it reproduces v0.6.1's and v0.7's Edge numbers.
+   *Done* 2026-11-09: `probe/v1_0/collect.py` measures every part in one engine into one file, through
+   CDP or WebDriver, from `probe/v1_0/serve.py` (the probe's files only, never cached);
+   `probe/v1_0/check_edge.py` runs v0.6.1's and v0.7's checks on Edge's. In Edge 151 (6 minutes):
+   of 880,380 widths, 880,353 are the whole TTFs' and 27 are counted (below); 1,745,190 line boxes
+   are Segoe's (now with `A` in J's Latin),
+   the nine pages fetch as before, 872,550 code points are WinUI 3's, 735 labels agree with WinUI 3
+   within 0.014 px, and 887,770 pairs are trimmed by nothing beyond the 450 counted. Two things the
+   first run found are settled (item 6):
+   - *WinUI 3's no-language default* (ADR 0005, amended). Re-measured with v0.7's app and cases on a
+     fresh guest, and checked on winui-svelte's reference guest, WinUI 3 with no `Language` lays CJK
+     out as under `ja-JP` (`あ` 81.6 px at 100 px), not as under `ko-KR` as v0.7's guest did (100).
+     `data/v1_0` holds the new widths and pairs; J 0.8.0 takes its default from them and adds `KOR`
+     with `ko-KR`'s under `dist`. This changes Edge on Windows, deliberately: a page with no `lang`
+     now lays Japanese out as WinUI 3 does. The labels' WinUI 3 widths are `data/v1_0/labels.json`.
+   - *Counted: conjoining jamo.* `가`, `각` and `한글` written as conjoining jamo are 27 of the widths:
+     J maps no conjoining jamo, so the package leaves them to the system's fonts, while the whole TTF
+     composes them into the syllable J has (1020 per syllable in Semibold against 1000). The same
+     class as v0.7's counted pairs; WinUI 3 composes neither, drawing each jamo a full em.
+   Resource Timing lists no font files in WebKitGTK, so item 5 observes fetches at the server.
+   *Lesson:* an engine keeps fonts it fetched in an earlier run: before the cache was off, Edge laid
+   out J 0.7's files under J 0.8's names.
+3. **Widths.** In each engine: the v0.3 and v0.4 strings in every Harena UI and Harena UI J face, in
+   no language, `ko` and `ja`; every J code point alone in each language; the v0.7 labels; Harena
+   UI Icons' code points. Against the reference.
+   *Done* 2026-11-10, on package 0.9.0: `probe/v1_0/check_engines.py` passes for all six (below).
+4. **Line boxes.** In each engine, v0.6.1's lines: `A` alone and `A` with each J code point, at 14
+   and 40 px, in each face and language, with the package after the Segoe stack. Against Segoe's on
+   Windows.
+   *Amended while measuring* (owner, 2026-11-10): a line at `line-height: normal` is the ascent and
+   descent each rounded by the engine's own rule, and Blink's rounds to the device pixel, so the
+   reference is Edge at the engine's display scale: Segoe's 14 px line is 19 px at 100% and 18.5 px
+   at 200% (Edge started with `--force-device-scale-factor=2`; CDP's emulated scale does not round
+   so). Each engine's rule is recorded in `check_engines.py` and checked to give its every line.
+   *Done* 2026-11-10: Chrome's lines are Segoe's at both scales, WebKit's at 1x; the rest counted.
+5. **Fetches.** In each engine, v0.6's nine pages: each fetches exactly the files Edge fetches.
+   *Amended while measuring* (2026-11-10): where a page names Segoe first, an engine without it also
+   fetches the package's file that stands in for Segoe; "exactly" holds for every other file.
+   *Done* 2026-11-10: observed at the server (`serve.py --log`, `fetches.py`, a session per page:
+   Firefox otherwise keeps a font an earlier page fetched), judged by `check_fetches.py`. Edge's are
+   v0.6's at the server and in Resource Timing alike; each engine's are Edge's, and where a page
+   names Segoe first, the package's file standing in for it, fetched even for text with no Latin,
+   since the line's height comes from the family's first available font.
+6. **What differs is decided, then fixed or counted.** A difference found in 3–5 is reported with
+   its cause before anything changes. A fix to the fonts or stylesheets must leave Windows as it is,
+   proved by re-running the v0.7 gate and Edge probe; what is not fixed is counted, with its cause,
+   in this section.
+   *Done when:* 3–5 hold in every engine, with what does not counted here.
+   *Done* 2026-11-10. Measured: Safari 27.2 (macOS 27.2, 2x), Chrome 157.0.8103.39 (macOS, 2x),
+   Firefox 159.0.1 (macOS, 2x); WebKitGTK 2.52.6, Chrome 157.0.8103.38, Firefox 159.0.1 (Ubuntu
+   24.04.5, 1x); against Edge 151 at 1x and 2x. Edge's widths at 2x are its 1x's within two layout
+   units.
+   - *Fixed: Firefox's `font-kerning: auto`* drops kerning for CJK, and under `ko` and `ja` for
+     pairs of accented capitals (`ÀÇ`). Package 0.9.0 declares `font-feature-settings: "kern" 1`
+     in every text face (`scripts/build_css.py`, required by `verify_web.py` W4, broken by
+     `mutate_web.py`'s `unkerned`); Firefox then kerns as Edge does. Windows is unchanged:
+     `check_edge.py` passes on 0.9.0 as on 0.8.0.
+   - *Counted*, each a kind in `check_engines.py` that holds only at the width its cause predicts or
+     within the bound it sets, as each says (a counted difference outside it is a fault); only
+     `fallback`, and `ignorable` in WebKit, where the system's fonts draw, are unbounded. Widths are
+     compared within 0.1% or one of the engine's layout units, as locked. What a page can do is
+     measured in each engine by `remedies.py`:
+     - `break` (WebKit): WebKit measures text in pieces at each line-break opportunity, so a kern
+       pair across one (between CJK characters, before U+00B4) is lost: 11,055 pairs, 255 widths
+       and 42 labels in each WebKit (labels at most 2.1% wide). Each lies between Edge's width and
+       its glyphs' advances, and measured again in the engine with `word-break: keep-all` is Edge's.
+     - `coretext` (Safari): no automatic fraction at U+2044 (a fraction alone, measured again with
+       `font-variant-numeric: diagonal-fractions`, is Edge's; among other figures, which that would
+       turn too, it is bounded by its glyphs' advances); a combining sound mark that composes with
+       nothing before it is exactly as wide as its ink left of the origin where it is alone or first
+       before a letter, and otherwise wider by no more than the marks' ink, a bound, not a
+       prediction (Core Text places it by rules the probe does not model): 9,222 widths, 90 code
+       points, 6,019 pairs.
+     - `rounding` (WebKit, Gecko): Safari rounds to the CSS pixel (19 at 14 px, where Edge at 2x
+       gives 18.5); Firefox rounds up to the device pixel (20 and 55 at 1x, 19.5 and 54 at 2x,
+       against 19 and 53). Every line is its engine's rule's. A `line-height` in px is that height in
+       every engine (20 px for 14 px text, 52 px for 40 px, every J code point, each size and language).
+     - `fallback`: a character no face of the family maps is drawn by the system's fonts, which
+       differ by system; unbounded, since no font of ours sets the width.
+     - `ignorable`: an unmapped default ignorable is left to the engine. Blink and Gecko keep the run
+       whole and give Edge's package; WebKit splits the run there and draws what follows from the
+       system's fonts, unbounded as `fallback` is. U+3164, which J maps, is nothing wide alone in
+       Safari and Firefox, a default ignorable to them.
+     - `segoe`: 60 widths in which Edge's package is off Segoe in Edge itself (bare combining
+       marks, a letter before CGJ); Chrome, Firefox and WebKitGTK give Edge's package there, and
+       Safari, whose bare marks are `coretext`, gives the rest.
+   What a page can do about each is `docs/engines.md`, for the package's consumers.
+   *Lesson:* a macOS guest whose screen saver runs is a locked session to Safari, which then lays
+   out a hidden page and runs its timers at a crawl: a measurement took minutes, not seconds.
+
+**Out of scope.** The repository's layout at release, including joining Harena Term's font under
+one `harena-hq/fonts` repository: decided at release. Publishing to npm: after 1.0. Chinese and
+vertical text, as before.
 
 ## v0.7 — Harena UI J at WinUI 3's CJK widths (closed 2026-11-04)
 

@@ -5,7 +5,7 @@
 Harena UI's checks.
 
 Like verify.py, this takes no expectation from the build. It reads the fonts, what WinUI 3 lays
-out (data/v0_7), and data/v0_4/build.json, whose claims it checks. It instances Pretendard JP
+out (data/v1_0), and data/v0_4/build.json, whose claims it checks. It instances Pretendard JP
 itself for check 17.
 
 HarfBuzz does not split text into runs: run_width() below splits it the way Chromium's
@@ -34,7 +34,7 @@ from fontTools.varLib.instancer import instantiateVariableFont
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/v0_4"
-WINUI = ROOT / "data/v0_7"
+WINUI = ROOT / "data/v1_0"
 PJP = ROOT / "sources/pjp/public/variable/PretendardJPVariable.ttf"
 SIZES = ("Small", "Text", "Display")
 WEIGHTS = {300: "Light", 350: "Semilight", 400: "Regular", 600: "Semibold", 700: "Bold"}
@@ -45,6 +45,8 @@ SYSTEMS = {"": None, "ko": "KOR ", "ja": "JAN ", "zh-Hans": "ZHS ", "zh-Hant": "
 HB_LANG = {"": "en", "ko": "ko", "ja": "ja", "zh-Hans": "zh-Hans", "zh-Hant": "zh-Hant"}
 # WinUI's languages, as HarfBuzz is told them
 WINUI_LANGS = {"none": "", "ko-KR": "ko", "ja-JP": "ja"}
+# The language systems J adds, each with its language's widths under `dist` (ADR 0005)
+NAMED = ("JAN ", "KOR ")
 TOLERANCE = 0.5 + 1e-6  # font units
 HANGUL_STEM = "ㅣ"
 HAN_STEM = "十"
@@ -320,7 +322,7 @@ def check_coverage(r, j, base, cases):
 
 @lru_cache(maxsize=None)
 def winui():
-    """What WinUI 3 lays out (data/v0_7), and the pairs it was measured on, with probe/v0_7's
+    """What WinUI 3 lays out (data/v1_0), and the pairs it was measured on, with probe/v0_7's
     rule for which those are."""
     sys.path.insert(0, str(ROOT / "probe/v0_7"))
     from run import pair_points
@@ -366,10 +368,11 @@ def check_widths(r, w, cases, face):
 
 
 def check_features(r, j, base, cases):
-    """GSUB is Harena UI's. Every script has no language's system and JAN's, each with Harena UI's
-    features for that script and no required feature; `dist` only under JAN, one and the same in
-    every script, and nothing else that changes widths (`halt`, `palt` and their kin). Only `kern`
-    and `dist` have lookups Harena UI's lack, of the kinds the build adds, touching only CJK."""
+    """GSUB is Harena UI's. Every script has no language's system, JAN's and KOR's, each with Harena
+    UI's features for that script and no required feature; `dist` only under JAN and KOR, each one and
+    the same in every script, and nothing else that changes widths (`halt`, `palt` and their kin).
+    Only `kern` and `dist` have lookups Harena UI's lack, of the kinds the build adds, touching only
+    CJK."""
     gsub_same = sorted(x.FeatureTag for x in j["GSUB"].table.FeatureList.FeatureRecord) == \
         sorted(x.FeatureTag for x in base["GSUB"].table.FeatureList.FeatureRecord)
     gpos, base_gpos = j["GPOS"].table, base["GPOS"].table
@@ -408,7 +411,7 @@ def check_features(r, j, base, cases):
     scripts = {x.ScriptTag: x.Script for x in gpos.ScriptList.ScriptRecord}
     if len(scripts) != len(gpos.ScriptList.ScriptRecord):
         problems.append(("a script twice",))
-    jan_dist = set()
+    named_dist = {tag: set() for tag in NAMED}
     if set(scripts) != set(base_scripts) | {"hang", "hani", "kana"}:
         problems.append(("scripts", sorted(scripts)))
     for tag, script in scripts.items():
@@ -417,15 +420,19 @@ def check_features(r, j, base, cases):
         # a renderer takes one of a tag's records, and this reads another
         if len(systems) != len(script.LangSysRecord) + 1:
             problems.append((tag, "a system twice"))
-        if set(systems) != {None, "JAN "}:
+        if set(systems) != {None, *NAMED}:
             problems.append((tag, "systems", sorted(str(k) for k in systems)))
         want = features(base_gpos, base_scripts.get(tag, base_scripts["DFLT"]).DefaultLangSys)
         for system, ls in systems.items():
             got = features(gpos, ls)
+            # a renderer applies the first of a tag's records, and this reads them all as one
+            dists = [i for i in ls.FeatureIndex if gpos.FeatureList.FeatureRecord[i].FeatureTag == "dist"]
+            if len(dists) > 1:
+                problems.append((tag, system, "dist", "more than one record"))
             # a required feature applies whatever a page turns off
             if ls.ReqFeatureIndex != 0xFFFF:
                 problems.append((tag, system, "a required feature"))
-            if set(got) - set(want) - ({"dist"} if system == "JAN " else set()):
+            if set(got) - set(want) - ({"dist"} if system in NAMED else set()):
                 problems.append((tag, system, "features", sorted(set(got) - set(want))))
             for t, lookups in want.items():
                 if not lookups <= got.get(t, set()):
@@ -439,11 +446,12 @@ def check_features(r, j, base, cases):
                         problems.append((tag, system, t, "not what the build adds"))
                     elif touched & harena:
                         problems.append((tag, system, t, "touches Harena UI's glyphs"))
-            if system == "JAN ":
-                jan_dist.add(frozenset(got.get("dist", set())))
-    # Japanese's widths are one `dist`, the same in every script's JAN
-    if len(jan_dist) != 1 or not next(iter(jan_dist)):
-        problems.append(("JAN", "dist", "not one and the same in every script"))
+            if system in NAMED:
+                named_dist[system].add(frozenset(got.get("dist", set())))
+    # A language's widths are one `dist`, the same in every script's system for it
+    for system, dists in named_dist.items():
+        if len(dists) != 1 or not next(iter(dists)):
+            problems.append((system, "dist", "not one and the same in every script, or empty"))
     r.check("16 features", gsub_same and tags <= base_tags | {"dist"} and not problems,
             f"GSUB {gsub_same}; GPOS {sorted(tags)}; {len(problems)} problems {problems[:4]}")
 
@@ -528,14 +536,14 @@ def check_shapes(r, size, w, j, chosen, shapes, cases):
         if any(abs(a[0] - b[0] - dx) > OUTLINE_TOLERANCE or abs(a[1] - b[1]) > OUTLINE_TOLERANCE
                for a, b in zip(have, want)):
             moved.append((chr(c), "points"))
-    # Under JAN, the ink goes where the rule puts it in Japanese's advance: check 16 holds every
-    # script's JAN to one `dist` of single adjustments, read here whole
+    # Under JAN and KOR, the ink goes where the rule puts it in that language's advance: check 16
+    # holds every script's system to one `dist` of single adjustments, read here whole
     gpos = j["GPOS"].table
     glyph_c = {g: c for c, g in cmap.items()}
-    adjusted = set()  # once each, so that the record read is all the glyph gets
     for record in gpos.FeatureList.FeatureRecord:
         if record.FeatureTag != "dist":
             continue
+        adjusted = set()  # once each in a language's `dist`, so that the record read is all the glyph gets
         for li in record.Feature.LookupListIndex:
             for sub in gpos.LookupList.Lookup[li].SubTable:
                 sub = sub.ExtSubTable if sub.__class__.__name__ == "ExtensionPos" else sub
@@ -543,7 +551,7 @@ def check_shapes(r, size, w, j, chosen, shapes, cases):
                 for g, v in zip(sub.Coverage.glyphs, values):
                     c = glyph_c.get(g)
                     if c is None or c in MARKS or g in adjusted:
-                        moved.append((g, "adjusted under JAN", "again" if g in adjusted else ""))
+                        moved.append((g, "adjusted by dist", "again" if g in adjusted else ""))
                         continue
                     adjusted.add(g)
                     is_h = hangul(c)
@@ -552,7 +560,7 @@ def check_shapes(r, size, w, j, chosen, shapes, cases):
                     advance, d = j["hmtx"][g][0], getattr(v, "XAdvance", 0) or 0
                     want = placed(c, advance + d, source_advance) - placed(c, advance, source_advance)
                     if abs((getattr(v, "XPlacement", 0) or 0) - want) > 1:
-                        moved.append((chr(c), "placed under JAN", getattr(v, "XPlacement", 0)))
+                        moved.append((chr(c), "placed by dist", getattr(v, "XPlacement", 0)))
     r.check("17 shapes", stems_ok and body_ok and not moved,
             f"stems {stem_h:.1f}/{malgun:.1f} and {stem_y:.1f}/{yu:.1f}; Hangul body {body_h:.1f}/{want_h:.1f}; "
             f"{len(cases['covered'])} outlines, {len(moved)} not Pretendard JP's or not placed as locked {moved[:4]}")

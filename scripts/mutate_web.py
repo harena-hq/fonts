@@ -110,6 +110,10 @@ def display(web, npm):
     edit(npm, "icons.css", lambda css: css.replace("font-display: block", "font-display: swap"))
 
 
+def unkerned(web, npm):
+    edit(npm, J, lambda css: css.replace('  font-feature-settings: "kern" 1;\n', "", 1))
+
+
 def hand_edit(web, npm):
     edit(npm, "ui.css", lambda css: css + "/* edited */\n")
 
@@ -184,6 +188,7 @@ MUTATIONS = [
     (override, "W4 faces are declared as locked"),
     (override_tight, "W4 faces are declared as locked"),
     (display, "W4 faces are declared as locked"),
+    (unkerned, "W4 faces are declared as locked"),
     (hand_edit, "W5 stylesheets are build_css.py's"),
     (stray_file, "W5 SHA256SUMS-Web lists exactly dist/web"),
     (byte_flip, "W5 SHA256SUMS-Web lists exactly dist/web"),
