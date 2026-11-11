@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ICONS = ROOT / "sources/fluent/package/icons"
 OUTPUT = ROOT / "dist/HarenaUIIcons-Regular.ttf"
 
-VERSION = "0.5.1"
+VERSION = "0.5.2"
 VENDOR = "HRNA"
 TIMESTAMP = 3_850_000_000  # fixed, so that two builds are the same bytes
 UPM = 2048
