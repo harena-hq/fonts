@@ -74,12 +74,12 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.6.1** ✓ | A Japanese page fetches its common kanji in one file, and Harena UI J's lines are Segoe's height in every language, as WinUI 3 draws them. Closed 2026-11-04: gate and seventeen mutations pass from a fresh clone; in Edge 880,380 widths equal the TTFs', and all 1,745,100 J line boxes are Segoe's |
 | **v0.7** ✓ | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0005). Closed 2026-11-04: gate and eighteen J mutations pass from a fresh clone; in Edge 872,550 code point widths are WinUI 3's, 735 labels agree with WinUI 3 within 0.014 px, and under `ja` no pair is trimmed beyond 450 counted pairs no text writes |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
-| 1.0 | In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with the package lays out as on Windows: widths, line boxes and fetches |
+| **1.0** ✓ | In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with the package lays out as on Windows: widths, line boxes and fetches. Closed 2026-11-15: gate and mutations pass from a fresh clone; in Safari, WebKitGTK, and Chrome and Firefox on macOS and Linux, every width, line box and fetch is Edge's on Windows or a counted kind within its bound (item 6), and what a page can do about each is `docs/engines.md` |
 
-Each version's spec is written when the previous one closes. 1.0's is below; the closed ones
-follow it, newest first.
+Each version's spec is written when the previous one closes. The closed ones follow, newest
+first.
 
-## 1.0 — the package on macOS and Linux, as on Windows (spec, 2026-11-04; approved 2026-11-09)
+## 1.0 — the package on macOS and Linux, as on Windows (closed 2026-11-15)
 
 **Goal.** In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with
 the package lays out as on Windows: widths, line boxes and fetches.
@@ -180,10 +180,10 @@ own rounding is recorded.
    proved by re-running the v0.7 gate and Edge probe; what is not fixed is counted, with its cause,
    in this section.
    *Done when:* 3–5 hold in every engine, with what does not counted here.
-   *Done* 2026-11-10. Measured: Safari 27.2 (macOS 27.2, 2x), Chrome 157.0.8103.39 (macOS, 2x),
-   Firefox 159.0.1 (macOS, 2x); WebKitGTK 2.52.6, Chrome 157.0.8103.38, Firefox 159.0.1 (Ubuntu
-   24.04.5, 1x); against Edge 151 at 1x and 2x. Edge's widths at 2x are its 1x's within two layout
-   units.
+   *Done* 2026-11-10. First measured: Safari 27.2 (macOS 27.2, 2x), Chrome 157.0.8103.39 (macOS,
+   2x), Firefox 159.0.1 (macOS, 2x); WebKitGTK 2.52.6, Chrome 157.0.8103.38, Firefox 159.0.1 (Ubuntu
+   24.04.5, 1x); against Edge 151 at 1x and 2x (re-measured at the close: Result). Edge's widths at
+   2x are its 1x's within two layout units.
    - *Fixed: Firefox's `font-kerning: auto`* drops kerning for CJK, and under `ko` and `ja` for
      pairs of accented capitals (`ÀÇ`). Package 0.9.0 declares `font-feature-settings: "kern" 1`
      in every text face (`scripts/build_css.py`, required by `verify_web.py` W4, broken by
@@ -225,6 +225,34 @@ own rounding is recorded.
 **Out of scope.** The repository's layout at release, including joining Harena Term's font under
 one `harena-hq/fonts` repository: decided at release. Publishing to npm: after 1.0. Chinese and
 vertical text, as before.
+
+**Result** (2026-11-15). Spec 2026-11-04, approved 2026-11-09.
+
+- *Files.* Harena UI J 0.8.0 (no language at WinUI 3's widths, `KOR` at Korean's), Harena UI Icons
+  0.5.2 (its three key labels set in J 0.8.0), package 0.9.0 (every text face asks for `kern`): 196
+  WOFF2, 31.9 MB.
+- *Gate.* From a fresh clone, `verify.py`, `verify_j.py`, `verify_icons.py`, `verify_web.py` and
+  `build_css.py --check` pass, the four `SHA256SUMS` files match, and `mutate_icons.py`,
+  `mutate_j.py` and `mutate_web.py` catch all their mutations (19, 20 and 18).
+- *Engines* (re-measured on Icons 0.5.2): Edge 151 at 1x and 2x on Windows 11 25H2; Safari 27.2,
+  Chrome 157.0.8103.51 and Firefox 159.0.1 on macOS 27.2 (2x); WebKitGTK 2.52.6, Chrome
+  157.0.8103.38 and Firefox 159.0.1 on Ubuntu 24.04.5 (1x). `check_edge.py` passes;
+  `check_engines.py` passes 48 checks in six engines with no fault, each counted kind at the counts
+  item 6 gives; `check_fetches.py` finds each engine's nine pages Edge's.
+- *Code review.* Codex, in four rounds on the probe and its data, found a probe that could measure
+  before a subset loaded or record fetches before layout, resumes that mixed engines, packages and
+  malformed runs, checkers that passed on empty results, a server whose directory indexes bypassed
+  its symlink check, and gates in J and WinUI's data that a changed value could pass; at the
+  milestone, Codex and an adversarial critic agent found counted kinds that accepted widths their
+  cause did not predict, a tolerance wider than the one locked, an emptied `dist` that check 16 no
+  longer caught, and lines not held to their engine's rule. All fixed; Codex's review of the fixes
+  found none left.
+- *Lesson:* Harena UI Icons is built from J, so changing J rebuilds the icons: 1.0 left `dist/`'s
+  icons built from J 0.7.0, which the working tree's gates matched, and only the gates from a fresh
+  clone caught it.
+- *Lesson:* Chrome updates itself between runs (Chrome on the Mac went from 157.0.8103.39 to .51
+  during the last one), so each file is bound to the engine that measured it, and `collect.py` and
+  `check_engines.py` refuse to mix them.
 
 ## v0.7 — Harena UI J at WinUI 3's CJK widths (closed 2026-11-04)
 
