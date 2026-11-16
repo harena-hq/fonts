@@ -75,9 +75,123 @@ as Harena Term reserves its name: a terminal font is installed whole, a UI web f
 | **v0.7** ✓ | Harena UI J lays out CJK at the widths WinUI 3 gives it in each language, not Edge's (ADR 0005). Closed 2026-11-04: gate and eighteen J mutations pass from a fresh clone; in Edge 872,550 code point widths are WinUI 3's, 735 labels agree with WinUI 3 within 0.014 px, and under `ja` no pair is trimmed beyond 450 counted pairs no text writes |
 | later | Icons outside WinUI's `Symbol` that lose a state or read as something else, and Trim and Reshare (v0.5's *Later*) |
 | **1.0** ✓ | In every engine Harena runs on, and in Chrome and Firefox on macOS and Linux, a page with the package lays out as on Windows: widths, line boxes and fetches. Closed 2026-11-15: gate and mutations pass from a fresh clone; in Safari, WebKitGTK, and Chrome and Firefox on macOS and Linux, every width, line box and fetch is Edge's on Windows or a counted kind within its bound (item 6), and what a page can do about each is `docs/engines.md` |
+| 1.1 | Harena UI's first release, package 0.9.0, published from one repository `harena-hq/fonts` beside Harena Term, with neither family's history rewritten |
 
-Each version's spec is written when the previous one closes. The closed ones follow, newest
-first.
+Each version's spec is written when the previous one closes. 1.1's is below; the closed ones
+follow it, newest first.
+
+## 1.1 — the first release, from `harena-hq/fonts` (spec, 2026-11-16; approved 2026-11-16)
+
+**Goal.** Harena UI's first release, package 0.9.0, published from one repository
+`harena-hq/fonts` beside Harena Term, with neither family's history rewritten.
+
+**Why.** 1.0 left the repository's layout to be decided at release, and publishing to npm until
+after 1.0 (1.0, *Out of scope*). Harena Term is already public: `harena-hq/harena-term-font`, tags
+`v0.9.0` to `v1.0.3` with their GitHub Releases, and `@harena-hq/term-font` 1.0.0 to 1.0.3 on npm,
+whose published metadata names that repository and cannot be changed. This repository has never
+been pushed.
+
+**Locked — one repository, `harena-hq/fonts`** (owner, 2026-11-16). It is
+`harena-hq/harena-term-font` renamed, so GitHub keeps Term's issues, Releases and stars and
+redirects the old URL, which Term's published npm and Debian metadata use. The working checkout
+is `harena-fonts`. *Rejected:* `harena-hq/harena-fonts`, which reads alone where the
+organization is not shown (a fork, a local clone) but is longer; a new repository, which would
+leave Term's Releases and URL behind.
+
+**Locked — no history rewritten** (owner, 2026-11-16). Each family moves into its directory in one
+commit of its own, and the two histories are joined by a merge (`--allow-unrelated-histories`).
+Every existing commit and tag keeps its hash, the published `main` is fast-forwarded rather than
+forced, and `git log --follow` reaches a file's first commit. *Rejected:* `git filter-repo` into
+subdirectories, which would change every hash, and with them Term's published tags.
+
+**Locked — tags name the family, with a hyphen** (owner, 2026-11-16). `term-v1.0.4` for a Term
+font release, `term-npm-v1.0.4` for a Term package-only release (Term's `v*` and `npm-v*`, renamed),
+and `ui-v0.9.0` for a Harena UI release. Term's published `v0.9.0` to `v1.0.3` stay as they are.
+A UI tag is the package's version, since one package carries three families each with its own
+font version (`npm/package.json`, `harena.fontVersions`). *Rejected:* a slash (`ui/v0.9.0`), which
+puts the tag in a release's download path as a directory; renaming the published tags, which
+breaks their Releases' links.
+
+**Locked — the first release is 0.9.0** (owner, 2026-11-16), the package 1.0 measured, on the npm
+dist-tag `latest`. 1.0.0 follows when winui-svelte and the Harena app take the package from npm, as
+Term went from 0.9.0 to 1.0.0. *Rejected:* `1.0.0-rc.N`, which git's version sort, `sort -V` and
+dpkg place after 1.0.0, and which a font's version fields cannot carry.
+
+**Locked — the layout** (owner, 2026-11-16). Each family in a directory of its own, `term/` and
+`ui/`, as each is now: its `AGENTS.md` (with its `CLAUDE.md` link; UI's keeps "Segoe is measured,
+never copied"), `PLAN.md`, `docs/adr/` with its own numbering, `scripts/`, `npm/`, `.gitignore`
+(whose `/` anchors then mean the family's directory), `SHA256SUMS`, licences and notices. At the
+root, only what both share: a `README.md` that points to each, an `AGENTS.md` with the rules both
+state (English artifacts, private context, the hook), `.githooks/pre-commit` as the union of the two
+(UI's also refuses staged font binaries), `.github/workflows/`, and `docs/adr/` for decisions about
+the repository, cited with the root's name (`fonts ADR 0001`) since `term/` and `ui/` each have an
+0001. Repository milestones such as this one stay in UI's plan, whose release they are. *Rejected:*
+Term at the root and UI in `ui/`, which moves nothing of Term's but mixes its files with the shared
+ones and makes the two families' paths unlike.
+
+**Locked — workflows** (owner, 2026-11-16). One verify and one release workflow per family. A verify
+runs for a change under its family's directory or at the root, and none is a required check, so a
+change confined to one family leaves no check pending. Each release workflow takes its family's tag
+prefix and a `workflow_dispatch` input `dry_run` (default true) that builds, verifies and packs
+everything and creates no Release and publishes nothing. Publishing to npm is enabled per family,
+through a GitHub Environment each (`npm-term`, `npm-ui`) named in its package's trusted publisher,
+not by one repository variable.
+
+**Locked — Releases** (owner, 2026-11-16). GitHub has one Latest per repository. Term's READMEs send
+readers to it for the fonts to install, and UI is delivered through npm, so a UI Release is created
+with `--latest=false` and Latest stays Term's font release.
+
+**Items**
+
+1. **Join.** In `harena-fonts`: Term moved into `term/` and this repository's `main` into `ui/`,
+   each by a commit that only renames (`git mv`), then merged; the fixes to paths come after, in
+   commits of their own: the shared root and `fonts ADR 0001` (this decision), Term's workflows
+   and scripts (below), and the docs that name the old repository, tags or paths
+   (`term/docs/npm-publishing.md`, the READMEs' links to Releases).
+   Term's release workflow: the tag prefixes (`term-v*`, `term-npm-v*`) wherever it classifies or
+   checks a tag; `working-directory: term` for its steps, and for the actions that read files
+   themselves (`pnpm/action-setup`'s `package_json_file`, `setup-node`'s
+   `cache-dependency-path`, artifact paths); `release_notes.py` links under `term/` and its
+   default ref the family tag.
+   UI's package: `repository` (`git+https://github.com/harena-hq/fonts.git`, `directory: ui/npm`),
+   `homepage` and `bugs`, which provenance checks against the publishing repository;
+   `npm/CHANGELOG.md` and notes from it, as Term's.
+   *Done when:* `git log --follow` from a file of each family reaches its first commit; from a
+   fresh clone, each family's build and gates pass and its `SHA256SUMS` files match (UI: its
+   mutations too); every relative link in the READMEs and docs resolves in the new tree.
+2. **History audit.** Before anything of this repository is pushed: every blob of
+   `git rev-list --objects main` and every commit's author, message and trailers
+   (`git log --format='%an %ae %B' main`) are checked for what must not be published (a Segoe
+   file or outline, anything from `.private/`, a credential, a private host or address).
+   *Done when:* a script finds nothing, and its list of font binaries, large files and hostnames
+   is reviewed by the owner.
+3. **Rename and push** (owner, with the agent). `harena-hq/harena-term-font` renamed
+   `harena-hq/fonts`, and that name is never created again. `main`'s ruleset requires linear
+   history, which refuses the join's merge: it is lifted for the one push and restored (owner,
+   2026-11-16). The
+   merge is pushed as it is, never squashed or rebased through a pull request, which would
+   rewrite UI's 88 commits; if Term's `main` has moved meanwhile, the join is made again on it.
+   *Done when:* the old URL redirects; the push was a fast-forward; `git ls-remote --tags`
+   lists the same five tags at the same hashes before and after; the ruleset is as it was.
+4. **CI.** The workflows above, on GitHub.
+   *Done when:* each family's verify passes on `main`, UI's reproducing every `SHA256SUMS*` byte
+   for byte on GitHub's runner; each release workflow's dry run on `main` packs a tarball whose
+   fonts match, Term's builds its `.deb` from `term/`, and the notes' links resolve.
+5. **Publishing set up** (owner). Term's trusted publisher moved to `harena-hq/fonts`, its release
+   workflow and the `npm-term` environment; nothing tests it until Term's next release, whose
+   `repository` must first name the new repository. `@harena-hq/ui-font` registered for trusted
+   publishing with `npm-ui`, after a first publish if npm requires the package to exist: then 0.9.0
+   itself (owner, 2026-11-16; it carries no provenance), from item 4's dry-run tarball, and the
+   release in item 6 finds the registry's bytes identical and publishes nothing to npm.
+6. **Release 0.9.0.** Tag `ui-v0.9.0`.
+   *Done when:* the GitHub Release holds the fonts whose hashes are `SHA256SUMS*`'s and is not
+   Latest; `@harena-hq/ui-font@0.9.0`, installed from the registry into an empty directory, holds
+   the tree's CSS and `package.json` at the tag and fonts whose hashes are `SHA256SUMS-Web`'s;
+   `latest` is 0.9.0; `@harena-hq/term-font` and Term's Latest are unchanged.
+
+**Out of scope.** winui-svelte and the Harena app taking the package from npm (the condition for
+1.0.0); Term's next release, which tests its moved publisher; the two old checkouts, kept until
+the release is out.
 
 ## 1.0 — the package on macOS and Linux, as on Windows (closed 2026-11-15)
 
