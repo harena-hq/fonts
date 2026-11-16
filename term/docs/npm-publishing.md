@@ -67,15 +67,19 @@ Before enabling automatic publication:
    with an npm account protected by two-factor authentication if npm requires a
    package to exist before its trusted publisher can be configured.
 3. In the package settings, register GitHub Actions trusted publishing for
-   `harena-hq/harena-term-font` and the workflow `release.yml`.
-4. Add the GitHub repository variable `NPM_PUBLISH` with the value `true`.
+   `harena-hq/fonts`, the workflow `term-release.yml` and the environment
+   `npm-term`. (It named `harena-hq/harena-term-font` and `release.yml` until
+   Term moved into `term/` of `harena-hq/fonts`; a repository rename does not
+   carry a trusted publisher.)
+4. Add the GitHub repository variable `NPM_PUBLISH_TERM` with the value `true`.
+   Harena UI has its own, `NPM_PUBLISH_UI`.
 
 The already-published `v1.0.0` GitHub Release predates this workflow, so its npm
 package must be bootstrapped manually. Re-dispatching that tag would stop when
 `gh release create` finds the existing release. Automation starts with the next
 tag.
 
-With `NPM_PUBLISH` absent or false, a tag still builds, packs and installs the
+With `NPM_PUBLISH_TERM` absent or false, a tag still builds, packs and installs the
 npm tarball but does not contact the registry. With it true, the build job
 uploads the verified tarball to a separate publisher job. Only that minimal job
 has `id-token: write`; it checks out no source and installs no dependencies
@@ -88,9 +92,15 @@ workflow before GitHub assets are published; connectivity and registry errors
 also fail rather than being mistaken for an unused version. The publisher job
 requires Node 22.14.0 or later and npm 11.5.1 or later.
 
-An `npm-v*` run with `NPM_PUBLISH` disabled remains a full dry run: it rebuilds,
-verifies and packs the package, then writes an explicit “nothing was published”
-notice to the Actions job summary.
+A `term-npm-v*` run with `NPM_PUBLISH_TERM` disabled still rebuilds, verifies
+and packs the package, then writes an explicit “nothing was published” notice
+to the Actions job summary.
+
+A dry run of either path needs no tag: dispatch `term-release.yml` on a branch
+with the tag it would be (`term-v1.0.4`, `term-npm-v1.0.4`) and `dry_run` left
+on. It builds from that branch, checks the tag against the versions there, and
+builds, verifies and packs everything, the `.deb` included, but creates no
+Release and publishes nothing.
 
 ## Versions and tags
 
@@ -101,7 +111,7 @@ increment the npm package according to the package's own SemVer history:
 ```text
 scripts/build.py VERSION = 1.100
 npm/package.json harena.fontVersion = 1.1.0
-tag = v1.1.0
+tag = term-v1.1.0
 
 # if npm 1.0.1 was already a CSS-only patch, for example:
 npm/package.json version = 1.1.0
@@ -119,12 +129,12 @@ Increment only the package version and use an npm tag:
 scripts/build.py VERSION = 1.000
 npm/package.json version = 1.0.1
 npm/package.json harena.fontVersion = 1.0.0
-tag = npm-v1.0.1
+tag = term-npm-v1.0.1
 ```
 
 This path rebuilds and verifies the recorded 1.0.0 font bytes, then publishes
 only npm 1.0.1. It creates no GitHub font release and does not change TTF or
-WOFF2 hashes. It does create a notes-only GitHub Release for the `npm-v*` tag,
+WOFF2 hashes. It does create a notes-only GitHub Release for the `term-npm-v*` tag,
 using the matching entry from `npm/CHANGELOG.md`; the npm tarball remains a
 registry artifact rather than a duplicate GitHub asset. The notes release is
 created only after npm publishing succeeds, so an OIDC or registry failure
@@ -137,7 +147,7 @@ A font release therefore bumps the npm version from its current value rather
 than copying the font version. Choose patch, minor or major from the effect the
 new payload has on npm consumers.
 
-Every npm version, whether published beside `v*` or by `npm-v*`, must have a
+Every npm version, whether published beside `term-v*` or by `term-npm-v*`, must have a
 matching `npm/CHANGELOG.md` entry. The release workflow extracts it before the
 font build, so missing package history cannot fail late.
 
@@ -145,7 +155,7 @@ If npm publishing succeeds but the notes-only GitHub Release fails, regenerate
 `npm-release-notes.md` with `scripts/release_notes.py` and recover with:
 
 ```sh
-gh release create npm-vX.Y.Z \
+gh release create term-npm-vX.Y.Z \
   --latest=false \
   --title "@harena-hq/term-font X.Y.Z" \
   --notes-file npm-release-notes.md
