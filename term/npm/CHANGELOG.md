@@ -40,7 +40,7 @@ this package uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   and Bold WOFF2 faces, separate CSS entry points, package-relative font
   exports and the complete redistribution notices.
 
-[Unreleased]: ../../../compare/v1.0.2...HEAD
-[1.0.2]: ../../../compare/v1.0.1...v1.0.2
-[1.0.1]: ../../../compare/v1.0.0...v1.0.1
-[1.0.0]: ../../../releases/tag/v1.0.0
+[Unreleased]: https://github.com/harena-hq/fonts/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/harena-hq/fonts/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/harena-hq/fonts/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/harena-hq/fonts/releases/tag/v1.0.0

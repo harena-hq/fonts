@@ -8,11 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harena-hq/harena-term-font.git"
+    "url": "git+https://github.com/harena-hq/fonts.git",
+    "directory": "term/npm"
   },
-  "homepage": "https://github.com/harena-hq/harena-term-font#readme",
+  "homepage": "https://github.com/harena-hq/fonts/tree/main/term#readme",
   "bugs": {
-    "url": "https://github.com/harena-hq/harena-term-font/issues"
+    "url": "https://github.com/harena-hq/fonts/issues"
   },
   "keywords": [
     "font",

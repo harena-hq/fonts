@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Harena Term
 Upstream-Contact: Jeeyong Um <me@um.je>
-Source: https://github.com/harena-hq/harena-term-font
+Source: https://github.com/harena-hq/fonts
 Comment:
  This file covers what fonts-harena-term actually ships: the four compiled
  TrueType files (Files: dist/*.ttf below) and the Debian packaging itself

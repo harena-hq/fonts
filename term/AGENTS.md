@@ -1,9 +1,11 @@
 # AGENTS.md
 
-Operating brief for any AI coding agent working in this repository. Claude Code
-reads it through the `CLAUDE.md` symlink beside it.
+Operating brief for any AI coding agent working on Harena Term, in `term/` of
+`harena-hq/fonts`; the repository's own `AGENTS.md` holds the rules both of its
+typefaces share. Claude Code reads this file through the `CLAUDE.md` symlink
+beside it.
 
-`harena-term-font` builds a dual-script terminal typeface. What the build does and
+This directory builds a dual-script terminal typeface. What the build does and
 why each decision was taken is in `docs/adr/` — read the ADR before proposing a
 change it already settled. `PLAN.md` is the current shape of the work.
 

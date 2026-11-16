@@ -57,7 +57,7 @@ CJK repertoire. Import only `k.css` or `j.css` unless both cuts are needed.
 
 Desktop TTF archives, complete documentation, coverage and reproducible build
 instructions are available from the
-[Harena Term repository](https://github.com/harena-hq/harena-term-font).
+[Harena Term repository](https://github.com/harena-hq/fonts/tree/main/term).
 
 ## License
 

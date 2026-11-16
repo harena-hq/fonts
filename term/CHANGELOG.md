@@ -1,7 +1,7 @@
 # Changelog
 
 Notable changes to Harena Term. Binaries are attached to each
-[release](../../releases); this repository holds the build that produces them.
+[release](https://github.com/harena-hq/fonts/releases); this repository holds the build that produces them.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
@@ -248,8 +248,8 @@ and Bold, at 38478 glyphs and 37652 codepoints each.
   See [ADR 0010](docs/adr/0010-ttfautohint-hints-y-only.md).
 - TUI rendering is verified on macOS. **Not verified on Windows.**
 
-[Unreleased]: ../../compare/v1.0.2...HEAD
-[1.0.2]: ../../compare/v1.0.1...v1.0.2
-[1.0.1]: ../../compare/v1.0.0...v1.0.1
-[1.0.0]: ../../releases/tag/v1.0.0
-[0.9.0]: ../../releases/tag/v0.9.0
+[Unreleased]: https://github.com/harena-hq/fonts/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/harena-hq/fonts/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/harena-hq/fonts/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/harena-hq/fonts/releases/tag/v1.0.0
+[0.9.0]: https://github.com/harena-hq/fonts/releases/tag/v0.9.0

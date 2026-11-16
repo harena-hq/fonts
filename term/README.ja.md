@@ -26,7 +26,7 @@ Harena Term は各文字体系を、**その固有アドバンスがセルにち
 
 ## ダウンロード
 
-最新版は [**Releases**](../../releases/latest) から。
+最新版は [**Releases**](https://github.com/harena-hq/fonts/releases/latest) から。
 
 > **1.0.0。** 安定版の番号に課していた三つの条件がすべて満たされました。実際の
 > リリースで検証されたリリースワークフロー、0.9.0 が抱えていた字画の太さの欠陥の

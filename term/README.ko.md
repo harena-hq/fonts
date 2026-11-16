@@ -24,7 +24,7 @@ Harena Term은 각 문자 체계를 **고유 폭이 셀에 정확히 떨어지�
 
 ## 내려받기
 
-[**Releases**](../../releases/latest)에서 최신 배포본을 받으세요.
+[**Releases**](https://github.com/harena-hq/fonts/releases/latest)에서 최신 배포본을 받으세요.
 
 > **1.0.0.** 안정 버전 번호에 걸어둔 세 조건이 모두 충족되었습니다: 실제 배포로
 > 검증된 릴리스 워크플로, 0.9.0이 안고 나갔던 획 굵기 결함의

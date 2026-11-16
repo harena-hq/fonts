@@ -26,7 +26,7 @@ covers at full width.
 
 ## Download
 
-Grab the latest release from [**Releases**](../../releases/latest).
+Grab the latest release from [**Releases**](https://github.com/harena-hq/fonts/releases/latest).
 
 > **1.0.0.** The three conditions this project set for a stable number are met:
 > a release workflow proven by a real release, the weighting defect 0.9.0
