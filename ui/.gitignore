@@ -1,6 +1,9 @@
 # Downloaded and generated.
 sources/
 build/
+# A trailing slash does not match a symlink, which a fresh clone may make of
+# sources/ to reuse another checkout's downloads.
+/sources
 
 # Release artefacts, not repository content.
 dist/
