@@ -1,0 +1,11 @@
+# Each family's own .gitignore covers its build output and sources.
+
+# Private context, at the root or in a family's directory. See AGENTS.md.
+.private/
+
+# Runtime state from the agent tooling, regenerated per session.
+.omc/
+.omx/
+
+__pycache__/
+.DS_Store
