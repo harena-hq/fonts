@@ -1,0 +1,17 @@
+# Downloaded and generated.
+sources/
+build/
+
+# Release artefacts, not repository content.
+dist/
+
+__pycache__/
+node_modules/
+.DS_Store
+# Runtime state from the agent tooling, regenerated per session.
+.omc/
+.omx/
+
+# Private context. See .private/README.md and AGENTS.md.
+.private/
+.venv/

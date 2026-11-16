@@ -1,0 +1,751 @@
+{
+"meaning": {
+"E0B8": {
+"stem": "zoom_out",
+"style": "regular"
+},
+"E11F": {
+"badge": "arrow_circle_left",
+"base": "chat"
+},
+"E12D": {
+"stem": "camera_add",
+"style": "regular"
+},
+"E151": {
+"stem": "arrow_import",
+"style": "regular"
+},
+"E159": {
+"badge": "arrow_download",
+"base": "save"
+},
+"E164": {
+"stem": "local_language",
+"style": "regular"
+},
+"E172": {
+"badge": "arrow_reply",
+"base": "mail"
+},
+"E178": {
+"stem": "window_wrench",
+"style": "regular"
+},
+"E17A": {
+"badge": "dismiss_circle",
+"base": "hard_drive"
+},
+"E182": {
+"stem": "arrow_down_exclamation",
+"style": "regular"
+},
+"E18C": {
+"stem": "phone_lock",
+"style": "regular"
+},
+"E18D": {
+"stem": "pin",
+"style": "regular"
+},
+"E197": {
+"stem": "folder_open",
+"style": "regular"
+},
+"E1A5": {
+"stem": "open",
+"style": "regular"
+},
+"E1A6": {
+"stem": "person_swap",
+"style": "regular"
+},
+"E1AF": {
+"stem": "arrow_forward",
+"style": "regular"
+},
+"E1C3": {
+"stem": "street_home",
+"style": "regular"
+},
+"E1CA": {
+"stem": "share",
+"style": "regular"
+},
+"E1DD": {
+"badge": "arrow_sync_off",
+"base": "folder"
+},
+"E294": {
+"stem": "scan_dash",
+"style": "regular"
+},
+"E295": {
+"badge": "eye",
+"base": "document"
+},
+"E2F7": {
+"badge": "cube",
+"base": "print"
+},
+"E320": {
+"badge": "arrow_sync_circle",
+"base": "web_asset"
+},
+"E3BA": {
+"badge": "arrow_sync_circle",
+"base": "keyboard"
+},
+"E3D8": {
+"badge": "lock_closed",
+"base": "keyboard_shift"
+},
+"E414": {
+"badge": "warning",
+"base": "battery_1"
+},
+"E415": {
+"badge": "warning",
+"base": "battery_2"
+},
+"E416": {
+"badge": "warning",
+"base": "battery_3"
+},
+"E417": {
+"badge": "warning",
+"base": "battery_4"
+},
+"E418": {
+"badge": "warning",
+"base": "battery_5"
+},
+"E419": {
+"badge": "warning",
+"base": "battery_6"
+},
+"E41A": {
+"badge": "warning",
+"base": "battery_7"
+},
+"E41B": {
+"badge": "warning",
+"base": "battery_8"
+},
+"E41C": {
+"badge": "warning",
+"base": "battery_9"
+},
+"E4E8": {
+"none": true
+},
+"E614": {
+"none": true
+},
+"E66C": {
+"stem": "checkbox_indeterminate",
+"style": "regular"
+},
+"E670": {
+"stem": "wifi_lock",
+"style": "regular"
+},
+"E671": {
+"stem": "wifi_lock",
+"style": "regular"
+},
+"E67A": {
+"badge": "arrow_sync_circle",
+"base": "developer_board"
+},
+"E70C": {
+"badge": "star",
+"base": "phone_laptop"
+},
+"E755": {
+"badge": "arrow_sync_circle",
+"base": "lock_closed"
+},
+"E791": {
+"stem": "data_usage",
+"style": "regular"
+},
+"E7DE": {
+"text": "日"
+},
+"E7F7": {
+"badge": "image",
+"base": "laptop"
+},
+"E809": {
+"stem": "table_arrow_up",
+"style": "regular"
+},
+"E80A": {
+"badge": "arrow_down",
+"base": "table"
+},
+"E826": {
+"badge": "arrow_download",
+"base": "map"
+},
+"E835": {
+"badge": "settings",
+"base": "box"
+},
+"E83B": {
+"stem": "desktop_tower",
+"style": "regular"
+},
+"E848": {
+"text": "’"
+},
+"E849": {
+"text": "‘"
+},
+"E84B": {
+"text": "⇧ABC"
+},
+"E864": {
+"badge": "leaf_one",
+"base": "battery_1"
+},
+"E865": {
+"badge": "leaf_one",
+"base": "battery_2"
+},
+"E866": {
+"badge": "leaf_one",
+"base": "battery_3"
+},
+"E867": {
+"badge": "leaf_one",
+"base": "battery_4"
+},
+"E868": {
+"badge": "leaf_one",
+"base": "battery_5"
+},
+"E869": {
+"badge": "leaf_one",
+"base": "battery_6"
+},
+"E86A": {
+"badge": "leaf_one",
+"base": "battery_7"
+},
+"E86B": {
+"badge": "leaf_one",
+"base": "battery_8"
+},
+"E875": {
+"badge": "lock_closed",
+"base": "sim"
+},
+"E876": {
+"badge": "prohibited",
+"base": "sim"
+},
+"E87F": {
+"text": "⇪"
+},
+"E882": {
+"text": "2"
+},
+"E884": {
+"text": "1"
+},
+"E88B": {
+"text": "한"
+},
+"E931": {
+"badge": "cut",
+"base": "pen"
+},
+"E960": {
+"stem": "camera",
+"style": "regular"
+},
+"E968": {
+"stem": "server_link",
+"style": "regular"
+},
+"E97D": {
+"text": "한"
+},
+"E981": {
+"text": "倉"
+},
+"E982": {
+"text": "中"
+},
+"E983": {
+"text": "英"
+},
+"E984": {
+"text": "速"
+},
+"E985": {
+"text": "日"
+},
+"E996": {
+"badge": "dismiss_circle",
+"base": "battery_0"
+},
+"E9A8": {
+"badge": "eye",
+"base": "password"
+},
+"E9A9": {
+"badge": "eye_off",
+"base": "password"
+},
+"EA43": {
+"badge": "globe",
+"base": "call_forward"
+},
+"EA5F": {
+"stem": "resize_large",
+"style": "regular"
+},
+"EA60": {
+"stem": "resize_small",
+"style": "regular"
+},
+"EAA1": {
+"stem": "cellular_data_4",
+"style": "regular"
+},
+"EABC": {
+"stem": "camera_sparkles",
+"style": "regular"
+},
+"EAC7": {
+"badge": "leaf_two",
+"base": "desktop"
+},
+"EAD4": {
+"badge": "play_circle",
+"base": "emoji"
+},
+"EB17": {
+"badge": "dismiss_circle",
+"base": "battery_charge"
+},
+"EB19": {
+"stem": "sparkle_off",
+"style": "regular"
+},
+"EB1A": {
+"badge": "dismiss_circle",
+"base": "battery_charge"
+},
+"EB50": {
+"stem": "lightbulb_checkmark",
+"style": "regular"
+},
+"EB56": {
+"badge": "warning",
+"base": "network_adapter"
+},
+"EB5A": {
+"badge": "dismiss_circle",
+"base": "wifi_1"
+},
+"EB5B": {
+"badge": "dismiss_circle",
+"base": "wifi_1"
+},
+"EBB8": {
+"badge": "leaf_one",
+"base": "battery_2"
+},
+"EBB9": {
+"badge": "leaf_one",
+"base": "battery_3"
+},
+"EBBA": {
+"badge": "leaf_one",
+"base": "battery_4"
+},
+"EBBB": {
+"badge": "leaf_one",
+"base": "battery_5"
+},
+"EBBC": {
+"badge": "leaf_one",
+"base": "battery_7"
+},
+"EBBD": {
+"badge": "leaf_one",
+"base": "battery_8"
+},
+"EBC3": {
+"badge": "cloud",
+"base": "book"
+},
+"EBD4": {
+"badge": "call",
+"base": "wifi_3"
+},
+"EBFC": {
+"badge": "hand_point",
+"base": "tablet"
+},
+"EC0B": {
+"badge": "flash",
+"base": "building"
+},
+"EC12": {
+"stem": "rectangle_landscape",
+"style": "regular"
+},
+"EC45": {
+"text": "日"
+},
+"EC4A": {
+"stem": "top_speed",
+"style": "regular"
+},
+"EC56": {
+"badge": "dismiss_circle",
+"base": "mic"
+},
+"EC74": {
+"badge": "checkmark_circle",
+"base": "tablet"
+},
+"EC75": {
+"stem": "phone_checkmark",
+"style": "regular"
+},
+"EC81": {
+"badge": "alert_urgent",
+"base": "vehicle_car"
+},
+"ECC5": {
+"badge": "arrow_sync_circle",
+"base": "clock"
+},
+"ECF3": {
+"badge": "checkmark_circle",
+"base": "usb_plug"
+},
+"ED10": {
+"badge": "arrow_sync_circle",
+"base": "phone"
+},
+"ED2D": {
+"badge": "arrow_sync_circle",
+"base": "sim"
+},
+"ED31": {
+"badge": "speaker_0",
+"base": "headphones"
+},
+"ED32": {
+"badge": "speaker_1",
+"base": "headphones"
+},
+"ED33": {
+"badge": "speaker_2",
+"base": "headphones"
+},
+"ED3A": {
+"badge": "brightness_low",
+"base": "keyboard"
+},
+"ED62": {
+"stem": "eraser",
+"style": "regular"
+},
+"EDA5": {
+"badge": "network_adapter",
+"base": "print"
+},
+"EDA6": {
+"badge": "cloud",
+"base": "print"
+},
+"EDA7": {
+"stem": "key_command",
+"style": "regular"
+},
+"EDA9": {
+"badge": "arrow_right",
+"base": "read_aloud"
+},
+"EDAA": {
+"badge": "arrow_left",
+"base": "read_aloud"
+},
+"EE3F": {
+"badge": "lock_closed",
+"base": "desktop"
+},
+"EE56": {
+"badge": "paint_bucket",
+"base": "pen"
+},
+"EE94": {
+"none": true
+},
+"EF16": {
+"badge": "paint_bucket",
+"base": "pen"
+},
+"EF31": {
+"none": true
+},
+"EFDA": {
+"stem": "document_settings",
+"style": "regular"
+},
+"EFFF": {
+"stem": "calendar_clock",
+"style": "regular"
+},
+"F03D": {
+"badge": "sparkle",
+"base": "clipboard_paste"
+},
+"F03E": {
+"stem": "clipboard_arrow_right",
+"style": "regular"
+},
+"F080": {
+"badge": "settings",
+"base": "globe"
+},
+"F08C": {
+"stem": "weather_sunny",
+"style": "regular"
+},
+"F0B2": {
+"badge": "shield_error",
+"base": "server"
+},
+"F0B3": {
+"badge": "shield_error",
+"base": "server"
+},
+"F0EF": {
+"badge": "shield",
+"base": "app_generic"
+},
+"F0F6": {
+"badge": "settings",
+"base": "cast"
+},
+"F0F7": {
+"stem": "star_half",
+"style": "regular"
+},
+"F10E": {
+"stem": "arrow_move",
+"style": "regular"
+},
+"F111": {
+"text": "。，"
+},
+"F12E": {
+"stem": "mic_pulse",
+"style": "regular"
+},
+"F157": {
+"stem": "triangle",
+"style": "regular"
+},
+"F159": {
+"stem": "diamond",
+"style": "regular"
+},
+"F210": {
+"badge": "settings",
+"base": "keyboard"
+},
+"F26C": {
+"stem": "keyboard_layout_float",
+"style": "regular"
+},
+"F270": {
+"none": true
+},
+"F27C": {
+"stem": "headphones_monoaural",
+"style": "regular"
+},
+"F27F": {
+"none": true
+},
+"F39B": {
+"stem": "payment_wireless",
+"style": "regular"
+},
+"F407": {
+"stem": "crop",
+"style": "regular"
+},
+"F470": {
+"badge": "warning",
+"base": "phone"
+},
+"F47F": {
+"badge": "location",
+"base": "mic"
+},
+"F4BE": {
+"badge": "checkmark_circle",
+"base": "surface_hub"
+},
+"F56D": {
+"badge": "checkmark_circle",
+"base": "print"
+},
+"F572": {
+"stem": "document_arrow_right",
+"style": "regular"
+},
+"F5AA": {
+"badge": "globe",
+"base": "arrow_swap"
+},
+"F5EF": {
+"stem": "blur",
+"style": "regular"
+},
+"F623": {
+"badge": "share",
+"base": "headphones"
+},
+"F624": {
+"badge": "prohibited",
+"base": "headphones"
+},
+"F683": {
+"stem": "scan_text",
+"style": "regular"
+},
+"F73D": {
+"badge": "settings",
+"base": "keyboard"
+},
+"F785": {
+"stem": "arrow_bidirectional_up_down",
+"style": "regular"
+},
+"F7B7": {
+"stem": "text_add_space_after",
+"style": "regular"
+},
+"F8A6": {
+"stem": "shield_settings",
+"style": "regular"
+},
+"F8B3": {
+"badge": "speaker_2",
+"base": "cursor"
+}
+},
+"stems": {
+"E127": "panel_right_expand",
+"E12C": "cut",
+"E172": "arrow_reply",
+"E18F": "subtitles",
+"E1C4": "map_pin",
+"E1C5": "square_hint_arrow_back",
+"E1E5": "cellular_data_1",
+"E25C": "chat",
+"E297": "text_indent_increase_ltr",
+"E298": "text_indent_decrease_ltr",
+"E2B3": "arrow_minimize",
+"E34D": "video_person_sparkle",
+"E44A": "battery_charge_0",
+"E44B": "battery_charge_1",
+"E44C": "battery_charge_2",
+"E44D": "battery_charge_3",
+"E44E": "battery_charge_4",
+"E44F": "battery_charge_5",
+"E450": "battery_charge_6",
+"E451": "battery_charge_7",
+"E452": "battery_charge_8",
+"E453": "battery_charge_9",
+"E454": "battery_charge_10",
+"E65B": "mic_sparkle",
+"E672": "wifi_lock",
+"E673": "wifi_lock",
+"E75A": "keyboard_layout_float",
+"E836": "phone_desktop_add",
+"E950": "developer_board",
+"E951": "device_meeting_room_remote",
+"E953": "server_play",
+"E990": "xbox_one_console",
+"E9AB": "text_paragraph_direction_left",
+"EAD5": "emoji_edit",
+"EB4A": "pause_circle",
+"EB86": "hand_point",
+"EB88": "hand_point",
+"EBAD": "battery_charge_2",
+"EBAE": "battery_charge_3",
+"EBAF": "battery_charge_4",
+"EBB0": "battery_charge_5",
+"EBB1": "battery_charge_6",
+"EBB2": "battery_charge_7",
+"EBB3": "battery_charge_8",
+"EBB4": "battery_charge_9",
+"EBC5": "speaker_2",
+"EBC8": "window_inprivate",
+"EBC9": "window_inprivate",
+"EC1B": "shield",
+"EC1E": "triangle",
+"EC34": "text_edit_style",
+"EC57": "replay",
+"EC6D": "swipe_up",
+"EC77": "desktop_checkmark",
+"ED47": "cast",
+"ED5C": "cast",
+"EE71": "image_arrow_forward",
+"F0B8": "dismiss",
+"F0CB": "star_one_quarter",
+"F0EC": "speaker_1",
+"F138": "circle",
+"F140": "prohibited",
+"F408": "lasso",
+"F45E": "calligraphy_pen_question_mark",
+"F45F": "calligraphy_pen_question_mark",
+"F460": "arrow_join",
+"F461": "insert",
+"F462": "line_horizontal_1",
+"F578": "document_margins",
+"F58A": "document_landscape",
+"F58B": "document_landscape_split",
+"F7B8": "arrow_enter_left",
+"F8C7": "cellular_data_2",
+"F8CA": "cellular_data_2"
+},
+"styles": {
+"E195": "filled",
+"E856": "regular",
+"E857": "regular",
+"EBB1": "regular",
+"EBB2": "regular",
+"EC1E": "regular",
+"F0CB": "regular",
+"F0CD": "filled",
+"F0E5": "regular",
+"F0E6": "regular",
+"F0E7": "regular",
+"F0E8": "regular",
+"F0EA": "filled",
+"F3CC": "filled",
+"F3CD": "filled",
+"F5F7": "regular",
+"F5F8": "regular",
+"F5F9": "regular",
+"F602": "regular",
+"F603": "regular",
+"F604": "regular",
+"F608": "filled",
+"F73E": "filled"
+}
+}

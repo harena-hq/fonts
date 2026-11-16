@@ -1,0 +1,286 @@
+{
+ "Display-Bold": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.7,
+  "wght": 720
+ },
+ "Display-Light": {
+  "clamped": [
+   "wght"
+  ],
+  "copies": {
+   "eight.tnum": "eight",
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "five.tnum": "five",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "nine.tnum": "nine",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "seven.tnum": "seven",
+   "six.tnum": "six",
+   "three.tnum": "three",
+   "two.tnum": "two",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A",
+   "zero.tnum": "zero"
+  },
+  "wdth": 92.4,
+  "wght": 300
+ },
+ "Display-Regular": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 97.2,
+  "wght": 398
+ },
+ "Display-Semibold": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.8,
+  "wght": 600
+ },
+ "Display-Semilight": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "seven.tnum": "seven",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.5,
+  "wght": 306
+ },
+ "Small-Bold": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.4,
+  "wght": 708
+ },
+ "Small-Light": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "seven.tnum": "seven",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 97.0,
+  "wght": 331
+ },
+ "Small-Regular": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.9,
+  "wght": 437
+ },
+ "Small-Semibold": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "nine.tnum": "nine",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "six.tnum": "six",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 97.1,
+  "wght": 607
+ },
+ "Small-Semilight": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "seven.tnum": "seven",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.9,
+  "wght": 376
+ },
+ "Text-Bold": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 95.9,
+  "wght": 721
+ },
+ "Text-Light": {
+  "clamped": [
+   "wght"
+  ],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "seven.tnum": "seven",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 95.4,
+  "wght": 300
+ },
+ "Text-Regular": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.2,
+  "wght": 398
+ },
+ "Text-Semibold": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "nine.tnum": "nine",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "six.tnum": "six",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.4,
+  "wght": 601
+ },
+ "Text-Semilight": {
+  "clamped": [],
+  "copies": {
+   "f_f.liga": "f_f",
+   "f_f_i.liga": "f_f_i",
+   "f_f_l.liga": "f_f_l",
+   "fi.liga": "fi",
+   "fl.liga": "fl",
+   "four.tnum": "four",
+   "one.tnum": "one",
+   "r.dlig": "r",
+   "seven.tnum": "seven",
+   "uni01EC.ccmp": "uni01EC",
+   "uni01ED.ccmp": "uni01ED",
+   "uniFB4A.ccmp": "uniFB4A"
+  },
+  "wdth": 96.0,
+  "wght": 342
+ }
+}

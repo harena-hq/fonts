@@ -1,0 +1,8 @@
+# Pinned exactly: these decide the measured and built bytes.
+fonttools==4.63.0
+# Shapes strings offline for the v0 comparison (kerning, string widths).
+uharfbuzz==0.57.0
+# Knocks a composition's base out around its badge (Harena UI Icons).
+skia-pathops==0.9.2
+# Compresses the web delivery (WOFF2).
+brotli==1.1.0

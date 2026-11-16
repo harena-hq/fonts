@@ -1,0 +1,137 @@
+{
+"GPOS": {
+"DFLT/dflt": [
+"abvm",
+"kern",
+"mark",
+"mkmk"
+],
+"cyrl/dflt": [
+"abvm",
+"kern",
+"mark",
+"mkmk"
+],
+"grek/dflt": [
+"abvm",
+"kern",
+"mark",
+"mkmk"
+],
+"latn/TRK": [
+"abvm",
+"kern",
+"mark",
+"mkmk"
+],
+"latn/dflt": [
+"abvm",
+"kern",
+"mark",
+"mkmk"
+]
+},
+"GSUB": {
+"cyrl/dflt": [
+"ccmp",
+"dlig",
+"frac",
+"tnum"
+],
+"grek/dflt": [
+"ccmp",
+"dlig",
+"frac",
+"tnum"
+],
+"latn/TRK": [
+"ccmp",
+"dlig",
+"frac",
+"tnum"
+],
+"latn/dflt": [
+"ccmp",
+"dlig",
+"frac",
+"tnum"
+]
+},
+"dlig": {
+"contexts": [
+{
+"input": [
+114
+],
+"lookahead": [
+102,
+116,
+355,
+357,
+359,
+427,
+429,
+539,
+7711,
+7787,
+7789,
+7791,
+7793,
+7831,
+64256,
+64257,
+64258,
+64259,
+64260,
+64261
+]
+}
+],
+"sequences": [
+[
+102,
+102,
+105
+],
+[
+102,
+102,
+108
+],
+[
+102,
+102
+],
+[
+64256,
+105
+]
+]
+},
+"frac": {
+"reads": [
+47,
+48,
+49,
+50,
+51,
+52,
+53,
+54,
+55,
+56,
+57,
+8260
+]
+},
+"provenance": {
+"measured": "2026-10-30",
+"method": "probe/v0_3/gsub.ps1 on the Windows machine",
+"os": "Windows 11 25H2, build 26200.8875 (reports ProductName 'Windows 10 Pro')",
+"segoe_ui_variable": {
+"file": "SegUIVar.ttf",
+"sha256": "27ca1ab4bd5ad3b0404ee6a9a03b143408dbd7e5a4c9e4b2054639c03fc0f682",
+"version": "Version 2.03"
+}
+}
+}

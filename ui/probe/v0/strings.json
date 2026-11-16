@@ -1,0 +1,19 @@
+{
+  "labels": [
+    "Settings", "Home", "All controls", "What's new", "Basic input", "Collections",
+    "Date and time", "Dialogs and flyouts", "Layout", "Media", "Menus and toolbars",
+    "Navigation", "Scrolling", "Status and info", "Text", "Typography", "Window",
+    "Button", "CheckBox", "ComboBox", "DropDownButton", "HyperlinkButton", "RadioButton",
+    "RatingControl", "Slider", "SplitButton", "ToggleButton", "ToggleSwitch",
+    "Show source code", "Copy link", "Search controls and samples...", "Cancel", "Apply", "OK",
+    "Accept", "Primary action", "Secondary action", "Sign in", "Learn more"
+  ],
+  "prose": [
+    "The quick brown fox jumps over the lazy dog.",
+    "Sphinx of black quartz, judge my vow.",
+    "WAVE AVATAR Typography LTA Yo We To Ta Va"
+  ],
+  "digits": [
+    "0123456789", "1,234,567.89", "12:45 PM", "2026-10-30", "100%", "$1,999.00", "+82 10-1234-5678"
+  ]
+}
