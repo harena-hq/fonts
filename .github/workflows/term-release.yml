@@ -195,14 +195,16 @@ jobs:
           (cd dist && zip -q -r ../release/HarenaTerm-woff2.zip *.woff2 OFL.txt THIRD_PARTY_NOTICES.md SHA256SUMS licenses)
           ls -la release/
 
-      # debhelper isn't on the runner image by default; dpkg-dev
-      # (dpkg-buildpackage, dpkg-parsechangelog) already is. -us -uc: this
-      # .deb is an unsigned direct-download asset, not a PPA/archive upload,
-      # so there is no maintainer GPG signature to check at install time.
+      # dpkg-dev (dpkg-buildpackage, dpkg-parsechangelog) is on the runner
+      # image; debhelper isn't, and from the ubuntu-26.04 image on, neither is
+      # build-essential, which dpkg-checkbuilddeps requires of every package,
+      # so both are named here rather than assumed. -us -uc: this .deb is an
+      # unsigned direct-download asset, not a PPA/archive upload, so there is
+      # no maintainer GPG signature to check at install time.
       - name: Build the Debian package
         if: steps.release.outputs.kind == 'font'
         run: |
-          sudo apt-get install -y debhelper
+          sudo apt-get install -y build-essential debhelper
           dpkg-buildpackage -us -uc -b
           mv ../fonts-harena-term_*_all.deb release/
           ls -la release/
