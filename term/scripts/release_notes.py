@@ -32,7 +32,9 @@ leaves `href="docs/adr/0014-....md"` alone, and the browser then resolves it
 against the page, which is `/releases/tag/v1.0.0`. Every ADR link in the v0.9.0
 and v1.0.0 notes was a 404 for that reason. They are rewritten to blob URLs at
 **the tag**, not at the default branch, so a release's notes keep pointing at
-the tree that release was cut from.
+the tree that release was cut from. A link is relative to the changelog that
+holds it, which is in `term/` of `harena-hq/fonts` (or `term/npm/`), not at the
+repository's root, so it is resolved from the changelog's own directory.
 
 Both behaviours are checkable rather than assumed:
 
@@ -45,7 +47,9 @@ from __future__ import annotations
 
 import argparse
 import os
+import posixpath
 import re
+import subprocess
 import sys
 
 CHANGELOG = "CHANGELOG.md"
@@ -123,14 +127,29 @@ def reflow(lines: list[str]) -> list[str]:
     return out
 
 
-def absolutise(lines: list[str], repo: str, ref: str) -> tuple[list[str], int]:
+def repo_dir(path: str) -> str:
+    """The directory holding `path`, relative to the repository's root."""
+    here = os.path.dirname(os.path.abspath(path))
+    top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=here,
+                         capture_output=True, text=True, check=True).stdout.strip()
+    rel = os.path.relpath(here, top).replace(os.sep, "/")
+    return "" if rel == "." else rel
+
+
+def absolutise(lines: list[str], repo: str, ref: str,
+               where: str = "") -> tuple[list[str], int]:
+    """Rewrite each relative link, relative to `where` in the repository, to a
+    blob URL at `ref`. A link that climbs out of the repository is an error."""
     base = f"https://github.com/{repo}/blob/{ref}/"
     n = 0
 
     def one(m: re.Match) -> str:
         nonlocal n
+        target = posixpath.normpath(posixpath.join(where, m.group(1)))
+        if target == ".." or target.startswith("../"):
+            raise ValueError(f"link leaves the repository: {m.group(1)}")
         n += 1
-        return f"]({base}{m.group(1)})"
+        return f"]({base}{target})"
 
     return [RELLINK.sub(one, l) for l in lines], n
 
@@ -143,7 +162,7 @@ def main() -> int:
     ap.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""),
                     help="owner/name; defaults to GITHUB_REPOSITORY")
     ap.add_argument("--ref", default="",
-                    help="git ref the links point at; defaults to v<version>")
+                    help="git ref the links point at; defaults to term-v<version>")
     args = ap.parse_args()
 
     version = args.version.lstrip("v")
@@ -167,7 +186,12 @@ def main() -> int:
 
     links = 0
     if args.repo:
-        body, links = absolutise(body, args.repo, args.ref or f"v{version}")
+        try:
+            body, links = absolutise(body, args.repo, args.ref or f"term-v{version}",
+                                     repo_dir(args.changelog))
+        except ValueError as e:
+            print(e, file=sys.stderr)
+            return 1
     else:
         left = sum(len(RELLINK.findall(l)) for l in body)
         if left:
