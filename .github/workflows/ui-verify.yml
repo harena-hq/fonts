@@ -1,0 +1,77 @@
+name: ui-verify
+
+# Harena UI, in ui/ of harena-hq/fonts. A change confined to Harena Term does
+# not run it; one at the root, which both share, does. Branches only: a ui-v*
+# tag runs ui-release.yml, which does all of this and more.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['term/**', '.github/workflows/term-*.yml']
+  pull_request:
+    paths-ignore: ['term/**', '.github/workflows/term-*.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ui
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: ui/.nvmrc
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+      - name: Fetch build sources
+        run: scripts/fetch_sources.sh
+      # Each gate exits non-zero on a failed check; its last line is the verdict.
+      - name: Build and verify Harena UI, Harena UI J and Harena UI Icons
+        run: |
+          python3 scripts/build.py
+          python3 scripts/build_j.py
+          python3 scripts/build_icons.py
+          python3 scripts/verify.py
+          python3 scripts/verify_j.py
+          python3 scripts/verify_icons.py
+      - name: Build and verify the web files and the package
+        run: |
+          python3 scripts/build_web.py
+          python3 scripts/build_css.py --check
+          python3 scripts/verify_web.py
+          python3 scripts/package_npm.py
+      # The gates compare the build with the committed SHA256SUMS* already; this
+      # says so on its own, and that the build left the tree as committed.
+      - name: Verify the build reproduces the recorded bytes
+        run: |
+          for f in SHA256SUMS SHA256SUMS-J SHA256SUMS-Icons SHA256SUMS-Web; do
+            sha256sum --quiet -c "$f"
+          done
+          git diff --exit-code -- .
+      - name: Pack and smoke-test the npm package
+        run: |
+          mkdir -p /tmp/harena-npm-pack /tmp/harena-npm-smoke
+          npm pack ./build/npm-package --pack-destination /tmp/harena-npm-pack
+          npm install --ignore-scripts --no-audit --no-fund \
+            --prefix /tmp/harena-npm-smoke /tmp/harena-npm-pack/harena-hq-ui-font-*.tgz
+          cd /tmp/harena-npm-smoke
+          for f in index.css ui.css j.css icons.css package.json; do
+            node -e "require.resolve('@harena-hq/ui-font/$f')"
+          done
+          test -f node_modules/@harena-hq/ui-font/fonts/HarenaUI-TextRegular.woff2

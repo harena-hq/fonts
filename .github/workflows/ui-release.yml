@@ -1,0 +1,256 @@
+name: ui-release
+
+# Harena UI, in ui/ of harena-hq/fonts. A ui-v* tag, which is the npm
+# package's version, releases the fonts as GitHub Release assets and the
+# package on npm. Everything is rebuilt, gated, mutation-tested and checked
+# against SHA256SUMS* first.
+#
+# Dispatched by hand it is a dry run unless told otherwise: it does all of that
+# from the branch it is dispatched on, as for the tag it names, keeps the packed
+# tarball as an artifact, and creates no Release and publishes nothing.
+
+on:
+  push:
+    tags: ['ui-v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to build as (ui-v<package version>)'
+        required: true
+      dry_run:
+        description: 'Build from this branch and publish nothing'
+        type: boolean
+        default: true
+
+permissions: {}
+
+defaults:
+  run:
+    working-directory: ui
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # mutate_web.py alone takes about 90 minutes.
+    timeout-minutes: 240
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+      publish: ${{ steps.release.outputs.publish }}
+      npm: ${{ steps.registry.outputs.npm }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && !inputs.dry_run) && inputs.tag || github.ref }}
+      - name: Classify the release tag
+        id: release
+        env:
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          case "$TAG" in
+            ui-v*) ;;
+            *) echo "release tag must start with ui-v"; exit 1 ;;
+          esac
+          publish=true
+          [ "$DRY_RUN" = true ] && publish=false
+          echo "tag=$TAG publish=$publish"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+      - name: Set up Python
+        uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: ui/.nvmrc
+      # The tag is the package's version; the three families' own versions are
+      # checked against the fonts by package_npm.py.
+      - name: Check the tag matches the package version and its changelog
+        id: npm
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          name=$(node -p "require('./npm/package.json').name")
+          version=$(node -p "require('./npm/package.json').version")
+          [ "$TAG" = "ui-v$version" ] || { echo "tag does not match npm/package.json: ui-v$version != $TAG"; exit 1; }
+          grep -q "^## \[$version\]" npm/CHANGELOG.md || { echo "no npm/CHANGELOG.md entry for $version"; exit 1; }
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip zip
+      - name: Fetch build sources
+        run: scripts/fetch_sources.sh
+      - name: Build and verify Harena UI, Harena UI J and Harena UI Icons
+        run: |
+          python3 scripts/build.py
+          python3 scripts/build_j.py
+          python3 scripts/build_icons.py
+          python3 scripts/verify.py
+          python3 scripts/verify_j.py
+          python3 scripts/verify_icons.py
+      - name: Build and verify the web files and the package
+        run: |
+          python3 scripts/build_web.py
+          python3 scripts/build_css.py --check
+          python3 scripts/verify_web.py
+          python3 scripts/package_npm.py
+      - name: Verify the build reproduces the recorded bytes
+        run: |
+          for f in SHA256SUMS SHA256SUMS-J SHA256SUMS-Icons SHA256SUMS-Web; do
+            sha256sum --quiet -c "$f"
+          done
+          git diff --exit-code -- .
+      # Each mutation breaks a built font or stylesheet in one way, and the
+      # gate must catch every one: a release goes out only behind gates that
+      # were shown to fail.
+      - name: Mutation tests
+        run: |
+          python3 scripts/mutate_icons.py
+          python3 scripts/mutate_j.py
+          python3 scripts/mutate_web.py
+      # The mutations work on copies, but what is released is checked again.
+      - name: Verify the bytes are still the recorded ones
+        run: |
+          for f in SHA256SUMS SHA256SUMS-J SHA256SUMS-Icons SHA256SUMS-Web; do
+            sha256sum --quiet -c "$f"
+          done
+      - name: Package the fonts
+        run: |
+          mkdir -p release
+          p=build/npm-package
+          zip -q -j release/HarenaUI-ttf.zip dist/*.ttf $p/OFL.txt $p/THIRD_PARTY_NOTICES.md \
+            SHA256SUMS SHA256SUMS-J SHA256SUMS-Icons
+          zip -q -j release/HarenaUI-woff2.zip dist/web/*.woff2 $p/OFL.txt $p/THIRD_PARTY_NOTICES.md \
+            SHA256SUMS-Web
+          (cd $p && zip -q -r ../../release/HarenaUI-ttf.zip licenses && zip -q -r ../../release/HarenaUI-woff2.zip licenses)
+          ls -la release/
+      - name: Pack and smoke-test the npm package
+        run: |
+          npm pack ./build/npm-package --pack-destination release
+          mkdir -p /tmp/harena-npm-smoke
+          npm install --ignore-scripts --no-audit --no-fund \
+            --prefix /tmp/harena-npm-smoke ./release/harena-hq-ui-font-*.tgz
+          cd /tmp/harena-npm-smoke
+          for f in index.css ui.css j.css icons.css package.json; do
+            node -e "require.resolve('@harena-hq/ui-font/$f')"
+          done
+          test -f node_modules/@harena-hq/ui-font/fonts/HarenaUI-TextRegular.woff2
+      # The registry is authoritative. A version it lacks is published; one it
+      # holds is skipped only if its files are this build's, as when the first
+      # version was published by hand from a dry run's tarball so that the
+      # trusted publisher could be registered (Harena UI's plan, 1.1); any other
+      # difference, or a registry error, fails.
+      - name: Check the npm version against the registry
+        id: registry
+        if: steps.release.outputs.publish == 'true' && vars.NPM_PUBLISH_UI == 'true'
+        env:
+          PACKAGE: ${{ steps.npm.outputs.name }}@${{ steps.npm.outputs.version }}
+        run: |
+          npm ping --registry https://registry.npmjs.org
+          if npm view "$PACKAGE" dist.tarball --registry https://registry.npmjs.org \
+              > /tmp/npm-view.out 2> /tmp/npm-view.err; then
+            mkdir -p /tmp/published /tmp/built
+            curl -fsSL "$(cat /tmp/npm-view.out)" | tar xz -C /tmp/published
+            tar xzf release/harena-hq-ui-font-*.tgz -C /tmp/built
+            diff -r /tmp/published /tmp/built || { echo "$PACKAGE is published with other files"; exit 1; }
+            echo "$PACKAGE is published with these files; npm is skipped"
+            echo "npm=skip" >> "$GITHUB_OUTPUT"
+          elif grep -q 'E404' /tmp/npm-view.err; then
+            echo "$PACKAGE is unused"
+            echo "npm=publish" >> "$GITHUB_OUTPUT"
+          else
+            cat /tmp/npm-view.err
+            echo "registry lookup failed without confirming the version"
+            exit 1
+          fi
+      # On a dry run, the tarball a first manual publish would use.
+      - name: Upload the npm package
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: npm-package
+          path: ui/release/harena-hq-ui-font-*.tgz
+          retention-days: 7
+          if-no-files-found: error
+      - name: Extract release notes
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          TAG: ${{ steps.release.outputs.tag }}
+          VERSION: ${{ steps.npm.outputs.version }}
+        run: |
+          # Term's script, which reflows a hard-wrapped changelog for a release
+          # body and resolves its relative links at the tag.
+          python3 ../term/scripts/release_notes.py "$VERSION" \
+            --changelog npm/CHANGELOG.md --ref "$TAG" --out release-notes.md
+          cat release-notes.md
+      # Latest stays Harena Term's font release (fonts ADR 0001).
+      - name: Publish the GitHub Release
+        if: steps.release.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+          VERSION: ${{ steps.npm.outputs.version }}
+        run: |
+          gh release create "$TAG" \
+            --latest=false \
+            --title "Harena UI $VERSION" \
+            --notes-file release-notes.md \
+            release/HarenaUI-ttf.zip \
+            release/HarenaUI-woff2.zip
+      - name: Report a dry run
+        if: steps.release.outputs.publish != 'true'
+        run: |
+          echo '## Dry run' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Everything was rebuilt, gated, mutation-tested and packed; no Release was created and nothing was published. The tarball is the `npm-package` artifact.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Report disabled npm publishing
+        if: steps.release.outputs.publish == 'true' && vars.NPM_PUBLISH_UI != 'true'
+        run: |
+          echo '## npm publishing disabled' >> "$GITHUB_STEP_SUMMARY"
+          echo 'The Release was created, but nothing was published to npm because `NPM_PUBLISH_UI` is not `true`.' >> "$GITHUB_STEP_SUMMARY"
+
+  # The trusted publisher of @harena-hq/ui-font names this workflow file and
+  # this environment, so only this job can mint the token. It checks out no
+  # source and installs nothing before publishing the verified tarball.
+  publish-npm:
+    needs: release
+    if: needs.release.outputs.publish == 'true' && vars.NPM_PUBLISH_UI == 'true' && needs.release.outputs.npm == 'publish'
+    runs-on: ubuntu-latest
+    environment: npm-ui
+    # No checkout: the default working directory does not exist here.
+    defaults:
+      run:
+        working-directory: .
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download the verified package
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: npm-package
+          path: package
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - name: Require an npm CLI with trusted-publishing support
+        run: |
+          npm_version=$(npm --version)
+          node -e '
+            const [a, b, c] = process.argv[1].split(".").map(Number);
+            if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) {
+              console.error(`trusted publishing requires npm >=11.5.1; got ${process.argv[1]}`);
+              process.exit(1);
+            }
+          ' "$npm_version"
+      - name: Publish to npm
+        run: npm publish ./package/harena-hq-ui-font-*.tgz --access public --tag latest
