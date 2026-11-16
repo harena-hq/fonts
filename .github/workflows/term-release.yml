@@ -1,19 +1,33 @@
-name: release
+name: term-release
 
-# A v* tag releases new font binaries and their npm package. An npm-v* tag
-# releases packaging/CSS changes around an already-recorded font build. Both
-# paths rebuild and verify the font bytes before anything is published.
+# Harena Term, in term/ of harena-hq/fonts. A term-v* tag releases new font
+# binaries and their npm package. A term-npm-v* tag releases packaging/CSS
+# changes around an already-recorded font build. Both paths rebuild and verify
+# the font bytes before anything is published. (Before the move the tags were
+# v* and npm-v*; v0.9.0 to v1.0.3 stay as published.)
+#
+# Dispatched by hand it is a dry run unless told otherwise: it builds,
+# verifies, packs and builds the .deb from the branch it is dispatched on, as
+# for the tag it names, and creates no Release and publishes nothing.
 
 on:
   push:
-    tags: ['v*', 'npm-v*']
+    tags: ['term-v*', 'term-npm-v*']
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to build and publish'
+        description: 'Tag to build as (term-v<font version> or term-npm-v<package version>)'
         required: true
+      dry_run:
+        description: 'Build from this branch and publish nothing'
+        type: boolean
+        default: true
 
 permissions: {}
+
+defaults:
+  run:
+    working-directory: term
 
 jobs:
   release:
@@ -24,35 +38,44 @@ jobs:
     outputs:
       kind: ${{ steps.release.outputs.kind }}
       tag: ${{ steps.release.outputs.tag }}
+      publish: ${{ steps.release.outputs.publish }}
       package_version: ${{ steps.npm.outputs.version }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ github.event.inputs.tag || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && !inputs.dry_run) && inputs.tag || github.ref }}
       - name: Classify the release tag
         id: release
         env:
           TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: |
           case "$TAG" in
-            v*) kind=font ;;
-            npm-v*) kind=npm ;;
-            *) echo "release tag must start with v or npm-v"; exit 1 ;;
+            term-v*) kind=font ;;
+            term-npm-v*) kind=npm ;;
+            *) echo "release tag must start with term-v or term-npm-v"; exit 1 ;;
           esac
+          publish=true
+          [ "$DRY_RUN" = true ] && publish=false
+          echo "tag=$TAG kind=$kind publish=$publish"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "kind=$kind" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
       - name: Set up Python
         uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.12'
       - name: Set up pnpm
         uses: pnpm/action-setup@v6.0.10
+        with:
+          package_json_file: term/package.json
       - name: Set up Node.js
         uses: actions/setup-node@v7.0.0
         with:
           node-version: '24'
           cache: 'pnpm'
+          cache-dependency-path: term/pnpm-lock.yaml
       - name: Read npm package metadata
         id: npm
         run: |
@@ -70,7 +93,7 @@ jobs:
           TAG: ${{ steps.release.outputs.tag }}
         run: |
           version=$(python3 scripts/font_version.py)
-          expected="v$(python3 scripts/font_version.py --semver)"
+          expected="term-v$(python3 scripts/font_version.py --semver)"
           echo "VERSION=$version  expected tag=$expected  actual tag=$TAG"
           [ "$TAG" = "$expected" ] || { echo "tag does not match build.VERSION"; exit 1; }
 
@@ -93,15 +116,15 @@ jobs:
           PACKAGE_VERSION: ${{ steps.npm.outputs.version }}
           TAG: ${{ steps.release.outputs.tag }}
         run: |
-          [ "$TAG" = "npm-v$PACKAGE_VERSION" ] || {
-            echo "npm tag does not match npm/package.json: npm-v$PACKAGE_VERSION != $TAG"; exit 1;
+          [ "$TAG" = "term-npm-v$PACKAGE_VERSION" ] || {
+            echo "npm tag does not match npm/package.json: term-npm-v$PACKAGE_VERSION != $TAG"; exit 1;
           }
 
       # The registry is authoritative for whether a package version can be
       # published. Check before the expensive font build, and distinguish the
       # expected missing-version E404 from connectivity or registry failures.
       - name: Check the npm version is unused
-        if: vars.NPM_PUBLISH == 'true'
+        if: steps.release.outputs.publish == 'true' && vars.NPM_PUBLISH_TERM == 'true'
         env:
           PACKAGE_NAME: ${{ steps.npm.outputs.name }}
           PACKAGE_VERSION: ${{ steps.npm.outputs.version }}
@@ -205,19 +228,19 @@ jobs:
       # source build or dependency installation runs with an OIDC token in its
       # environment.
       - name: Upload the npm package for publishing
-        if: vars.NPM_PUBLISH == 'true'
+        if: steps.release.outputs.publish == 'true' && vars.NPM_PUBLISH_TERM == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
           name: npm-package
-          path: release/harena-hq-term-font-*.tgz
+          path: term/release/harena-hq-term-font-*.tgz
           retention-days: 1
           if-no-files-found: error
       - name: Upload npm release notes
-        if: steps.release.outputs.kind == 'npm' && vars.NPM_PUBLISH == 'true'
+        if: steps.release.outputs.kind == 'npm' && steps.release.outputs.publish == 'true' && vars.NPM_PUBLISH_TERM == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
           name: npm-release-notes
-          path: npm-release-notes.md
+          path: term/npm-release-notes.md
           retention-days: 1
           if-no-files-found: error
 
@@ -267,17 +290,20 @@ jobs:
           TAG: ${{ steps.release.outputs.tag }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          python3 scripts/release_notes.py "${TAG#v}" --ref "$TAG" \
+          python3 scripts/release_notes.py "${TAG#term-v}" --ref "$TAG" \
             --out release-notes.md
           cat release-notes.md
 
+      # GitHub marks one Release of the repository Latest, and it is Term's
+      # font release (fonts ADR 0001): the READMEs send readers to it.
       - name: Publish
-        if: steps.release.outputs.kind == 'font'
+        if: steps.release.outputs.kind == 'font' && steps.release.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.release.outputs.tag }}
         run: |
           gh release create "$TAG" \
+            --latest \
             --title "$TAG" \
             --notes-file release-notes.md \
             release/HarenaTerm-ttf.zip \
@@ -285,16 +311,29 @@ jobs:
             release/HarenaTerm-sources-mirror.zip \
             release/fonts-harena-term_*_all.deb
 
+      - name: Report a dry run
+        if: steps.release.outputs.publish != 'true'
+        run: |
+          echo '## Dry run' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Everything was rebuilt, verified and packed; no Release was created and nothing was published.' >> "$GITHUB_STEP_SUMMARY"
+          ls -la release/ >> "$GITHUB_STEP_SUMMARY"
       - name: Report disabled npm publishing
-        if: steps.release.outputs.kind == 'npm' && vars.NPM_PUBLISH != 'true'
+        if: steps.release.outputs.publish == 'true' && vars.NPM_PUBLISH_TERM != 'true'
         run: |
           echo '## npm publishing disabled' >> "$GITHUB_STEP_SUMMARY"
-          echo 'The package was rebuilt and verified, but nothing was published because `NPM_PUBLISH` is not `true`.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'The package was rebuilt and verified, but nothing was published because `NPM_PUBLISH_TERM` is not `true`.' >> "$GITHUB_STEP_SUMMARY"
 
+  # The trusted publisher of @harena-hq/term-font names this workflow file and
+  # this environment, so only this job can mint the token.
   publish-npm:
     needs: release
-    if: vars.NPM_PUBLISH == 'true'
+    if: needs.release.outputs.publish == 'true' && vars.NPM_PUBLISH_TERM == 'true'
     runs-on: ubuntu-latest
+    environment: npm-term
+    # No checkout: the default working directory does not exist here.
+    defaults:
+      run:
+        working-directory: .
     permissions:
       contents: read
       id-token: write
@@ -335,8 +374,12 @@ jobs:
 
   publish-npm-notes:
     needs: [release, publish-npm]
-    if: needs.release.outputs.kind == 'npm' && vars.NPM_PUBLISH == 'true'
+    if: needs.release.outputs.kind == 'npm' && needs.release.outputs.publish == 'true' && vars.NPM_PUBLISH_TERM == 'true'
     runs-on: ubuntu-latest
+    # No checkout: the default working directory does not exist here.
+    defaults:
+      run:
+        working-directory: .
     permissions:
       contents: write
     steps:

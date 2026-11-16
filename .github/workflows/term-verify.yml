@@ -1,16 +1,25 @@
-name: verify
+name: term-verify
 
 # Branches only. An unfiltered `push` also matches tags, so every release ran
 # this ~18-minute build a second time alongside release.yml, which already
 # performs the identical fetch, build, gate and hash check before publishing.
+#
+# Harena Term, in term/ of harena-hq/fonts. A change confined to Harena UI
+# does not run it; one at the root, which both share, does.
 on:
   push:
     branches: [main]
+    paths-ignore: ['ui/**', '.github/workflows/ui-*.yml']
   pull_request:
+    paths-ignore: ['ui/**', '.github/workflows/ui-*.yml']
   workflow_dispatch:
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    working-directory: term
 
 jobs:
   reproduce:
@@ -25,11 +34,14 @@ jobs:
           python-version: '3.12'
       - name: Set up pnpm
         uses: pnpm/action-setup@v6.0.10
+        with:
+          package_json_file: term/package.json
       - name: Set up Node.js
         uses: actions/setup-node@v7.0.0
         with:
           node-version: '24'
           cache: 'pnpm'
+          cache-dependency-path: term/pnpm-lock.yaml
       - name: Check dependency-free release metadata
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -92,6 +104,6 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         with:
           name: harena-term
-          path: dist/
+          path: term/dist/
           retention-days: 7
           if-no-files-found: error
