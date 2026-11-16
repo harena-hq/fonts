@@ -134,8 +134,11 @@ runs for a change under its family's directory or at the root, and none is a req
 change confined to one family leaves no check pending. Each release workflow takes its family's tag
 prefix and a `workflow_dispatch` input `dry_run` (default true) that builds, verifies and packs
 everything and creates no Release and publishes nothing. Publishing to npm is enabled per family,
-through a GitHub Environment each (`npm-term`, `npm-ui`) named in its package's trusted publisher,
-not by one repository variable.
+not by one repository variable: by a variable each (`NPM_PUBLISH_TERM`, `NPM_PUBLISH_UI`), and the
+job that publishes runs in a GitHub Environment each (`npm-term`, `npm-ui`) named in its
+package's trusted publisher.
+*Amended while building* (2026-11-16): the switch was to be the environment's own variable, but a
+job's `if` is decided before its environment applies, so it cannot read one.
 
 **Locked — Releases** (owner, 2026-11-16). GitHub has one Latest per repository. Term's READMEs send
 readers to it for the fonts to install, and UI is delivered through npm, so a UI Release is created
