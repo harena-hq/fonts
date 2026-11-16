@@ -164,6 +164,14 @@ static.
 The Pretendard side is already variable and poses no problem; the blocker is
 entirely the Latin. Utility would be low regardless, per D5.
 
+Rebuilding Iosevka from source was tested separately rather than inferred from
+those released binaries. Measured in August 2026 against Iosevka v34.8.0, after
+the shipping cmap trim, the unhinted HarenaLatin
+400/700 masters still produce **3620 FontTools interpolatability problems across
+1864 of 11699 glyphs**, including 2013 node-count and 99 path-count failures.
+That closes the direct 400–700 varLib route before CJK grafting. See
+[ADR 0021](docs/adr/0021-variable-weight-phase-zero-stops-at-latin-topology.md).
+
 ### D7 — Advances are driven by the width provider, not checked against a list
 
 If a glyph's advance disagrees with the number of cells the terminal reserved,
