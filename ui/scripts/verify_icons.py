@@ -134,7 +134,7 @@ def checks(font_path=OUTPUT):
         return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True).returncode
 
     tracked = ("SHA256SUMS-Icons", "data/icons/table.json", "data/v0_5/segoe-icons.json")
-    clean = all(git("cat-file", "-e", f"HEAD:{t}") == 0 for t in tracked) and git("diff", "--quiet", "HEAD", "--", *tracked) == 0
+    clean = all(git("cat-file", "-e", f"HEAD:./{t}") == 0 for t in tracked) and git("diff", "--quiet", "HEAD", "--", *tracked) == 0
     yield "I9 what it checks is committed", clean, ""
 
 

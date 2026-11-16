@@ -416,7 +416,7 @@ def reproducible():
         return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).returncode
 
     tracked = ("SHA256SUMS", "data/v0_3/build.json")
-    committed = all(git("cat-file", "-e", f"HEAD:{p}") == 0 for p in tracked)
+    committed = all(git("cat-file", "-e", f"HEAD:./{p}") == 0 for p in tracked)
     same_as_head = git("diff", "--quiet", "HEAD", "--", *tracked) == 0
     want = "".join(f"{h}  {p.relative_to(ROOT)}\n" for h, p in zip(hashes[0], paths))
     listed = (ROOT / "SHA256SUMS").read_text() == want
